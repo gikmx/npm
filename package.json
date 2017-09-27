@@ -22,6 +22,12 @@
     "bugs": {
         "url": "https://github.com/gikmx/npm/issues"
     },
+    "engines": {
+        "node": ">=8"
+    },
+    "bin": {
+        "gik-npm": "./bin/gik-npm.js"
+    },
     "scripts": {},
     "peerDependencies": {},
     "dependencies": {},
