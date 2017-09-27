@@ -1,0 +1,32 @@
+{
+    "name": "@gik/npm",
+    "version": "0.0.1",
+    "description": "GIK's take on NPM scripts.",
+    "license": "MIT",
+    "homepage": "https://github.com/gikmx/npm",
+    "contributors": [
+        "Héctor Menéndez <hector@gik.mx"
+    ],
+    "keywords": [
+        "npm",
+        "yarn",
+        "script",
+        "scripts",
+        "npm scripts",
+        "yarn scripts"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gikmx/npm.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gikmx/npm/issues"
+    },
+    "scripts": {},
+    "peerDependencies": {},
+    "dependencies": {},
+    "devDependencies": {
+        "@gik/eslint-config-node": "0.0.1",
+        "eslint": "^4.7.2"
+    }
+}
