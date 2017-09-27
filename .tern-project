@@ -1,4 +1,13 @@
 {
     "ecmaVersion": 8,
-    "libs": []
+    "libs": [],
+    "loadEagerly": [
+        "./src"
+    ],
+    "dontLoad": [
+    ],
+    "plugins": {
+        "doc_comment": {},
+        "es_modules": {}
+    }
 }
