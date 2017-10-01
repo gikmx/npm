@@ -1,0 +1,11 @@
+{
+    "presets": [
+        ["env", {
+            "target": {
+                "node": "6.11.3"
+            }
+        }],
+        "stage-0"
+    ],
+    "plugins": []
+}
