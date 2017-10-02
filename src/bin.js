@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
 import PATH from 'path';
-import FS from 'fs';
-import { Observable as $ } from 'rxjs';
-import Out from '../lib/out';
+import Out from './out';
+import { $ } from './tools';
 
 $
     // Remove unneeded arguments and statr a stream from reminders.
@@ -14,12 +13,20 @@ $
     }))
     // Determine if the given script exists and requires it. Throws error if it doesn't.
     .mergeMap(function determineAccess({ command, pwd }) {
-        const path = PATH.join(pwd, command + PATH.extname(__filename));
-        return $.bindNodeCallback(FS.access)(path)
-            .catch(function catchAccessError() {
-                throw new Error(`Invalid command "${command}"`);
+        let script = command;
+        let args = [];
+        if (script.indexOf(':') !== -1) {
+            args = script.split(':');
+            script = args.shift();
+        }
+        const path = PATH.join(pwd, script + PATH.extname(__filename));
+        return $
+            .fromStat(path)
+            .catch(() => $.of(false))
+            .map(function scriptStat(stat) {
+                if (!stat || !stat.isFile()) throw new Error(`Invalid script "${script}"`);
+                return require(path).default(...args);
             })
-            .map(() => require(`${path}`))
             .mapTo(`Running "${command}"`);
     })
     .subscribe(Out.warn, Out.error);
