@@ -34,6 +34,13 @@ const debug = Debug([
 
 export const $ = Observable;
 
+$.fromAccess = function $fromAccess(path) {
+    debug('$fromAccess:ini', path);
+    return $.bindNodeCallback(FS.access)(path)
+        .mapTo(path)
+        .catch(() => $.of(false))
+        .do(() => debug('$fromAccess:end', path));
+};
 
 $.fromStat = function $fromStat(path) {
     debug('$fromStat:ini', path);
