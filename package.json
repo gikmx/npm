@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -35,6 +35,8 @@
     "peerDependencies": {},
     "dependencies": {
         "babel-core": "^6.26.0",
+        "babel-preset-env": "^1.6.0",
+        "babel-preset-stage-0": "^6.24.1",
         "chalk": "^2.1.0",
         "debug": "^3.1.0",
         "rxjs": "^5.4.3",
@@ -42,8 +44,6 @@
     },
     "devDependencies": {
         "@gik/eslint-config-node": "0.0.1",
-        "babel-preset-env": "^1.6.0",
-        "babel-preset-stage-0": "^6.24.1",
         "eslint": "^4.7.2",
         "nodemon": "^1.12.1"
     }
