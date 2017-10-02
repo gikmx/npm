@@ -1,11 +1,19 @@
 // NPM modules
 const Chalk = require('chalk');
 
+Error.stackTraceLimit = Infinity;
+
 exports.error = function error(err) {
     if (!(err instanceof Error)) {
         throw new TypeError(`Expecting Error instance, got: ${typeof err}`);
     }
     process.stderr.write(`${Chalk.red(err.message)}\n`);
+    const stack = err.stack
+        .split('\n')
+        .slice(1)
+        .filter(line => line.indexOf('node_modules') === -1)
+        .join('\n');
+    process.stderr.write(Chalk.gray(`${stack}\n`));
     process.exit(1);
 };
 
