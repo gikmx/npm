@@ -1,3 +1,9 @@
 {
     "extends": "@gik/node",
+    "rules": {
+        "global-require": "off",
+        "import/no-dynamic-require": "off",
+        "curly": "off",
+        "no-param-reassign": "off"
+    }
 }

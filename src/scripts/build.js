@@ -17,6 +17,7 @@ const config = Object.assign({
         compact: true, // Remove unneeded spaces
         minified: true,
         sourceMaps: true,
+        extends: PATH.resolve(PATH.join(__dirname, '..', '..', '.babelrc')),
     },
     build: {
         src: './src',
@@ -45,21 +46,21 @@ const lib$ = $
 
 lib$
     .concatMapTo(src$)
-    .mergeMap(function writeMap({ code, path, map }) {
-        path = path.replace(
+    .mergeMap(function writeMap(node) {
+        const dest = node.path.replace(
             PATH.resolve(config.build.src),
             PATH.resolve(config.build.out),
         );
         return $
-            .fromShell(`mkdir -p ${PATH.dirname(path)}`)
+            .fromShell(`mkdir -p ${PATH.dirname(dest)}`)
             .concatMapTo([
-                { path, content: code || '' },
-                { path: `${path}.map`, content: map || '' },
+                { path: dest, content: node.code || '' },
+                { path: `${dest}.map`, content: node.map || '' },
             ])
             .mergeMap(({ path, content }) => $
                 .fromFileWrite(path, content)
                 .mapTo(path.replace(process.cwd(), '.'))
-                .filter(path => !path.match(/\.map$/)),
+                .filter(p => !p.match(/\.map$/)),
             );
     })
     .subscribe(
