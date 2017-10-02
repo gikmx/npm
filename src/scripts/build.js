@@ -2,41 +2,22 @@ import PATH from 'path';
 import { transformFile as Babel } from 'babel-core';
 import { $ } from '../tools';
 import Out from '../out';
-
-const CWD = process.cwd();
-const Package = require(PATH.join(CWD, 'package.json'));
+import Config from '../config';
 
 process.env.NODE_ENV = 'production';
 
 export default function Build() {
 
-    const config = Object.assign({
-        babel: {
-            ast: false, // Include the AST on the build
-            babelrc: true, // wether to use babelrc files
-            code: true, // Wether to include the generated con on the build
-            comments: false, // Should comments be included on the build?
-            compact: true, // Remove unneeded spaces
-            minified: true,
-            sourceMaps: true,
-            extends: PATH.resolve(PATH.join(__dirname, '..', '..', '.babelrc')),
-        },
-        build: {
-            src: './src',
-            out: './lib',
-        },
-    }, Package['@gik/npm'] || {});
-
     const src$ = $
-        .fromDirRequire(config.build.src)
+        .fromDirRequire(Config.src)
         .mergeMap(dir => $.fromDirReadRecursive(dir))
         .map(node => node.path)
-        .mergeMap(path => $.bindNodeCallback(Babel)(path, config.babel)
+        .mergeMap(path => $.bindNodeCallback(Babel)(path, Config.babel)
             .map(({ code, map }) => ({ path, code, map: map.mappings })),
         );
 
     const lib$ = $
-        .of(config.build.out)
+        .of(Config.out)
         .defaultIfEmpty([])
         // Determine if Dir exists, and if it doesn't create it
         .switchMap(path => $.fromDirRequire(path))
@@ -50,8 +31,8 @@ export default function Build() {
         .concatMapTo(src$)
         .mergeMap(function writeMap(node) {
             const dest = node.path.replace(
-                PATH.resolve(config.build.src),
-                PATH.resolve(config.build.out),
+                PATH.resolve(Config.src),
+                PATH.resolve(Config.out),
             );
             return $
                 .fromShell(`mkdir -p ${PATH.dirname(dest)}`)
