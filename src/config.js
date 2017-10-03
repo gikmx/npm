@@ -1,37 +1,70 @@
 import PATH from 'path';
+import ReadPackage from 'read-package-json'; // part of npm
+import PlainPackage from '../package.json';
+import Path from './path';
+import { $, Debug } from './tools';
 
-const CWD = process.cwd();
-const Package = require(PATH.join(CWD, 'package.json'));
-
-const root = PATH.resolve(PATH.join(__dirname, '..'));
-
-export default {
-    ...Package,
-    [Package.name]: Object.assign({
-        src: './src',
-        out: './lib',
-        doc: './README.md',
-        babel: {
-            ast: false, // Include the AST on the build
-            babelrc: true, // wether to use babelrc files
-            code: true, // Wether to include the generated con on the build
-            comments: false, // Should comments be included on the build?
-            compact: true, // Remove unneeded spaces
-            minified: true,
-            sourceMaps: true,
-            extends: PATH.join(root, '.babelrc'),
-        },
-        jsdoc2md: {
-            template: PATH.join(root, 'README.hbs'),
-            glob: PATH.join('**', '*.js'),
-            conf: PATH.join(root, '.jsdoc'),
-            'heading-depth': '1',
-            'example-lang': 'js',
-            'module-index-format': 'table',
-            'global-index-format': 'table',
-            'member-index-format': 'list',
-            'param-list-format': 'table',
-            'property-list-format': 'table',
-        },
-    }, Package[Package.name] || {}),
+/**
+ * The default configuration to be exposed on package.json
+ */
+export const Defaults = {
+    src: './src',
+    out: './lib',
+    doc: './README.md',
+    babel: {
+        ast: false, // Include the AST on the build
+        babelrc: true, // wether to use babelrc fiiiles
+        code: true, // Wether to include the generated con on the build
+        comments: false, // Should comments be included on the build?
+        compact: true, // Remove unneeded spaces
+        minified: true,
+        sourceMaps: true,
+        extends: PATH.join(Path.root, '.babelrc'),
+    },
+    documentation: {
+        template: PATH.join(Path.template, 'README.md'),
+        section: 'API',
+        target: PATH.join('**', '*.js'),
+    },
 };
+
+/**
+ * The method in charge of merging package.json with the defaults.
+ * @private
+ * @return {object} - The extended package.json
+ */
+const extend = config => ({
+    ...config,
+    [config.name]: Object.assign({}, Defaults, config[config.name] || {}),
+});
+
+/**
+ * The non-parsed version of the configuration.
+ */
+export const Package = extend(PlainPackage);
+
+/**
+ * Enables the debugger for this instance.
+ * @private
+ */
+const debug = Debug([
+    Package.name,
+    PATH.basename(__filename, PATH.extname(__filename)),
+].join(':'));
+
+
+/**
+ * A parsed version of package.json.
+ * @return {Observable:object} - Resolves to an object containing the parsed package.json.
+ */
+export default function $fromConfig() {
+    const path = PATH.join(Path.root, 'package.json');
+    debug('$fromConfig:ini', path);
+    return $
+        .bindNodeCallback(ReadPackage)(
+            path, // load this file
+            debug.bind(debug, '$fromConfig:end'), // use this function to output log
+            false, // disable strict validation
+        )
+        .map(config => extend(config));
+}

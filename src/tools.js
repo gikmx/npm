@@ -117,10 +117,17 @@ $.fromFileRead = function $fromFileRead(path) {
         .do(content => debug('$fromFileRead:end', path, content));
 };
 
+/**
+ * Writes a file on the disk.
+ * @param {string} path - The full path for the file.
+ * @param {string} content - The contents of the file.
+ * @return {Observable:boolean} - The future value `true` if write was succesful.
+ * @throws {Error} - When the file cannot be written.
+ */
 $.fromFileWrite = function $fromFileWrite(path, content) {
     debug('$fromFileWrite:ini', path);
     return $.bindNodeCallback(FS.writeFile)(path, content)
-        // .mapTo(true)
+        .mapTo(true)
         .do(out => debug('$fromFileWrite:end', path, out));
 };
 

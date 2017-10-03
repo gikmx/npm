@@ -1,52 +1,66 @@
 import PATH from 'path';
+import { render as Mustache } from 'mustache';
 import Git from 'nodegit';
 import Out from '../out';
-import Config from '../config';
+import Path from '../path';
+import $fromConfig from '../config';
 import { $ } from '../tools';
-
-const CWD = process.cwd();
-const Path = {};
-Path.root = PATH.resolve(__dirname, '..', '..');
-Path.node_modules = PATH.join(Path.root, 'node_modules');
-Path.bin = PATH.join(Path.node_modules, '.bin');
 
 /**
  * Generates documentation using `jsdoc-to-markdown`.
+ * @type Script
  */
 export default function Docs() {
-    const config = Config[Config.name];
-    const jsdoc2md = [
-        'npm --prefix ', Path.root,
-        'run command:jsdoc2md -s --',
-        '--files', PATH.join(PATH.resolve(config.src), config.jsdoc2md.glob),
-        '--configure', config.jsdoc2md.conf,
-        '--template', config.jsdoc2md.template,
-        '--heading-depth', config.jsdoc2md['heading-depth'],
-        '--example-lang', config.jsdoc2md['example-lang'],
-        '--module-index-format', config.jsdoc2md['module-index-format'],
-        '--global-index-format', config.jsdoc2md['global-index-format'],
-        '--member-index-format', config.jsdoc2md['member-index-format'],
-        '--param-list-format', config.jsdoc2md['param-list-format'],
-        '--property-list-format', config.jsdoc2md['property-list-format'],
-        '>', PATH.resolve(config.doc),
-    ].join(' ');
 
-    const doc$ = $
-        .fromShell(`exec ${jsdoc2md}`)
-        .mapTo(`Documentation generated on ${config.doc}`);
-
-    const docAdd$ = doc$
-        .switchMapTo($.from(Git.Repository.open(CWD)))
-        .switchMap(repo => $.from(repo.index()))
-        .switchMap(index => $
-            .from(index.addByPath(PATH.normalize(config.doc)))
-            .mapTo(index),
+    return $fromConfig()
+        // Read main template from location specified on config
+        .switchMap(function templateRead(config) {
+            const path = PATH.resolve(config[config.name].documentation.template);
+            return $
+                .fromFileRead(path)
+                .map(content => ({ config, template: { path, content } }));
+        })
+        // Inject Config values to template
+        .map(({ config, template }) => ({
+            config,
+            template: {
+                path: template.path,
+                content: Mustache(template.content, config),
+            },
+        }))
+        // Write template file so it can be later extended with API docs
+        .switchMap(function templateWrite({ config, template }) {
+            template.dest = PATH.resolve(config[config.name].doc);
+            return $
+                .fromFileWrite(template.dest, template.content)
+                .mapTo({ config, template });
+        })
+        .switchMap(function readmeInject({ config, template }) {
+            const conf = config[config.name];
+            const command = [
+                'npm --prefix', Path.root, 'run command:docs --',
+                'readme', PATH.join(conf.src, conf.documentation.target),
+                '-f md',
+                `--readme-file=${template.dest}`,
+                `--section=${conf.documentation.section}`,
+                '> /dev/null 2>&1',
+            ].join(' ');
+            return $
+                .fromShell(`exec ${command}`)
+                .mapTo({ config, template });
+        })
+        // Add README to git stage
+        .switchMap(({ config }) => $
+            .from(Git.Repository.open(Path.cwd))
+            .switchMap(repo => $
+                .from(repo.index())
+                .switchMap(index => $
+                    .from(index.addByPath(PATH.normalize(config[config.name].doc)))
+                    .mapTo(index),
+                )
+                .switchMap(index => $.from(index.write())),
+            )
+            .mapTo(`Docs generated on ${config[config.name].doc} and added to Git`),
         )
-        .switchMap(index => $.from(index.write()))
-        .mapTo(`Documentation generated on ${config.doc} and added to Git stage.`);
-
-    return $
-        .fromAccess(PATH.resolve(config.doc))
-        .switchMap(access => access ? docAdd$ : doc$)
         .subscribe(Out.good, Out.error);
 }

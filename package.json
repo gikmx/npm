@@ -1,11 +1,11 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.13",
+    "version": "0.0.14",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
     "contributors": [
-        "Héctor Menéndez <hector@gik.mx"
+        "Héctor Menéndez <hector@gik.mx>"
     ],
     "keywords": [
         "npm",
@@ -29,7 +29,7 @@
         "gik-npm": "./lib/bin.js"
     },
     "scripts": {
-        "command:jsdoc2md": "jsdoc2md",
+        "command:docs": "documentation",
         "ver:beta": "./lib/bin.js version:prerelease",
         "ver:commit": "./lib/bin.js version:patch",
         "ver:release": "./lib/bin.js version:minor",
@@ -52,8 +52,10 @@
         "debug": "^3.1.0",
         "documentation": "^5.3.2",
         "husky": "^0.14.3",
+        "mustache": "^2.3.0",
         "nodegit": "^0.20.2",
         "npm": "^5.4.2",
+        "read-package-json": "^2.0.12",
         "rxjs": "^5.4.3",
         "shelljs": "^0.7.8"
     },

@@ -2,7 +2,7 @@ import PATH from 'path';
 import { transformFile as Babel } from 'babel-core';
 import { $ } from '../tools';
 import Out from '../out';
-import Config from '../config';
+import { Package as Config } from '../config';
 
 process.env.NODE_ENV = 'production';
 
