@@ -1,10 +1,10 @@
-# [@gik/npm](https://github.com/gikmx/npm) _0.0.15_
+# [@gik/npm](https://github.com/gikmx/npm) _0.0.16_
 
 > GIK's take on NPM scripts.
 
 ## Contributors
 
--   [Héctor Menéndez](hector@gik.mx) &lt;>
+-   [Héctor Menéndez](mailto:hector@gik.mx) [](<>)
 
 # Usage
 

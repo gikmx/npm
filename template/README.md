@@ -3,7 +3,7 @@
 
 ## Contributors
 {{#contributors}}
-* [{{{name}}}]({{{email}}}) <{{{url}}}>
+* [{{{name}}}](mailto:{{{email}}}) [{{{url}}}]({{{url}}})
 {{/contributors}}
 
 # Usage
