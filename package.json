@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",

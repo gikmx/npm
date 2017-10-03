@@ -6,6 +6,7 @@
 
 import PATH from 'path';
 import ReadPackage from 'read-package-json'; // part of npm
+import Package from '../package.json';
 import Path from './path';
 import { $, Debug } from './tools';
 
@@ -64,15 +65,23 @@ export const Defaults = {
  */
 const extend = config => ({
     ...config,
-    [config.name]: Object.assign({}, Defaults, config[config.name] || {}),
+    [Package.name]: Object.assign({}, Defaults, config[Package.name] || {}),
 });
+
+/**
+ * The raw version of the host package.json.
+ * @memberof Tools.Config
+ * @type {Object}
+ */
+export { Package };
 
 /**
  * The raw version of the package.json.
  * @memberof Tools.Config
  * @type {Object}
  */
-export const Package = extend(require(PATH.join(Path.cwd, 'package.json')));
+export const Config = extend(require(PATH.join(Path.cwd, 'package.json')));
+
 
 /**
  * Enables the debugger for this instance.

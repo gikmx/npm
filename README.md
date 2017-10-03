@@ -96,6 +96,10 @@ Configuration tools
 
 #### Package
 
+The raw version of the host package.json.
+
+#### Config
+
 The raw version of the package.json.
 
 #### $fromConfig

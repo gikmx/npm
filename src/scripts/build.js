@@ -2,7 +2,7 @@ import PATH from 'path';
 import { transformFile as Babel } from 'babel-core';
 import { $ } from '../tools';
 import Out from '../out';
-import { Package as Config } from '../config';
+import { Config, Package } from '../config';
 
 process.env.NODE_ENV = 'production';
 
@@ -13,7 +13,7 @@ process.env.NODE_ENV = 'production';
  */
 export default function Build() {
 
-    const config = Config['@gik/npm'];
+    const config = Config[Package.name];
 
     const src$ = $
         .fromDirRequire(config.src)
