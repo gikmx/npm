@@ -105,6 +105,18 @@ $.fromDirReadRecursive = function $fromDirReadRecursive(path) {
         );
 };
 
+$.fromFileRead = function $fromFileRead(path) {
+    debug('$fromFileRead:ini', path);
+    return $
+        .fromAccess(path)
+        .map(function readAccess(access) {
+            if (!access) throw new Error(`Could not read ${access}`);
+            return access;
+        })
+        .switchMapTo($.bindNodeCallback(FS.readFile)(path, 'utf-8'))
+        .do(content => debug('$fromFileRead:end', path, content));
+};
+
 $.fromFileWrite = function $fromFileWrite(path, content) {
     debug('$fromFileWrite:ini', path);
     return $.bindNodeCallback(FS.writeFile)(path, content)
