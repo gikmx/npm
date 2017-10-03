@@ -6,18 +6,23 @@ import Config from '../config';
 
 process.env.NODE_ENV = 'production';
 
+/**
+ * Transpiles your project using **babel**.
+ */
 export default function Build() {
 
+    const config = Config['@gik/npm'];
+
     const src$ = $
-        .fromDirRequire(Config.src)
+        .fromDirRequire(config.src)
         .mergeMap(dir => $.fromDirReadRecursive(dir))
         .map(node => node.path)
-        .mergeMap(path => $.bindNodeCallback(Babel)(path, Config.babel)
+        .mergeMap(path => $.bindNodeCallback(Babel)(path, config.babel)
             .map(({ code, map }) => ({ path, code, map: map.mappings })),
         );
 
     const lib$ = $
-        .of(Config.out)
+        .of(config.out)
         .defaultIfEmpty([])
         // Determine if Dir exists, and if it doesn't create it
         .switchMap(path => $.fromDirRequire(path))
@@ -31,8 +36,8 @@ export default function Build() {
         .concatMapTo(src$)
         .mergeMap(function writeMap(node) {
             const dest = node.path.replace(
-                PATH.resolve(Config.src),
-                PATH.resolve(Config.out),
+                PATH.resolve(config.src),
+                PATH.resolve(config.out),
             );
             return $
                 .fromShell(`mkdir -p ${PATH.dirname(dest)}`)
