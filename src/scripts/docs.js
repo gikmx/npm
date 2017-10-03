@@ -3,7 +3,7 @@ import { render as Mustache } from 'mustache';
 import Git from 'nodegit';
 import Out from '../out';
 import Path from '../path';
-import $fromConfig from '../config';
+import { $fromConfig, Package } from '../config';
 import { $ } from '../tools';
 
 /**
@@ -16,7 +16,7 @@ export default function Docs() {
     return $fromConfig()
         // Read main template from location specified on config
         .switchMap(function templateRead(config) {
-            const path = PATH.resolve(config[config.name].documentation.template);
+            const path = PATH.resolve(config[Package.name].documentation.template);
             return $
                 .fromFileRead(path)
                 .map(content => ({ config, template: { path, content } }));
@@ -31,21 +31,21 @@ export default function Docs() {
         }))
         // Write template file so it can be later extended with API docs
         .switchMap(function templateWrite({ config, template }) {
-            template.dest = PATH.resolve(config[config.name].doc);
+            template.dest = PATH.resolve(config[Package.name].doc);
             return $
                 .fromFileWrite(template.dest, template.content)
                 .mapTo({ config, template });
         })
         .switchMap(function readmeInject({ config, template }) {
-            const conf = config[config.name];
+            const orig = PATH.resolve(config[Package.name].src);
+            const dest = PATH.resolve(config[Package.name].doc);
             const command = [
-                'npm --prefix', Path.root, 'run command:docs --',
-                'readme', PATH.join(conf.src, conf.documentation.target),
-                '--extension=js',
-                '--format=md',
-                `--readme-file=${template.dest}`,
-                `--section=${conf.documentation.section}`,
-                '> /dev/null 2>&1',
+                'npm --prefix', Path.root, 'run command:docs -- build',
+                '--markdown-toc',
+                '--format md',
+                '--no-package',
+                orig,
+                '>> ', dest,
             ].join(' ');
             return $
                 .fromShell(`exec ${command}`)
@@ -57,12 +57,12 @@ export default function Docs() {
             .switchMap(repo => $
                 .from(repo.index())
                 .switchMap(index => $
-                    .from(index.addByPath(PATH.normalize(config[config.name].doc)))
+                    .from(index.addByPath(PATH.normalize(config[Package.name].doc)))
                     .mapTo(index),
                 )
                 .switchMap(index => $.from(index.write())),
             )
-            .mapTo(`Docs generated on ${config[config.name].doc} and added to Git`),
+            .mapTo(`Docs generated on ${config[Package.name].doc} and added to Git`),
         )
         .subscribe(Out.good, Out.error);
 }

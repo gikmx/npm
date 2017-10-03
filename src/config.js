@@ -98,7 +98,7 @@ const debug = Debug([
  * @memberof Tools.Config
  * @return {Observable} - Resolves to an object containing the parsed package.json.
  */
-export default function $fromConfig() {
+export function $fromConfig() {
     const path = PATH.join(Path.cwd, 'package.json');
     debug('$fromConfig:ini', path);
     return $
@@ -109,3 +109,10 @@ export default function $fromConfig() {
         )
         .map(config => extend(config));
 }
+
+export default {
+    Defaults,
+    Package,
+    Config,
+    $fromConfig,
+};
