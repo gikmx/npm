@@ -1,4 +1,3 @@
-import FS from 'fs';
 import PATH from 'path';
 import Npm from 'npm';
 import Git from 'nodegit';
@@ -7,6 +6,9 @@ import { $ } from '../tools';
 
 const CWD = process.cwd();
 
+/**
+ * Automates the versioning of your packages using **semver**.
+ */
 export default function Version(type = 'patch') {
 
     const $fromIndexAdd = (index, file) => $
@@ -15,10 +17,10 @@ export default function Version(type = 'patch') {
             $.from(index.addByPath(file)).mapTo(index) :
             $.of(index),
         );
-    return $
-        // Converts repository promise to observable
+
+    // Checks if there are files on stage when running. (to assume a precommit)
+    const gitCheck$ = $
         .from(Git.Repository.open(CWD))
-        // Has the user staged files?
         .switchMap(repo => $
             // gets array of file status
             .from(repo.getStatus())
@@ -31,16 +33,20 @@ export default function Version(type = 'patch') {
             .map(statuses => statuses.length ? repo : null),
         )
         // Won't emit if no changes are staged.
-        .filter(Boolean)
-        // Bump the version according to specified type.
-        .switchMap(repo => $
-            .bindNodeCallback(Npm.load)({
-                _exit: true, // Forces NPM to behave programatically
-                'git-tag-version': false, // Don't create a tag for this.
-            })
-            .switchMap(npm => $.bindNodeCallback(npm.commands.version)([type]))
-            .mapTo(repo),
-        )
+        .filter(Boolean);
+
+    // Bump the version according to specified type.
+    const version$ = $
+        .bindNodeCallback(Npm.load)({
+            _exit: true, // Forces NPM to behave programatically
+            'git-tag-version': false, // Don't create a tag for this.
+        })
+        .switchMap(npm => $.bindNodeCallback(npm.commands.version)([type]))
+        .mapTo('Versioned.');
+
+    // If user is preparing to commit, add changes to stage.
+    const gitStage$ = $
+        .from(Git.Repository.open(CWD))
         // Refresh the index and add the bumped files.
         .switchMap(repo => $
             .from(repo.index())
@@ -50,6 +56,11 @@ export default function Version(type = 'patch') {
             .switchMap(index => $.from(index.write()))
             .mapTo(repo),
         )
-        .mapTo('Versioned.')
+        .mapTo('Versioned and added change to Git stage.');
+
+    // If no files are in stage, just version, add to stage too otherwise.
+    return gitCheck$
+        .isEmpty()
+        .switchMap(empty => empty ? version$ : version$.switchMapTo(gitStage$))
         .subscribe(Out.good, Out.error);
 }
