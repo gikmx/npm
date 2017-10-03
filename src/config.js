@@ -24,6 +24,7 @@ export default {
         jsdoc2md: {
             template: PATH.join(root, 'README.hbs'),
             glob: PATH.join('**', '*.js'),
+            conf: PATH.join(root, '.jsdoc'),
             'heading-depth': '1',
             'example-lang': 'js',
             'module-index-format': 'table',

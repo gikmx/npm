@@ -19,7 +19,7 @@ export default function Docs() {
         'npm --prefix ', Path.root,
         'run command:jsdoc2md -s --',
         '--files', PATH.join(PATH.resolve(config.src), config.jsdoc2md.glob),
-        '--configure', PATH.join(Path.root, '.jsdoc'),
+        '--configure', config.jsdoc2md.conf,
         '--template', config.jsdoc2md.template,
         '--heading-depth', config.jsdoc2md['heading-depth'],
         '--example-lang', config.jsdoc2md['example-lang'],
