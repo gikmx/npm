@@ -10,9 +10,8 @@ import { $ } from './tools';
  * @param {string} script - The script you wish to run. It accepts an optional parameter
  *                          by using a colon after the script name. Each script has    -
  *                          differents sub parameters defined.
- * @example <caption>this is supposed to be a </caption>
+ * @example <caption>`package.json`</caption>
  * {
- *     ...
  *     "scripts": {
  *         "build": "gik-npm build",
  *         "ver": "gik-npm version:patch",

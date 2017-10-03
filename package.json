@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -32,9 +32,8 @@
         "command:docs": "documentation",
         "ver:beta": "./lib/bin.js version:prerelease",
         "ver:commit": "./lib/bin.js version:patch",
-        "ver:release": "./lib/bin.js version:minor",
         "release:beta": "npm run build -s && npm run ver:beta -s && npm publish --tag beta",
-        "release": "npm run build -s && npm run ver:release -s && npm publish --tag latest",
+        "release": "npm run build -s && npm publish --tag latest",
         "lint:docs": "documentation lint ./src/** || true",
         "lint:code": "eslint ./src",
         "lint": "npm run lint:code -s && npm run lint:docs -s",

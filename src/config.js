@@ -52,7 +52,7 @@ export const Defaults = {
     },
     documentation: {
         template: PATH.join(Path.template, 'README.md'),
-        section: 'API',
+        section: 'Usage',
         target: '**',
     },
 };
