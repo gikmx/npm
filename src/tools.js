@@ -55,7 +55,7 @@ $.fromShell = function $fromShell(command) {
     let cmd$;
     switch (cmd) {
     case 'exec':
-        cmd$ = $.bindNodeCallback(Shell[cmd])(...args);
+        cmd$ = $.bindNodeCallback(Shell[cmd])(args.join(' '));
         break;
     // sync commands
     default:
