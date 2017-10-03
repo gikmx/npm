@@ -40,7 +40,7 @@
         "build:gik": "./lib/bin.js build && chmod +x ./lib/bin.js",
         "build": "npm run lint -s && (npm run build:gik 2> /dev/null || npm run build:cli -s)",
         "docs": "./lib/bin.js docs",
-        "start": "nodemon -e js,json -w ./src -x 'for x in `echo \"build\" \"${RUN[@]}\"`; do npm run \"$x\" -s; done'",
+        "start": "nodemon -e js,json -w ./src -x 'for x in `echo \"build\" \"${RUN[@]}\"`; do npm run \"$x\" -s || exit 1; done'",
         "precommit": "npm run docs -s && npm run ver:commit -s"
     },
     "peerDependencies": {},
