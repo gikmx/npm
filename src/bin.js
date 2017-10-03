@@ -4,6 +4,21 @@ import PATH from 'path';
 import Out from './out';
 import { $ } from './tools';
 
+/**
+ * The binary that controls which script is going to be run.
+ * @module gik-npm
+ * @param {string} script - The script you wish to run. It accepts an optional parameter
+ *                          by using a colon after the script name. Each script has    -
+ *                          differents sub parameters defined.
+ * @example <caption>this is supposed to be a </caption>
+ * {
+ *     ...
+ *     "scripts": {
+ *         "build": "gik-npm build",
+ *         "ver": "gik-npm version:patch",
+ *     }
+ * }
+ */
 $
     // Remove unneeded arguments and statr a stream from reminders.
     .from(process.argv.slice(2))
@@ -30,3 +45,8 @@ $
             .mapTo(`Running "${command}"`);
     })
     .subscribe(Out.warn, Out.error);
+
+/**
+ * These are the scripts that are available to use:
+ * @namespace Scripts
+ */

@@ -8,6 +8,8 @@ process.env.NODE_ENV = 'production';
 
 /**
  * Transpiles your project using **babel**.
+ * @module Build
+ * @memberof Scripts
  */
 export default function Build() {
 

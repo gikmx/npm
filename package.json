@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -35,13 +35,15 @@
         "ver:release": "./lib/bin.js version:minor",
         "release:beta": "npm run build -s && npm run ver:beta -s && npm publish --tag beta",
         "release": "npm run build -s && npm run ver:release -s && npm publish --tag latest",
-        "lint": "eslint ./src",
+        "lint:docs": "documentation lint ./src/** || true",
+        "lint:code": "eslint ./src",
+        "lint": "npm run lint:code -s && npm run lint:docs -s",
+        "docs": "./lib/bin.js docs",
         "build:cli": "rm -Rvf ./lib && babel -d ./lib ./src && chmod +x ./lib/bin.js",
         "build:gik": "./lib/bin.js build && chmod +x ./lib/bin.js",
-        "build": "npm run lint -s && (npm run build:gik 2> /dev/null || npm run build:cli -s)",
-        "docs": "./lib/bin.js docs",
+        "build": "npm run lint -s && (npm run build:gik 2> /dev/null || npm run build:cli -s) && npm run docs -s",
         "start": "nodemon -e js,json -w ./src -x 'for x in `echo \"build\" \"${RUN[@]}\"`; do npm run \"$x\" -s || exit 1; done'",
-        "precommit": "npm run docs -s && npm run ver:commit -s"
+        "precommit": "npm run build -s && npm run ver:commit -s"
     },
     "peerDependencies": {},
     "dependencies": {

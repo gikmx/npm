@@ -8,6 +8,9 @@ const CWD = process.cwd();
 
 /**
  * Automates the versioning of your packages using **semver**.
+ * @module Version
+ * @param {string} [type="patch"]- One of the valid **semver** versions.
+ * @memberof Scripts
  */
 export default function Version(type = 'patch') {
 

@@ -1,3 +1,7 @@
+/**
+ * @module Tools
+ */
+
 import PATH from 'path';
 import FS from 'fs';
 import { inspect as INSPECT } from 'util';
@@ -7,6 +11,12 @@ import Logger from 'debug';
 import { Observable } from 'rxjs';
 import Package from '../package.json';
 
+/**
+ * Makes debugging a little bit prettier.
+ * @memberof Tools
+ * @param {string} context - An identifier to pass on to debug.
+ * @see https://github.com/visionmedia/debug
+ */
 export function Debug(context) {
     const debug = Logger(context);
     return function debugCreate(subject, ...args) {
@@ -31,9 +41,29 @@ const debug = Debug([
     PATH.basename(__filename, PATH.extname(__filename)),
 ].join(':'));
 
+/**
+ * A value that can be subscribed upon to be observed.
+ * @typedef {Object} Observable
+ * @see http://reactivex.io/rxjs/
+ */
 
+/**
+ * A stream of values returned by an <Observable>.
+ * @typedef {Object} Stream
+ */
+
+/**
+ * RXjs Observables.
+ * @memberof Tools
+ */
 export const $ = Observable;
 
+/**
+ * Determine if given path is accessible.
+ * @memberof Tools.$
+ * @param {string} path - A path to the node you want to check.
+ * @returns {Observable.<boolean>} - Wether the file is accessible or not.
+ */
 $.fromAccess = function $fromAccess(path) {
     debug('$fromAccess:ini', path);
     return $.bindNodeCallback(FS.access)(path)
@@ -42,12 +72,28 @@ $.fromAccess = function $fromAccess(path) {
         .do(() => debug('$fromAccess:end', path));
 };
 
+/**
+ * Determine statistics about a file system node.
+ * @memberof Tools.$
+ * @param {string} path - A path to the node you want to check.
+ * @returns {Observable.<Object>} - stat object for the node.
+ * @throws {Error} - When given an invalid node.
+ * @see https://nodejs.org/api/fs.html#fs_class_fs_stats
+ */
 $.fromStat = function $fromStat(path) {
     debug('$fromStat:ini', path);
     return $.bindNodeCallback(FS.stat)(path)
         .do(stat => debug('$fromStat:end', path, stat));
 };
 
+/**
+ * An interface to [shelljs](https://github.com/shelljs/shelljs) to "attempt" to run
+ * CLI commands in any OS.
+ * @memberof Tools.$
+ * @param {string} command - a command to run on the OS,
+ * @returns {Observable.<Array>} - An array containing both stderr and stdout.
+ * @TODO There are no async cases defined yet.
+ */
 $.fromShell = function $fromShell(command) {
     debug('$fromShell:ini', command);
     const args = command.split(/\s/g);
@@ -64,6 +110,13 @@ $.fromShell = function $fromShell(command) {
     return cmd$.do(stdout => debug('$fromShell:end', command, stdout));
 };
 
+/**
+ * Creates a directory.
+ * @memberof Tools.$
+ * @param {string} path - The directory to be created.
+ * @returns {Observable.<string>} - The path of the directory that was just created.
+ * @throws {Error} - When directory cannot be created.
+ */
 $.fromDirMake = function $fromDirMake(path) {
     debug('$fromDirMake', path, 'ini');
     return $.bindNodeCallback(FS.mkdir)(path)
@@ -71,6 +124,13 @@ $.fromDirMake = function $fromDirMake(path) {
         .do(() => debug('$fromDirMake', path, 'end'));
 };
 
+/**
+ * Requires a directory path, if the directory does not exists, it's created.
+ * @memberof Tools.$
+ * @param {string} path - The requested directory.
+ * @returns {Observable.<string>} - The path of the directory.
+ * @throws {Error} - When requested path exists and is not a directory.
+ */
 $.fromDirRequire = function $fromDirRequire(path) {
     path = PATH.resolve(path);
     debug('$fromDirRequire', path, 'ini');
@@ -87,6 +147,13 @@ $.fromDirRequire = function $fromDirRequire(path) {
         .do(() => debug('$fromDirRequire', path, 'end'));
 };
 
+/**
+ * Get path of nodes in given directory (non recursively).
+ * @memberof Tools.$
+ * @param {string} path - The requested directory.
+ * @returns {Observable.<Stream.<string>>} - The path of the directory.
+ * @throws {Error} - When requested path exists and is not a directory.
+ */
 $.fromDirRead = function $fromDirRead(path) {
     debug('$fromDirRead:ini', path);
     return $.bindNodeCallback(FS.readdir)(path)
@@ -96,6 +163,13 @@ $.fromDirRead = function $fromDirRead(path) {
         .mergeMap(npath => $.fromStat(npath).map(stat => ({ stat, path: npath })));
 };
 
+/**
+ * Get path of nodes in given directory (recursively).
+ * @memberof Tools.$
+ * @param {string} path - The requested directory.
+ * @returns {Observable.<Stream.<string>>} - The path of the directory.
+ * @throws {Error} - When requested path exists and is not a directory.
+ */
 $.fromDirReadRecursive = function $fromDirReadRecursive(path) {
     return $
         .fromDirRead(path)
@@ -105,6 +179,12 @@ $.fromDirReadRecursive = function $fromDirReadRecursive(path) {
         );
 };
 
+/**
+ * Reads a file from the disk.
+ * @memberof Tools.$
+ * @param {string} path - The path to the file to read.
+ * @returns {Observable.<string>} - The contents of the file.
+ */
 $.fromFileRead = function $fromFileRead(path) {
     debug('$fromFileRead:ini', path);
     return $
@@ -119,9 +199,10 @@ $.fromFileRead = function $fromFileRead(path) {
 
 /**
  * Writes a file on the disk.
+ * @memberof Tools.$
  * @param {string} path - The full path for the file.
  * @param {string} content - The contents of the file.
- * @return {Observable:boolean} - The future value `true` if write was succesful.
+ * @returns {Observable.<string>} - The future value `true` if write was succesful.
  * @throws {Error} - When the file cannot be written.
  */
 $.fromFileWrite = function $fromFileWrite(path, content) {

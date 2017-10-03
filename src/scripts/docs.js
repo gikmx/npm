@@ -7,8 +7,9 @@ import $fromConfig from '../config';
 import { $ } from '../tools';
 
 /**
- * Generates documentation using `jsdoc-to-markdown`.
- * @type Script
+ * Generates documentation using `documentation.js`.
+ * @module Docs
+ * @memberof Scripts
  */
 export default function Docs() {
 
@@ -40,7 +41,8 @@ export default function Docs() {
             const command = [
                 'npm --prefix', Path.root, 'run command:docs --',
                 'readme', PATH.join(conf.src, conf.documentation.target),
-                '-f md',
+                '--extension=js',
+                '--format=md',
                 `--readme-file=${template.dest}`,
                 `--section=${conf.documentation.section}`,
                 '> /dev/null 2>&1',
