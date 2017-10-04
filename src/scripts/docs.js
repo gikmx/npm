@@ -7,7 +7,7 @@ import { $fromConfig, Package } from '../config';
 import { $ } from '../tools';
 
 /**
- * Generates documentation using `documentation.js`.
+ * Generates documentation using **documentation.js**.
  * @module Docs
  * @memberof Scripts
  */
@@ -30,8 +30,7 @@ export default function Docs() {
             },
         }))
         .switchMap(function readmeInject({ config, template }) {
-            const orig = PATH.resolve(config[Package.name].src);
-            // const dest = PATH.resolve(config[Package.name].doc);
+            const orig = PATH.resolve(config.directories.src);
             const command = [
                 'npm --prefix', Path.root, 'run command:docs -- build',
                 '--markdown-toc',

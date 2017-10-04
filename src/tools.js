@@ -1,5 +1,6 @@
 /**
  * @module Tools
+ * @private
  */
 
 import PATH from 'path';
@@ -40,17 +41,6 @@ const debug = Debug([
     Package.name,
     PATH.basename(__filename, PATH.extname(__filename)),
 ].join(':'));
-
-/**
- * A value that can be subscribed upon to be observed.
- * @typedef {Object} Observable
- * @see http://reactivex.io/rxjs/
- */
-
-/**
- * A stream of values returned by an <Observable>.
- * @typedef {Object} Stream
- */
 
 /**
  * RXjs Observables.

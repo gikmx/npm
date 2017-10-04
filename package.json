@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -30,6 +30,7 @@
     },
     "scripts": {
         "command:docs": "documentation",
+        "command:lint": "eslint",
         "ver:beta": "./lib/bin.js version:prerelease",
         "ver:commit": "./lib/bin.js version:patch",
         "lint:docs": "documentation lint ./src/** || true",
@@ -51,7 +52,9 @@
         "babel-preset-stage-0": "^6.24.1",
         "chalk": "^2.1.0",
         "debug": "^3.1.0",
+        "deepmerge": "^1.5.2",
         "documentation": "^5.3.2",
+        "eslint": "^4.8.0",
         "husky": "^0.14.3",
         "mustache": "^2.3.0",
         "nodegit": "^0.20.2",
@@ -63,7 +66,6 @@
     "devDependencies": {
         "@gik/eslint-config-node": "0.0.1",
         "babel-cli": "^6.26.0",
-        "eslint": "^4.7.2",
         "nodemon": "^1.12.1"
     }
 }

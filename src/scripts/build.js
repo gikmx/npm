@@ -13,18 +13,16 @@ process.env.NODE_ENV = 'production';
  */
 export default function Build() {
 
-    const config = Config[Package.name];
-
     const src$ = $
-        .fromDirRequire(config.src)
+        .fromDirRequire(Config.directories.src)
         .mergeMap(dir => $.fromDirReadRecursive(dir))
         .map(node => node.path)
-        .mergeMap(path => $.bindNodeCallback(Babel)(path, config.babel)
+        .mergeMap(path => $.bindNodeCallback(Babel)(path, Config[Package.name].babel)
             .map(({ code, map }) => ({ path, code, map: map.mappings })),
         );
 
     const lib$ = $
-        .of(config.out)
+        .of(Config.directories.out)
         .defaultIfEmpty([])
         // Determine if Dir exists, and if it doesn't create it
         .switchMap(path => $.fromDirRequire(path))
@@ -38,8 +36,8 @@ export default function Build() {
         .concatMapTo(src$)
         .mergeMap(function writeMap(node) {
             const dest = node.path.replace(
-                PATH.resolve(config.src),
-                PATH.resolve(config.out),
+                PATH.resolve(Config.directories.src),
+                PATH.resolve(Config.directories.out),
             );
             return $
                 .fromShell(`mkdir -p ${PATH.dirname(dest)}`)

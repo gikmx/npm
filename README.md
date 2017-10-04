@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.19-0*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.20-2*
 > GIK's take on NPM scripts.
 
 ## Contributors
@@ -11,29 +11,12 @@
 ### Table of Contents
 
 -   [gik-npm](#gik-npm)
-    -   [Configuration](#configuration)
 -   [Scripts](#scripts)
     -   [Build](#build)
     -   [Docs](#docs)
+    -   [Lint](#lint)
     -   [Version](#version)
--   [Tools](#tools)
-    -   [Config](#config)
-        -   [Package](#package)
-        -   [Config](#config-1)
-        -   [$fromConfig](#fromconfig)
-    -   [Debug](#debug)
-    -   [$](#)
-        -   [fromAccess](#fromaccess)
-        -   [fromStat](#fromstat)
-        -   [fromShell](#fromshell)
-        -   [fromDirMake](#fromdirmake)
-        -   [fromDirRequire](#fromdirrequire)
-        -   [fromDirRead](#fromdirread)
-        -   [fromDirReadRecursive](#fromdirreadrecursive)
-        -   [fromFileRead](#fromfileread)
-        -   [fromFileWrite](#fromfilewrite)
--   [Observable](#observable)
--   [Stream](#stream)
+-   [Configuration](#configuration)
 
 ## gik-npm
 
@@ -58,41 +41,6 @@ _`package.json`_
 }
 ```
 
-### Configuration
-
-The default settings that control the behaviour of the scripts.
-
-**Properties**
-
--   `src` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path where the source files are located.
--   `out` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path where the transpiled files will be placed.
--   `doc` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the generated docs will be placed.
--   `babel` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)&lt;[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean), [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** Options for the babel transpiler.
-    -   `babel.ast` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include AST outout on builds.
-    -   `babel.babelrc` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Read .babelrc found in context?
-    -   `babel.comments` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include comments ?
-    -   `babel.compact` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Remove unneeded spaces ?
-    -   `babel.minified` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Minify the number of characters ?
-    -   `babel.sourceMaps` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include sourcemaps ?
-    -   `babel.extends` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The base .babelrc to extend from.
--   `documentation` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** Options for the documentation generator.
--   `template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The location of documentation template.
--   `section` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The section to put API documentation on.
--   `target` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A glob determining which files to include on src folder.
-
-**Examples**
-
-_If you want to override tis config, do so in `package.json`_
-
-```javascript
-{
-    "@gik/npm": {
-        "src": "./source",
-        "out": "./dist"
-    },
-}
-```
-
 ## Scripts
 
 These are the scripts that are available to use:
@@ -103,7 +51,44 @@ Transpiles your project using **babel**.
 
 ### Docs
 
-Generates documentation using `documentation.js`.
+Generates documentation using **documentation.js**.
+
+### Lint
+
+Validates the code complies with certain rules.
+It's recommended that you install one of the flavours of
+[eslint-config](http://github.come/gikmx/eslint-config) to accompany this script.
+it will be as easy as to include an `.eslintrc` file extending the module.
+
+**Parameters**
+
+-   `target` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The target directory to lint (src by default), (optional, default `'src'`)
+
+**Examples**
+
+_`package.json`_
+
+```javascript
+{
+    "directories": {
+        "example": './example'
+    },
+    "scripts": {
+        "lint": "gik-npm lint:example"
+    },
+    "devDependencies": {
+         "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project
+    }
+}
+```
+
+_`.eslintrc`_
+
+```javascript
+{
+    "extends": "@gik/node" // Same as the module but without "eslint-config"
+}
+```
 
 ### Version
 
@@ -113,162 +98,51 @@ Automates the versioning of your packages using **semver**.
 
 -   `type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the valid **semver** versions. (optional, default `"patch"`)
 
-## Tools
-
-### Config
-
-Configuration tools
-
-#### Package
-
-The raw version of the host package.json.
-
-#### Config
-
-The raw version of the package.json.
-
-#### $fromConfig
-
-A parsed version of package.json.
-
-Returns **[Observable](#observable)** Resolves to an object containing the parsed package.json.
-
-### Debug
-
--   **See: <https://github.com/visionmedia/debug>**
-
-Makes debugging a little bit prettier.
-
-**Parameters**
-
--   `context` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** An identifier to pass on to debug.
-
-### $
-
-RXjs Observables.
-
-#### fromAccess
-
-Determine if given path is accessible.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A path to the node you want to check.
-
-Returns **[Observable](#observable)&lt;[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)>** Wether the file is accessible or not.
-
-#### fromStat
-
--   **See: <https://nodejs.org/api/fs.html#fs_class_fs_stats>**
-
-Determine statistics about a file system node.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** A path to the node you want to check.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When given an invalid node.
-
-Returns **[Observable](#observable)&lt;[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>** stat object for the node.
-
-#### fromShell
-
-An interface to [shelljs](https://github.com/shelljs/shelljs) to "attempt" to run
-CLI commands in any OS.
-
-**Parameters**
-
--   `command` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** a command to run on the OS,
-
-Returns **[Observable](#observable)&lt;[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)>** An array containing both stderr and stdout.
-
-#### fromDirMake
-
-Creates a directory.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The directory to be created.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When directory cannot be created.
-
-Returns **[Observable](#observable)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The path of the directory that was just created.
-
-#### fromDirRequire
-
-Requires a directory path, if the directory does not exists, it's created.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The requested directory.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When requested path exists and is not a directory.
-
-Returns **[Observable](#observable)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The path of the directory.
-
-#### fromDirRead
-
-Get path of nodes in given directory (non recursively).
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The requested directory.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When requested path exists and is not a directory.
-
-Returns **[Observable](#observable)&lt;[Stream](#stream)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>>** The path of the directory.
-
-#### fromDirReadRecursive
-
-Get path of nodes in given directory (recursively).
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The requested directory.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When requested path exists and is not a directory.
-
-Returns **[Observable](#observable)&lt;[Stream](#stream)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>>** The path of the directory.
-
-#### fromFileRead
-
-Reads a file from the disk.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The path to the file to read.
-
-Returns **[Observable](#observable)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The contents of the file.
-
-#### fromFileWrite
-
-Writes a file on the disk.
-
-**Parameters**
-
--   `path` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The full path for the file.
--   `content` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The contents of the file.
-
-
--   Throws **[Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error)** When the file cannot be written.
-
-Returns **[Observable](#observable)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)>** The future value `true` if write was succesful.
-
-## Observable
-
--   **See: <http://reactivex.io/rxjs/>**
-
-A value that can be subscribed upon to be observed.
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
-
-## Stream
-
-A stream of values returned by an <Observable>.
-
-Type: [Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)
+## Configuration
+
+The default settings that control the behaviour of the scripts.
+
+**Properties**
+
+-   `directories` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Lets NPM know where are some directories.
+        This has the added benefit of letting you use this assign environment variables
+        Either on your project or in their scripts object.
+    -   `directories.src` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the source files.
+    -   `directories.out` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the transpiled files.
+    -   `directories.test` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the test files.
+-   `gik_npm` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The container for the script-specific options. <br>
+        **NOTE** the key for this options is `@gik/npm` but it cannot be used on the
+                 documentation due to limitiations on the generator.
+    -   `gik_npm.doc` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path where generated docs will be placed.
+    -   `gik_npm.babel` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the babel transpiler.
+        -   `gik_npm.babel.ast` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include AST outout on builds.
+        -   `gik_npm.babel.babelrc` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Read .babelrc found in context?
+        -   `gik_npm.babel.comments` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include comments ?
+        -   `gik_npm.babel.compact` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Remove unneeded spaces ?
+        -   `gik_npm.babel.minified` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Minify the number of characters ?
+        -   `gik_npm.babel.sourceMaps` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include sourcemaps ?
+        -   `gik_npm.babel.extends` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The base .babelrc to extend from.
+    -   `gik_npm.documentation` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the documentation generator.
+        -   `gik_npm.documentation.template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The location of documentation template.
+        -   `gik_npm.documentation.section` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The section to put API documentation on.
+        -   `gik_npm.documentation.target` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A glob determining which files to include.
+
+**Examples**
+
+_`package.json`_
+
+```javascript
+{
+    "directories": {
+         "src": "./src",
+         "out": "./lib",
+         "test": "./test",
+     },
+    "scripts": {
+         "example": "your-script $npm_package_directories_src"
+     },
+    "@gik/npm": {
+        "doc": "./README.md"
+    },
+}
+```
