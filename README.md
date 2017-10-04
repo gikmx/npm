@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.20-2*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.20*
 > GIK's take on NPM scripts.
 
 ## Contributors
