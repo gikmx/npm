@@ -29,27 +29,30 @@ export default function Docs() {
                 content: Mustache(template.content, config),
             },
         }))
-        // Write template file so it can be later extended with API docs
-        .switchMap(function templateWrite({ config, template }) {
-            template.dest = PATH.resolve(config[Package.name].doc);
-            return $
-                .fromFileWrite(template.dest, template.content)
-                .mapTo({ config, template });
-        })
         .switchMap(function readmeInject({ config, template }) {
             const orig = PATH.resolve(config[Package.name].src);
-            const dest = PATH.resolve(config[Package.name].doc);
+            // const dest = PATH.resolve(config[Package.name].doc);
             const command = [
                 'npm --prefix', Path.root, 'run command:docs -- build',
                 '--markdown-toc',
                 '--format md',
                 '--no-package',
                 orig,
-                '>> ', dest,
+                // '>> ', dest,
             ].join(' ');
             return $
                 .fromShell(`exec ${command}`)
-                .mapTo({ config, template });
+                // TODO: When called from a submodule, stdout is populated with the
+                //       redirection command, this hack removes that extra info.
+                .map(([stdout]) => stdout.slice(stdout.indexOf('<!--')))
+                .map(docs => ({ config, template, docs }));
+        })
+        // Write template file so it can be later extended with API docs
+        .switchMap(function contentWrite({ config, template, docs }) {
+            template.dest = PATH.resolve(config[Package.name].doc);
+            return $
+                .fromFileWrite(template.dest, [template.content, docs].join('\n'))
+                .mapTo({ config });
         })
         // Add README to git stage
         .switchMap(({ config }) => $
