@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.22*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.24*
 > GIK's take on NPM scripts.
 
 ## Contributors
@@ -15,6 +15,7 @@
     -   [Build](#build)
     -   [Docs](#docs)
     -   [Lint](#lint)
+    -   [Test](#test)
     -   [Version](#version)
 -   [Configuration](#configuration)
 
@@ -93,6 +94,10 @@ _`.eslintrc`_
     "extends": "@gik/node" // Same as the module but without "eslint-config"
 }
 ```
+
+### Test
+
+Runs all test found in the '$npm_package_directories_test' directory.
 
 ### Version
 

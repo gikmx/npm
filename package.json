@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.24",
+    "version": "0.0.25",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -36,6 +36,7 @@
     "scripts": {
         "command:docs": "documentation",
         "command:lint": "eslint",
+        "command:test": "ava",
         "ver:beta": "./lib/bin.js version:prerelease",
         "ver:commit": "./lib/bin.js version:patch",
         "lint:docs": "./lib/bin.js docs:lint",
@@ -52,9 +53,11 @@
     },
     "peerDependencies": {},
     "dependencies": {
+        "ava": "^0.22.0",
         "babel-core": "^6.26.0",
         "babel-preset-env": "^1.6.0",
         "babel-preset-stage-0": "^6.24.1",
+        "babel-register": "^6.26.0",
         "chalk": "^2.1.0",
         "debug": "^3.1.0",
         "deepmerge": "^1.5.2",
@@ -72,5 +75,13 @@
         "@gik/eslint-config-node": "0.0.1",
         "babel-cli": "^6.26.0",
         "nodemon": "^1.12.1"
+    },
+    "ava": {
+        "require": [
+            "babel-register"
+        ],
+        "babel": {
+            "extends": "./.babelrc"
+        }
     }
 }
