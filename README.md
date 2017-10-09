@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.20*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.21*
 > GIK's take on NPM scripts.
 
 ## Contributors
@@ -52,6 +52,10 @@ Transpiles your project using **babel**.
 ### Docs
 
 Generates documentation using **documentation.js**.
+
+**Parameters**
+
+-   `task` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** subtask to run: currently only "lint" is available (optional, default `null`)
 
 ### Lint
 
@@ -124,8 +128,6 @@ The default settings that control the behaviour of the scripts.
         -   `gik_npm.babel.extends` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The base .babelrc to extend from.
     -   `gik_npm.documentation` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the documentation generator.
         -   `gik_npm.documentation.template` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The location of documentation template.
-        -   `gik_npm.documentation.section` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The section to put API documentation on.
-        -   `gik_npm.documentation.target` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** A glob determining which files to include.
 
 **Examples**
 

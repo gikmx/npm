@@ -31,8 +31,6 @@ import { $, Debug } from './tools';
  *
  * @property {Object} gik_npm.documentation - Options for the documentation generator.
  * @property {string} [gik_npm.documentation.template] - The location of documentation template.
- * @property {string} [gik_npm.documentation.section] - The section to put API documentation on.
- * @property {string} [gik_npm.documentation.target] - A glob determining which files to include.
  *
  * @example <caption>`package.json`</caption>
  * {
