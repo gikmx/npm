@@ -5,6 +5,7 @@
 
 import PATH from 'path';
 import FS from 'fs';
+import { spawn as SPAWN } from 'child_process';
 import { inspect as INSPECT } from 'util';
 import Shell from 'shelljs';
 import Chalk from 'chalk';
@@ -74,6 +75,20 @@ $.fromStat = function $fromStat(path) {
     debug('$fromStat:ini', path);
     return $.bindNodeCallback(FS.stat)(path)
         .do(stat => debug('$fromStat:end', path, stat));
+};
+
+$.fromSpawn = function $fromSpawn(command) {
+    return $.create(function create(o) {
+        const args = command.split(' ');
+        const cmd = args.shift();
+        const proc = SPAWN(cmd, args);
+        proc.stdout.on('data', data => o.next({ type: 'stdout', data: data.toString() }));
+        proc.stderr.on('data', data => o.next({ type: 'stderr', data: data.toString() }));
+        proc.on('error', err => o.error(
+            new Error(`Could not spawn command: "${command}" (${err.message})`),
+        ));
+        proc.on('close', () => o.complete());
+    });
 };
 
 /**
