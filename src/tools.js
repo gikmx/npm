@@ -79,24 +79,31 @@ $.fromStat = function $fromStat(path) {
 /**
  * An interface to [shelljs](https://github.com/shelljs/shelljs) to "attempt" to run
  * CLI commands in any OS.
+ *
  * @memberof Tools.$
  * @param {string} command - a command to run on the OS,
+ * @param {Object} [config]
+ * @param {Boolean} [config.silent=true] - Wether the output should be silenced.
+ *                                         (only valid for 'exec')
  * @returns {Observable.<Array>} - An array containing both stderr and stdout.
- * @TODO There are no async cases defined yet.
  */
-$.fromShell = function $fromShell(command) {
+$.fromShell = function $fromShell(command, config = {}) {
     debug('$fromShell:ini', command);
     const args = command.split(/\s/g);
     const cmd = args.shift().toLowerCase();
     let cmd$;
-    switch (cmd) {
-    case 'exec':
-        cmd$ = $.bindNodeCallback(Shell[cmd])(args.join(' '), { silent: true });
-        break;
-    // sync commands
-    default:
-        cmd$ = $.of(Shell[cmd](...args)).mapTo(true);
-    }
+
+    // custom execution
+    if (cmd === 'exec') cmd$ = $.bindNodeCallback(
+        Shell[cmd])(args.join(' '),
+        Object.assign({ silent: true }, config),
+    );
+
+    // async commands.
+    // TODO: Add async commands.
+
+    // sync commands (almost all shelljs is sync)
+    else cmd$ = $.of(Shell[cmd](...args)).mapTo(true);
     return cmd$.do(stdout => debug('$fromShell:end', command, stdout));
 };
 

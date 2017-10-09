@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.21",
+    "version": "0.0.22",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -28,11 +28,17 @@
     "bin": {
         "gik-npm": "./lib/bin.js"
     },
+    "directories": {
+        "src": "./src",
+        "out": "./lib",
+        "test": "./test"
+    },
     "scripts": {
         "command:docs": "documentation",
         "command:lint": "eslint",
         "ver:beta": "./lib/bin.js version:prerelease",
         "ver:commit": "./lib/bin.js version:patch",
+        "lint:test": "./lib/bin.js docs:lint",
         "lint:docs": "documentation lint ./src/** || true",
         "lint:code": "eslint ./src",
         "lint": "npm run lint:code -s && npm run lint:docs -s",

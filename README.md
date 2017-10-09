@@ -10,36 +10,13 @@
 
 ### Table of Contents
 
--   [gik-npm](#gik-npm)
 -   [Scripts](#scripts)
     -   [Build](#build)
     -   [Docs](#docs)
     -   [Lint](#lint)
     -   [Version](#version)
+-   [gik-npm](#gik-npm)
 -   [Configuration](#configuration)
-
-## gik-npm
-
-The binary that controls which script is going to be run.
-
-**Parameters**
-
--   `script` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The script you wish to run. It accepts an optional parameter
-                             by using a colon after the script name. Each script has    -
-                             differents sub parameters defined.
-
-**Examples**
-
-_`package.json`_
-
-```javascript
-{
-    "scripts": {
-        "build": "gik-npm build",
-        "ver": "gik-npm version:patch",
-    }
-}
-```
 
 ## Scripts
 
@@ -101,6 +78,29 @@ Automates the versioning of your packages using **semver**.
 **Parameters**
 
 -   `type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the valid **semver** versions. (optional, default `"patch"`)
+
+## gik-npm
+
+The binary that controls which script is going to be run.
+
+**Parameters**
+
+-   `script` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The script you wish to run. It accepts an optional parameter
+                             by using a colon after the script name. Each script has    -
+                             differents sub parameters defined.
+
+**Examples**
+
+_`package.json`_
+
+```javascript
+{
+    "scripts": {
+        "build": "gik-npm build",
+        "ver": "gik-npm version:patch",
+    }
+}
+```
 
 ## Configuration
 

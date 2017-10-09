@@ -1,5 +1,6 @@
 import PATH from 'path';
 import { render as Mustache } from 'mustache';
+import Documentation from 'documentation';
 import Git from 'nodegit';
 import Out from '../out';
 import Path from '../path';
@@ -10,9 +11,24 @@ import { $ } from '../tools';
  * Generates documentation using **documentation.js**.
  * @module Docs
  * @memberof Scripts
+ *
+ * @param {string} [task=null] - subtask to run: currently only "lint" is available
  */
-export default function Docs() {
-
+export default function Docs(task = null) {
+    // Unrecognized command
+    if (task && task !== 'lint') return Out.error(new Error('Invalid docs:task'));
+    // Linting
+    if (task) return $fromConfig()
+        .switchMap(config => $.fromDirReadRecursive(PATH.resolve(config.directories.src)))
+        .map(file => file.path)
+        .toArray()
+        .switchMap(files => $.from(Documentation.lint(files, {
+            extension: PATH.extname(__filename),
+        })))
+        .do(stdout => process.stdout.write(`${stdout}\n`))
+        .mapTo('Docs linted')
+        .subscribe(Out.good, Out.error);
+    // Building
     return $fromConfig()
         // Read main template from location specified on config
         .switchMap(function templateRead(config) {
