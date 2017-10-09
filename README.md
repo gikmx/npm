@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.24*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.26*
 > GIK's take on NPM scripts.
 
 ## Contributors
@@ -43,8 +43,6 @@ _`package.json`_
 ```
 
 ## Scripts
-
-These are the scripts that are available to use:
 
 ### Build
 
@@ -110,6 +108,8 @@ Automates the versioning of your packages using **semver**.
 ## Configuration
 
 The default settings that control the behaviour of the scripts.
+**NOTE** the key for this options is `@gik/npm` but since it cannot be used on the
+         documentation generator, we'll refer it as `gik_npm`.
 
 **Properties**
 
@@ -119,9 +119,7 @@ The default settings that control the behaviour of the scripts.
     -   `directories.src` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the source files.
     -   `directories.out` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the transpiled files.
     -   `directories.test` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path for the test files.
--   `gik_npm` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The container for the script-specific options. <br>
-        **NOTE** the key for this options is `@gik/npm` but it cannot be used on the
-                 documentation due to limitiations on the generator.
+-   `gik_npm` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The container for the script-specific options.
     -   `gik_npm.doc` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** The path where generated docs will be placed.
     -   `gik_npm.babel` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options for the babel transpiler.
         -   `gik_npm.babel.ast` **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** Include AST outout on builds.

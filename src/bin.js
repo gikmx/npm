@@ -46,6 +46,5 @@ $
     .subscribe(Out.warn, Out.error);
 
 /**
- * These are the scripts that are available to use:
  * @namespace Scripts
  */

@@ -7,17 +7,17 @@ import { $, Debug } from './tools';
 
 /**
  * The default settings that control the behaviour of the scripts.
+ * **NOTE** the key for this options is `@gik/npm` but since it cannot be used on the
+ *          documentation generator, we'll refer it as `gik_npm`.
  * @namespace Configuration
- *
+
  * @property {Object} directories - Lets NPM know where are some directories.
  *     This has the added benefit of letting you use this assign environment variables
  *     Either on your project or in their scripts object.
  * @property {string} [directories.src="./src"] - The path for the source files.
  * @property {string} [directories.out="./lib"] - The path for the transpiled files.
  * @property {string} [directories.test="./test"] - The path for the test files.
- * @property {Object} gik_npm - The container for the script-specific options. <br>
- *     **NOTE** the key for this options is `@gik/npm` but it cannot be used on the
- *              documentation due to limitiations on the generator.
+ * @property {Object} gik_npm - The container for the script-specific options.
  * @property {string} [gik_npm.doc="./README.md"] - The path where generated docs will be placed.
  *
  * @property {Object} gik_npm.babel - Options for the babel transpiler.
