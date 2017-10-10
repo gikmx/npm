@@ -23,19 +23,21 @@ export default function Test(task = undefined) {
     };
     if (task && !tasks[task]) return Out.error(new Error('Invalid test task'));
     return $fromConfig()
-        .map(function commandFromConfig(config) {
+        .switchMap((config) => {
             const path = PATH.resolve(config.directories.test);
             const pfix = task ? `${tasks[task].cmd.replace('%', path)} ` : '';
             const test = `npx ava ${path} --verbose --color=always`;
-            return [
-                pfix,
-                !task || (task && tasks[task].run) ? test : '',
-            ].join('');
+            const cmd = [pfix, !task || (task && tasks[task].run) ? test : ''].join('');
+            return $.fromSpawn(cmd, {
+                cwd: Path.cwd,
+                env: Object.assign(process.env, {
+                    NODE_PATH: [
+                        Path.node_modules,
+                        PATH.join(Path.cwd, 'node_modules'),
+                    ].join(':'),
+                }),
+            });
         })
-        .switchMap(command => $.fromSpawn(command, {
-            cwd: Path.root,
-            env: Object.assign(process.env, { NODE_PATH: Path.node_modules }),
-        }))
         .subscribe(
             function onSuccess(output) {
                 if (output.type !== 'close') return process[output.type].write(output.data);
