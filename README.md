@@ -97,6 +97,14 @@ _`.eslintrc`_
 
 Runs all test found in the '$npm_package_directories_test' directory.
 
+**Parameters**
+
+-   `task` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** One of the following actions: (optional, default `undefined`)
+    -   `task.cover`  Generate coverage report after tests.
+    -   `task.cover-check`  Verify if coverage passes threshold. (use .nycrc on test dir)
+    -   `task.cover-report`  Output the last report.
+    -   `task.cover-report-lcov`  Output the last using lcov.
+
 ### Version
 
 Automates the versioning of your packages using **semver**.

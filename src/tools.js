@@ -77,17 +77,23 @@ $.fromStat = function $fromStat(path) {
         .do(stat => debug('$fromStat:end', path, stat));
 };
 
-$.fromSpawn = function $fromSpawn(command) {
+$.fromSpawn = function $fromSpawn(command, config = {}) {
     return $.create(function create(o) {
         const args = command.split(' ');
         const cmd = args.shift();
-        const proc = SPAWN(cmd, args);
+        const proc = SPAWN(cmd, args, Object.assign({
+            cwd: undefined,
+            env: process.env,
+        }, config));
         proc.stdout.on('data', data => o.next({ type: 'stdout', data: data.toString() }));
         proc.stderr.on('data', data => o.next({ type: 'stderr', data: data.toString() }));
         proc.on('error', err => o.error(
             new Error(`Could not spawn command: "${command}" (${err.message})`),
         ));
-        proc.on('close', () => o.complete());
+        proc.on('close', function onClose(code) {
+            o.next({ type: 'close', code });
+            o.complete();
+        });
     });
 };
 
