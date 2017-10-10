@@ -17,6 +17,7 @@ export default function Build() {
         .fromDirRequire(Config.directories.src)
         .mergeMap(dir => $.fromDirReadRecursive(dir))
         .map(node => node.path)
+        .filter(path => PATH.extname(path) === PATH.extname(__filename))
         .mergeMap(path => $.bindNodeCallback(Babel)(path, Config[Package.name].babel)
             .map(({ code, map }) => ({ path, code, map: map.mappings })),
         );

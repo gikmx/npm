@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.27",
+    "version": "0.0.28",
     "description": "GIK's take on NPM scripts.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -51,7 +51,7 @@
         "docs": "npm run lint:docs -s && ./lib/bin.js docs",
         "test": "npm run lint:test -s && ./lib/bin.js test",
         "build": "npm run lint:code -s && (npm run build:gik -s || npm run build:cli -s || exit 1)",
-        "precommit": "npm run build -s && npm run docs -s && npm run ver:commit -s",
+        "precommit": "npm run build -s && npm run ver:commit -s && npm run docs -s",
         "pub:beta": "npm run build -s && npm run ver:beta -s && npm publish --tag beta",
         "pub:release": "npm run build -s && npm publish --tag latest",
         "start": "nodemon -e js,json -w ./src -x 'for x in `echo \"build\" \"${RUN[@]}\"`; do npm run \"$x\" -s || exit 1; done'"
