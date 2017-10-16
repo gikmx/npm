@@ -15,8 +15,10 @@ import { $ } from '../tools';
  * @param {string} [task=null] - subtask to run: currently only "lint" is available
  */
 export default function Docs(task = null) {
+
     // Unrecognized command
     if (task && task !== 'lint') return Out.error(new Error('Invalid docs:task'));
+
     // Linting
     if (task) return $fromConfig()
         .switchMap(config => $.fromDirReadRecursive(PATH.resolve(config.directories.src)))
@@ -28,6 +30,7 @@ export default function Docs(task = null) {
         .do(stdout => process.stdout.write(`${stdout}\n`))
         .mapTo('Docs linted')
         .subscribe(Out.good, Out.error);
+
     // Building
     return $fromConfig()
         // Read main template from location specified on config
@@ -51,7 +54,6 @@ export default function Docs(task = null) {
                 'npm --prefix', Path.root, 'run command:docs -- build',
                 '--markdown-toc',
                 '--format md',
-                '--no-package',
                 orig,
                 // '>> ', dest,
             ].join(' ');
