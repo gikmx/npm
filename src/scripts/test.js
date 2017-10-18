@@ -32,9 +32,10 @@ export default function Test(task = undefined) {
                 cwd: Path.cwd,
                 env: Object.assign(process.env, {
                     NODE_PATH: [
+                        process.env.NODE_PATH,
                         Path.node_modules,
                         PATH.join(Path.cwd, 'node_modules'),
-                    ].join(':'),
+                    ].filter(Boolean).join(':'),
                 }),
             });
         })
