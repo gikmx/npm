@@ -19,7 +19,7 @@ import { $fromConfig } from '../config';
  *         "example": './example'
  *     },
  *     "scripts": {
- *         "lint": "gik-npm lint:example"
+ *         "lint": "gik-npm lint example"
  *     },
  *     "devDependencies": {
  *          "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project

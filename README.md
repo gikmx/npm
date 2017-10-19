@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.29*
+# [@gik/npm](https://github.com/gikmx/npm) *0.0.31*
 > GIK's take on NPM scripts.
 
 ## Contributors
@@ -25,9 +25,8 @@ The binary that controls which script is going to be run.
 
 **Parameters**
 
--   `script` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The script you wish to run. It accepts an optional parameter
-                             by using a colon after the script name. Each script has    -
-                             differents sub parameters defined.
+-   `script` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The script you wish to run. It accepts an optional parameters,
+    just send them separated by spaces.
 
 **Examples**
 
@@ -37,7 +36,7 @@ _`package.json`_
 {
     "scripts": {
         "build": "gik-npm build",
-        "ver": "gik-npm version:patch",
+        "ver": "gik-npm version patch",
     }
 }
 ```
@@ -77,7 +76,7 @@ _`package.json`_
         "example": './example'
     },
     "scripts": {
-        "lint": "gik-npm lint:example"
+        "lint": "gik-npm lint example"
     },
     "devDependencies": {
          "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project
