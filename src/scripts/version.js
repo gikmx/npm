@@ -1,16 +1,38 @@
 import PATH from 'path';
 import Npm from 'npm';
 import Git from 'nodegit';
+import { $ } from '@gik/tools-streamer';
 import Out from '../out';
-import { $ } from '../tools';
 
 const CWD = process.cwd();
 
 /**
- * Automates the versioning of your packages using **semver**.
- * @module Version
- * @param {string} [type="patch"]- One of the valid **semver** versions.
- * @memberof Scripts
+ * @module version
+ * @memberof gik-npm.Scripts
+ * @description Automates the versioning of your project using **semver**.
+ * internally uses `npm version` (avoiding tagging) and after modifying `package.json`
+ * adds it to git. This is specially useful if you add it to a `precommit` script
+ * (already available when using this library via [husky](https://github.com/typicode/husky)),
+ * making the change available on that commit automatically.
+ *
+ * ###### Available semver types:
+ * - **major** `0.0.0 -> 1.0.0`
+ * - **minor** `0.0.0 -> 0.1.0`
+ * - **patch** `0.0.0 -> 0.0.1`
+ * - **prerelease**
+ *   - `0.0.0 -> 0.0.0-1`
+ *   - `0.0.0-beta -> v0.0.0-beta.0`
+ *   - `0.0.0-beta.0 -> 0.0.0-beta.1`
+ *
+ * @param {string} [type=patch] - One of the valid semver version names.
+ *
+ * @example @lang js <caption>packge.json</caption>
+ * {
+ *     "scripts": {
+ *         // builds, bumps package.json and generartes docs using the new version
+ *         "precommit": "gik-npm build && gik-npm version patch && git-npm docs"
+ *     }
+ * }
  */
 export default function Version(type = 'patch') {
 

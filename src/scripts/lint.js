@@ -4,16 +4,17 @@ import Out from '../out';
 import { $fromConfig } from '../config';
 
 /**
- * Validates the code complies with certain rules.
+ * @module lint
+ * @memberof gik-npm.Scripts
+ * @type {script}
+ * @description Validates the code complies with certain rules.
  * It's recommended that you install one of the flavours of
  * [eslint-config](http://github.come/gikmx/eslint-config) to accompany this script.
  * it will be as easy as to include an `.eslintrc` file extending the module.
- * @module Lint
- * @memberof Scripts
  *
- * @param {string} [target='src'] - The target directory to lint (src by default),
+ * @param {string|Array} [target=src] - The target directory to lint.
  *
- * @example <caption>`package.json`</caption>
+ * @example @lang js <caption>package.json</caption>
  * {
  *     "directories": {
  *         "example": './example'
@@ -26,7 +27,7 @@ import { $fromConfig } from '../config';
  *     }
  * }
  *
- * @example <caption>`.eslintrc`</caption>
+ * @example @lang js <caption>.eslintrc</caption>
  * {
  *     "extends": "@gik/node" // Same as the module but without "eslint-config"
  * }

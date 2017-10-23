@@ -1,8 +1,5 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.0.32*
-> GIK's take on NPM scripts.
-
-[![NPM](https://nodei.co/npm-dl/@gik/npm.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/@gik/npm/)
-[![HitCount](http://hits.dwyl.io/gikmx/npm.svg)](http://hits.dwyl.io/gikmx/npm)
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.0*
+> Scripts for your EcmaScript workflow.
 
 ##### Contributors
 - [Héctor Menéndez](mailto:hector@gik.mx) []()
@@ -11,53 +8,244 @@
 - linux
 - darwin
 
-## Usage
+#### <a name="table-of-contents"></a> Table of contents
 
-## npm
->  global namespace
+  - **[gik-npm](#gik-npm)** Centralizes and automates the managment of projects based on EcmaScript.
+    - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
+    - **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
+      - **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
+      - **[test](#gik-npm.Scripts.test)** Runs all test found in the `$npm_package_directories_test` directory.
+      - **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
+      - **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
+      - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
 
-This is a descrition for the npm namespace.
+---
+
+## <a name="gik-npm"></a> gik-npm
 
 
-## [⇧](#Usage)
+Centralizes and automates the managment of projects based on EcmaScript.
 
-### version
-> module of `npm`
+[create-react-app](https://github.com/facebookincubator/create-react-app) inspired us
+to build this tool, it made our life way easier and so we decided to apply the same
+principle to our workflow: A single place where to put all the configurationi and
+automation for our projects in EcmaScript (meaning Node, Cycle, Webpack, React, etc.)
+
+###### Installation
+Nothing special, just like every other tool in your arsenal, install as development
+dependency and you're good to go.
+
+```bash
+npm install --save-dev @gik/npm
+```
+###### Setup
+Just add a reference to the "binary" `gik-npm` and pass the needed arguments according
+to the task you wish to execute.
+
+###### Parameters
+
+<table>
+    <tr>
+        <td>`script`</td>
+        <td>[string]()</td>
+        <td>One of the [Scripts](#gik-npm.Scripts) available.</td>
+    </tr><tr>
+        <td>`[…param]`</td>
+        <td>[string]()</td>
+        <td>Each script has it own set of optional arguments, check
+[their section](#gik-npm.Scripts) for more information.</td>
+    </tr>
+</table>
 
 
-Automates the versioning of your packages using **semver**.
+
+
+###### Example `package.json`
+
+```js
+{
+    "scripts": {
+        "build": "gik-npm build",
+        "ver": "gik-npm version patch",
+    }
+}
+```
+###### Members
+
+- [Configuration](#gik-npm.Configuration)
+- [Scripts](#gik-npm.Scripts)
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+### <a name="gik-npm.Configuration"></a> Configuration
+
+
+The default settings that control the behaviour of the scripts.
+
+
+###### Properties
+
+<table>
+    <tr>
+        <td>`directories`</td>
+        <td>[Object]()</td>
+        <td>Lets NPM know where are some directories.
+This has the added benefit of letting you use this assign environment variables
+Either on your project or in their scripts object.</td>
+    </tr><tr>
+        <td>`[directories.src]`</td>
+        <td>[string]()</td>
+        <td>The path for the source files. **Default `./src`**</td>
+    </tr><tr>
+        <td>`[directories.out]`</td>
+        <td>[string]()</td>
+        <td>The path for the transpiled files. **Default `./lib`**</td>
+    </tr><tr>
+        <td>`[directories.test]`</td>
+        <td>[string]()</td>
+        <td>The path for the test files. **Default `./test`**</td>
+    </tr><tr>
+        <td>`[directories.template]`</td>
+        <td>[string]()</td>
+        <td>The path for the template files. **Default `./template`**</td>
+    </tr><tr>
+        <td>`@gik/npm`</td>
+        <td>[Object]()</td>
+        <td>The container for the script-specific options. Check
+[their section](#gik-npm.Scripts) for more information.</td>
+    </tr>
+</table>
+
+
+
+###### Example `package.json`
+
+```js
+{
+    "directories": {
+         "src": "./src",
+         "out": "./lib",
+         "test": "./test",
+     },
+    "scripts": {
+         "example": "your-script $npm_package_directories_src"
+     },
+    "@gik/npm": {
+        "doc": "./README.md"
+    },
+}
+```
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+### <a name="gik-npm.Scripts"></a> Scripts
+
+
+The tasks available to run against your project.
+
+
+
+
+###### Members
+
+- [version](#gik-npm.Scripts.version)
+- [test](#gik-npm.Scripts.test)
+- [lint](#gik-npm.Scripts.lint)
+- [docs](#gik-npm.Scripts.docs)
+- [build](#gik-npm.Scripts.build)
+
+## [<small><small><small>⬆ Top</small></small></small>](#gik-npm)
+
+#### <a name="gik-npm.Scripts.version"></a> version
+
+
+Automates the versioning of your project using **semver**.
 internally uses `npm version` (avoiding tagging) and after modifying `package.json`
 adds it to git. This is specially useful if you add it to a `precommit` script
 (already available when using this library via [husky](https://github.com/typicode/husky)),
 making the change available on that commit automatically.
 
-Available semver types:
-- major `0.0.0 -> 1.0.0`
-- minor `0.0.0 -> 0.1.0`
-- patch `0.0.0 -> 0.0.1`
-- prerelease
+###### Available semver types:
+- **major** `0.0.0 -> 1.0.0`
+- **minor** `0.0.0 -> 0.1.0`
+- **patch** `0.0.0 -> 0.0.1`
+- **prerelease**
   - `0.0.0 -> 0.0.0-1`
   - `0.0.0-beta -> v0.0.0-beta.0`
   - `0.0.0-beta.0 -> 0.0.0-beta.1`
 
+###### Parameters
 
-## [⇧](#Usage)
+<table>
+    <tr>
+        <td>`[type]`</td>
+        <td>[string]()</td>
+        <td>One of the valid semver version names. **Default `patch`**</td>
+    </tr>
+</table>
 
-### test
-> module of `npm`
+
+
+
+###### Example `packge.json`
+
+```js
+{
+    "scripts": {
+        // builds, bumps package.json and generartes docs using the new version
+        "precommit": "gik-npm build && gik-npm version patch && git-npm docs"
+    }
+}
+```
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+#### <a name="gik-npm.Scripts.test"></a> test
 
 
 Runs all test found in the `$npm_package_directories_test` directory.
+It uses internally [AVA](https://github.com/avajs/ava) as test runner, and
+[nyc](https://github.com/istanbuljs/nyc) for coverage reports. Everything is configured
+with the same [configuration](#gik-npm.Scripts.build.configuration) as the
+[`build`](#gik-npm.Scripts.build) script with the difference that files aren't
+transpiled, instead they're run using `babel-register`.
+
+###### Availabe subcommands
 - `cover` Generates coverage report after tests.
   - `check` Verifies if coverage passes threshold. (uses `.nycrc` on `test` dir)
   - `report` Outputs the last report.
     - `lcov` Outputs the last report using lcov instead.
 
+###### Parameters
 
-## [⇧](#Usage)
+<table>
+    <tr>
+        <td>`[…task]`</td>
+        <td>[string]()</td>
+        <td>One on the subactions.</td>
+    </tr>
+</table>
 
-### lint
-> module of `npm`
+
+
+
+###### Example `package.json`
+
+```js
+{
+    "directories": {
+        "test": "./test"
+    },
+    "scripts": {
+        "test": "gik-npm test", // runs test on all files on "./test"
+        "test:cover": "gik-npm test cover", // runs test and generates coverage report
+    }
+}
+```
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+#### <a name="gik-npm.Scripts.lint"></a> lint
 
 
 Validates the code complies with certain rules.
@@ -65,234 +253,174 @@ It's recommended that you install one of the flavours of
 [eslint-config](http://github.come/gikmx/eslint-config) to accompany this script.
 it will be as easy as to include an `.eslintrc` file extending the module.
 
+###### Parameters
 
-## [⇧](#Usage)
-
-### docs
-> module of `npm`
-
-
-Generates documentation using [js-2-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
-
-
-## [⇧](#Usage)
-
-### build
-> module of `npm`
+<table>
+    <tr>
+        <td>`[target]`</td>
+        <td>[string]() | [Array]()</td>
+        <td>The target directory to lint. **Default `src`**</td>
+    </tr>
+</table>
 
 
-Transpiles your project using **babel**.
-###### Default configuration `(.babelrc)`
-```javascript
-<%= file:./babelrc =%>
+
+
+###### Example `package.json`
+
+```js
+{
+    "directories": {
+        "example": './example'
+    },
+    "scripts": {
+        "lint": "gik-npm lint example"
+    },
+    "devDependencies": {
+         "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project
+    }
+}
+```
+###### Example `.eslintrc`
+
+```js
+{
+    "extends": "@gik/node" // Same as the module but without "eslint-config"
+}
 ```
 
-
-## [⇧](#Usage)
-
-### Configuration
-> module of `npm`
-
-
-The default settings that control the behaviour of the scripts.
-
-
-## [⇧](#Usage)
-
-### Scripts
->  static class of `npm`
-
-
-
-## [⇧](#Usage)
-
-#### Scripts
-> constructor of `npm.Scripts`
-
-
-The binary that controls which script is going to be run.
-
-
-## [⇧](#Usage)
-
-## Tools
-
-
-
-
-
-## [⇧](#Usage)
-
-### $
->  static property of `Tools`
-
-RXjs Observables.
-
-
-## [⇧](#Usage)
-
-### Debug
->  static method of `Tools`
-
-Makes debugging a little bit prettier.
-
-**See**: https://github.com/visionmedia/debug  
-
-## [⇧](#Usage)
-
-### Tools.Config
-
-
-
-
-
-## [⇧](#Usage)
-
-#### $fromConfig
->  static method of `Tools.Config`
-
-A parsed version of package.json.
-
-**Returns**: <code>Observable</code> - - Resolves to an object containing the parsed package.json.  
-
-## [⇧](#Usage)
-
-#### Config
->  static property of `Tools.Config`
-
-The raw version of the package.json.
-
-
-## [⇧](#Usage)
-
-#### Tools.Config.exports
-
-
-
-
-
-## [⇧](#Usage)
-
-##### Defaults
->  static property of `Tools.Config.exports`
-
-The raw version of the host package.json.
-
-
-## [⇧](#Usage)
-
-#### Tools.$.$
-
-
-
-
-
-## [⇧](#Usage)
-
-##### fromFileWrite
->  static method of `Tools.$.$`
-
-Writes a file on the disk.
-
-**Returns**: <code>Observable.&lt;string&gt;</code> - - The future value `true` if write was succesful.  
-**Throws**:
-
-- <code>Error</code> - When the file cannot be written.
-
-
-## [⇧](#Usage)
-
-##### fromFileRead
->  static method of `Tools.$.$`
-
-Reads a file from the disk.
-
-**Returns**: <code>Observable.&lt;string&gt;</code> - - The contents of the file.  
-
-## [⇧](#Usage)
-
-##### fromDirReadRecursive
->  static method of `Tools.$.$`
-
-Get path of nodes in given directory (recursively).
-
-**Returns**: <code>Observable.&lt;Stream.&lt;string&gt;&gt;</code> - - The path of the directory.  
-**Throws**:
-
-- <code>Error</code> - When requested path exists and is not a directory.
-
-
-## [⇧](#Usage)
-
-##### fromDirRead
->  static method of `Tools.$.$`
-
-Get path of nodes in given directory (non recursively).
-
-**Returns**: <code>Observable.&lt;Stream.&lt;string&gt;&gt;</code> - - The path of the directory.  
-**Throws**:
-
-- <code>Error</code> - When requested path exists and is not a directory.
-
-
-## [⇧](#Usage)
-
-##### fromDirRequire
->  static method of `Tools.$.$`
-
-Requires a directory path, if the directory does not exists, it's created.
-
-**Returns**: <code>Observable.&lt;string&gt;</code> - - The path of the directory.  
-**Throws**:
-
-- <code>Error</code> - When requested path exists and is not a directory.
-
-
-## [⇧](#Usage)
-
-##### fromDirMake
->  static method of `Tools.$.$`
-
-Creates a directory.
-
-**Returns**: <code>Observable.&lt;string&gt;</code> - - The path of the directory that was just created.  
-**Throws**:
-
-- <code>Error</code> - When directory cannot be created.
-
-
-## [⇧](#Usage)
-
-##### fromShell
->  static method of `Tools.$.$`
-
-An interface to [shelljs](https://github.com/shelljs/shelljs) to "attempt" to run
-CLI commands in any OS.
-
-**Returns**: <code>Observable.&lt;Array&gt;</code> - - An array containing both stderr and stdout.  
-
-## [⇧](#Usage)
-
-##### fromStat
->  static method of `Tools.$.$`
-
-Determine statistics about a file system node.
-
-**See**: https://nodejs.org/api/fs.html#fs_class_fs_stats  
-**Returns**: <code>Observable.&lt;Object&gt;</code> - - stat object for the node.  
-**Throws**:
-
-- <code>Error</code> - When given an invalid node.
-
-
-## [⇧](#Usage)
-
-##### fromAccess
->  static method of `Tools.$.$`
-
-Determine if given path is accessible.
-
-**Returns**: <code>Observable.&lt;boolean&gt;</code> - - Wether the file is accessible or not.  
-
-## [⇧](#Usage)
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+#### <a name="gik-npm.Scripts.docs"></a> docs
+
+
+Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
+The template used for the documentation is customised, you can see how it looks here,
+since this very documentation was generated by it. This is why even though this script
+uses js-to-markdown several of their configuration propertes are not available due to
+the heavy customisation it was done to its original template. Howevet the followin
+ARE avaialble.
+###### Default `jsdoc.json` config
+```javascript
+{
+    "sourceType": "module",
+    "recurseDepth": 10,
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "plugins": [
+        "node_modules/jsdoc-babel"
+    ]
+}
+
+````
+
+
+###### Properties
+
+<table>
+    <tr>
+        <td>`jsdoc`</td>
+        <td>[Object]()</td>
+        <td>Options for the documentation generator.</td>
+    </tr><tr>
+        <td>`[jsdoc.template]`</td>
+        <td>[string]()</td>
+        <td>The location of documentation
+template. **Default `./template/README.md`**</td>
+    </tr><tr>
+        <td>`[private]`</td>
+        <td>[boolean]()</td>
+        <td>Wether to show private members or not.</td>
+    </tr><tr>
+        <td>`[configure]`</td>
+        <td>[string]()</td>
+        <td>An example of the base configuration is
+shown below. **Default `root/.jsdocrc`**</td>
+    </tr>
+</table>
+
+
+
+###### ToDo
+
+- [ ] Write documentation about how to customize the template and the available helpers.
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+#### <a name="gik-npm.Scripts.build"></a> build
+
+
+Transpiles the current project using **babel**.
+
+###### Base (.babelrc)`
+```javascript
+{
+    "presets": [
+        ["env", {
+            "target": {
+                "node": "current"
+            },
+            "useBuiltIns": "usage"
+        }],
+        "stage-2"
+    ],
+    "plugins": [
+        "syntax-dynamic-import"
+    ]
+}
+
+```
+The following `package.json` properties are available to you in case you wish to modify
+the default behaviour.
+
+
+###### Properties
+
+<table>
+    <tr>
+        <td>`babel`</td>
+        <td>[Object]()</td>
+        <td>Options for the babel transpiler.</td>
+    </tr><tr>
+        <td>`[babel.babelrc]`</td>
+        <td>[Boolean]()</td>
+        <td>Read .babelrc found in context? **Default `true`**</td>
+    </tr><tr>
+        <td>`[babel.comments]`</td>
+        <td>[Boolean]()</td>
+        <td>Include comments?</td>
+    </tr><tr>
+        <td>`[babel.compact]`</td>
+        <td>[Boolean]()</td>
+        <td>Remove unneeded spaces?</td>
+    </tr><tr>
+        <td>`[babel.minified]`</td>
+        <td>[Boolean]()</td>
+        <td>Minify the number of characters? **Default `true`**</td>
+    </tr><tr>
+        <td>`[babel.sourceMaps]`</td>
+        <td>[Boolean]()</td>
+        <td>Wether to include sourcemaps or not.
+`true` would output the sourcemap as external file. `false` omits it, and `"inline"`
+ puts the contents of the sourcemaps on the same file as the code. **Default `inline`**</td>
+    </tr><tr>
+        <td>`[babel.extends]`</td>
+        <td>[string]()</td>
+        <td>The base .babelrc to extend from. The base file is
+shown below. but your can specify your own path. Remember that if you put a file on
+your own folder, it would be taked into account. granted the `babel.babelrc` property
+is set to `true`.</td>
+    </tr>
+</table>
+
+
+
+
+## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
 

@@ -1,38 +1,34 @@
 import PATH from 'path';
+import FS from 'fs';
 import DeepMerge from 'deepmerge';
 import ReadPackage from 'read-package-json';
+import { $ } from '@gik/tools-streamer';
 import Package from '../package.json';
 import Path from './path';
-import { $, Debug } from './tools';
+import { Debug } from './tools';
+
+const debug = Debug([
+    Package.name,
+    PATH.basename(__filename, PATH.extname(__filename)),
+].join(':'));
 
 /**
+ * @module Configuration
+ * @memberof gik-npm
+ * @description
  * The default settings that control the behaviour of the scripts.
- * **NOTE** the key for this options is `@gik/npm` but since it cannot be used on the
- *          documentation generator, we'll refer it as `gik_npm`.
- * @namespace Configuration
-
+ *
  * @property {Object} directories - Lets NPM know where are some directories.
- *     This has the added benefit of letting you use this assign environment variables
- *     Either on your project or in their scripts object.
- * @property {string} [directories.src="./src"] - The path for the source files.
- * @property {string} [directories.out="./lib"] - The path for the transpiled files.
- * @property {string} [directories.test="./test"] - The path for the test files.
- * @property {Object} gik_npm - The container for the script-specific options.
- * @property {string} [gik_npm.doc="./README.md"] - The path where generated docs will be placed.
+ * This has the added benefit of letting you use this assign environment variables
+ * Either on your project or in their scripts object.
+ * @property {string} [directories.src=./src] - The path for the source files.
+ * @property {string} [directories.out=./lib] - The path for the transpiled files.
+ * @property {string} [directories.test=./test] - The path for the test files.
+ * @property {string} [directories.template=./template] - The path for the template files.
+ * @property {Object} @gik/npm - The container for the script-specific options. Check
+ * [their section](#gik-npm.Scripts) for more information.
  *
- * @property {Object} gik_npm.babel - Options for the babel transpiler.
- * @property {Boolean} [gik_npm.babel.ast=false] - Include AST outout on builds.
- * @property {Boolean} [gik_npm.babel.babelrc=true] - Read .babelrc found in context?
- * @property {Boolean} [gik_npm.babel.comments=false] - Include comments ?
- * @property {Boolean} [gik_npm.babel.compact=false] - Remove unneeded spaces ?
- * @property {Boolean} [gik_npm.babel.minified=true] - Minify the number of characters ?
- * @property {Boolean} [gik_npm.babel.sourceMaps=true] - Include sourcemaps ?
- * @property {string} [gik_npm.babel.extends] - The base .babelrc to extend from.
- *
- * @property {Object} gik_npm.documentation - Options for the documentation generator.
- * @property {string} [gik_npm.documentation.template] - The location of documentation template.
- *
- * @example <caption>`package.json`</caption>
+ * @example @lang js <caption>package.json</caption>
  * {
  *     "directories": {
  *          "src": "./src",
@@ -52,78 +48,72 @@ export const Defaults = {
         src: './src',
         out: './lib',
         test: './test',
+        template: './template',
     },
     [Package.name]: {
-        doc: './README.md',
         babel: {
-            ast: false,
+            ast: true,
             babelrc: true,
             code: true,
             comments: false,
-            compact: true,
-            minified: true,
-            sourceMaps: true,
+            compact: false,
+            minified: false,
+            sourceMaps: 'inline',
             extends: PATH.join(Path.root, '.babelrc'),
         },
-        documentation: {
-            template: PATH.join(Path.template, 'README.md'),
-            section: 'Usage',
-            target: '**',
+        jsdoc: {
+            configure: PATH.join(Path.root, '.jsdocrc'),
+            template: PATH.join(Path.jsdoc, 'README.hbs'),
+            helper: FS.readdirSync(Path.src)
+                .filter(file => PATH.extname(file) === '.js')
+                .filter(file => PATH.basename(file).indexOf('jsdoc-helper') === 0)
+                .map(file => PATH.join(Path.src, file)),
+            partial: FS.readdirSync(Path.jsdoc)
+                .filter(file => PATH.extname(file) === '.hbs')
+                .filter(file => PATH.basename(file).indexOf('partial-') === 0)
+                .map(file => PATH.join(Path.jsdoc, file)),
+
+            plugin: [],
+            private: false,
+            separators: false,
+            'heading-depth': 2,
+            'example-lang': 'none',
+            'name-format': true,
+            'no-gfm': false,
+            'module-index-format': 'grouped',
+            'global-index-format': 'dl',
+            'param-list-format': 'table',
+            'member-index-format': 'list',
+            'no-cache': true,
         },
     },
 };
 
-
 /**
- * The Configuration utilities.
- * @module Config
- * @memberof Tools
- */
-/**
- * The raw version of the host package.json.
- * @memberof Tools.Config
- * @type {Object}
+ * @typedef {Object} Package
+ * @memberof gik-npm.Configuration
+ * @description The contents of `gik-npm`'s  `package.json`.
+ * @private
  */
 export { Package };
 
 /**
- * The raw version of the package.json.
- * @memberof Tools.Config
- * @type {Object}
- */
-export const Config = DeepMerge(Defaults, require(PATH.join(Path.cwd, 'package.json')));
-
-
-/**
- * Enables the debugger for this instance.
- * @private
- * @type {function}
- */
-const debug = Debug([
-    Package.name,
-    PATH.basename(__filename, PATH.extname(__filename)),
-].join(':'));
-
-/**
  * A parsed version of package.json.
- * @memberof Tools.Config
+ * @memberof gik-npm.Configuration
  * @return {Observable} - Resolves to an object containing the parsed package.json.
+ * @private
  */
 export function $fromConfig() {
     const path = PATH.join(Path.cwd, 'package.json');
     debug('$fromConfig:ini', path);
+    const log = debug.bind(debug, '$fromConfig:end');
     return $
-        .bindNodeCallback(ReadPackage)(
-            path, // load this file
-            debug.bind(debug, '$fromConfig:end'), // use this function to output log
-            false, // disable strict validation
-        )
+        .bindNodeCallback(ReadPackage)(path, log, false)
         .map(config => DeepMerge(Defaults, config));
 }
 
 export default {
     Defaults,
     Package,
-    Config,
     $fromConfig,
 };

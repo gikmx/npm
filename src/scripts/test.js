@@ -1,18 +1,38 @@
 import PATH from 'path';
+import { $ } from '@gik/tools-streamer';
 import Path from '../path';
 import Out from '../out';
 import { $fromConfig } from '../config';
-import { $ } from '../tools';
 
 /**
- * Runs all test found in the '$npm_package_directories_test' directory.
- * @module Test
- * @memberof Scripts
- * @param {string} [task=undefined] - One of the following actions:
- * @param task.cover - Generate coverage report after tests.
- * @param task.cover-check - Verify if coverage passes threshold. (use .nycrc on test dir)
- * @param task.cover-report - Output the last report.
- * @param task.cover-report-lcov - Output the last using lcov.
+ * @module test
+ * @memberof gik-npm.Scripts
+ * @type {script}
+ * @description Runs all test found in the `$npm_package_directories_test` directory.
+ * It uses internally [AVA](https://github.com/avajs/ava) as test runner, and
+ * [nyc](https://github.com/istanbuljs/nyc) for coverage reports. Everything is configured
+ * with the same [configuration](#gik-npm.Scripts.build.configuration) as the
+ * [`build`](#gik-npm.Scripts.build) script with the difference that files aren't
+ * transpiled, instead they're run using `babel-register`.
+ *
+ * ###### Availabe subcommands
+ * - `cover` Generates coverage report after tests.
+ *   - `check` Verifies if coverage passes threshold. (uses `.nycrc` on `test` dir)
+ *   - `report` Outputs the last report.
+ *     - `lcov` Outputs the last report using lcov instead.
+ *
+ * @param {...string} [task] - One on the subactions.
+ *
+ * @example @lang js <caption>package.json</caption>
+ * {
+ *     "directories": {
+ *         "test": "./test"
+ *     },
+ *     "scripts": {
+ *         "test": "gik-npm test", // runs test on all files on "./test"
+ *         "test:cover": "gik-npm test cover", // runs test and generates coverage report
+ *     }
+ * }
  */
 export default function Test(task = undefined) {
     const tasks = {

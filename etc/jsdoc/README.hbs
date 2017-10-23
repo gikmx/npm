@@ -1,0 +1,167 @@
+#### <a name="table-of-contents"></a> Table of contents
+
+{{#gEach (option "private")}}
+    {{~#each @level}}  {{/each~}}
+    - **[{{{name}}}](#{{id}})**{{noop~}}
+    {{~#unless (or (equal kind 'namespace') (equal kind 'module'))}}
+        {{~noop}} `{{{kind}}}`
+    {{~/unless}}
+    {{~#if description}} {{{gSummary description}}}{{/if}}
+{{/gEach}}
+
+---
+
+{{#gEach (option "private")}}
+#{{#each @level}}#{{/each}} <a name="{{id}}"></a> {{{name}}}
+{{#if scope~}}
+    {{~#if (equal kind "event")~}}
+        {{~noop}}> Event emitted{{#if memberof}} by `{{memberof}}`
+    {{/if}}
+    {{~else}}{{#unless (equal kind "namespace")}}
+        {{~noop}}> {{#if access}}{{{access}}}{{/if}} {{scope}}
+        {{~#if virtual}} abstract {{else}} {{/if~}}
+        {{kindInThisContext}}
+        {{~#if memberof}} of [`{{memberof}}`](#{{memberof}}){{/if~}}
+    {{/unless}}{{/if~}}
+{{else~}}
+    {{~#if isExported}}> Exported {{kind}} {{/if~}}
+    {{~#if memberof}}>
+    {{~#if access}} {{{access}}} {{/if}} {{kind}} of `{{memberof}}`{{/if~}}
+{{/if}}
+
+
+{{#if description~}}
+    {{{description}}}
+{{/if}}
+
+{{#if params}}
+###### Parameters
+
+<table>
+    {{#tableRow params "name" "type" "defaultvalue" "description" ~}}<tr>
+        {{#if @col1~}}<td>`
+            {{~#if optional~}} [ {{~/if~}}
+            {{~#if variable~}} … {{~/if~}}
+            {{~{name}~}}
+            {{~#if optional~}} ] {{~/if~}}
+        `</td>{{~/if}}
+        {{#if @col2~}}<td>
+            {{~#each type.names~}}
+                [{{this}}]()
+                {{~#unless @last}} | {{/unless~}}
+            {{~/each~}}
+        </td>{{~/if}}
+        {{#if @col4}}<td>
+            {{~{description}~}}
+            {{~#if defaultvalue}} **Default `{{{defaultvalue}}}`**{{/if~}}
+        </td>{{/if}}
+    </tr>{{~/tableRow}}
+</table>
+
+{{/if}}
+
+{{#if properties}}
+###### Properties
+
+<table>
+    {{#tableRow properties "name" "type" "defaultvalue" "description" ~}}<tr>
+        {{#if @col1~}}<td>`
+            {{~#if optional~}} [ {{~/if~}}
+            {{~#if variable~}} … {{~/if~}}
+            {{~{name}~}}
+            {{~#if optional~}} ] {{~/if~}}
+        `</td>{{~/if}}
+        {{#if @col2~}}<td>
+            {{~#each type.names~}}
+                [{{this}}]()
+                {{~#unless @last}} | {{/unless~}}
+            {{~/each~}}
+        </td>{{~/if}}
+        {{#if @col4}}<td>
+            {{~{description}~}}
+            {{~#if defaultvalue}} **Default `{{{defaultvalue}}}`**{{/if~}}
+        </td>{{/if}}
+    </tr>{{~/tableRow}}
+</table>
+
+{{/if}}
+
+{{#if examples~}}
+{{#gExamples}}
+
+###### Example {{#if caption}}`{{{caption}}}`{{/if}}
+
+{{#if example}}{{{example}}}{{/if~}}
+{{/gExamples~}}
+{{/if~}}
+
+{{#if returns~}}
+
+    ###### Returns
+    {{~#with returns.[0]}}
+        {{~#if type}}{{#if type.names~}}{{#each type.names}}
+            {{~noop}} [`{{{this}}}`](#{{{this}}})
+        {{~/each}}{{/if}}{{/if}}
+        {{~#if description}}
+            {{~noop}}<span style="font-weight:normal"> {{{description}}}</span>
+        {{~/if~}}
+    {{~/with~}}
+{{~/if~}}
+
+
+{{#if exceptions~}}
+
+    ###### Throws
+
+    {{#each exceptions~}}
+        {{~noop}}-
+        {{~#if type.names}}{{#each type.names}}
+            {{~noop}} `{{{this}}}`
+        {{~/each}}{{/if}}
+        {{~#if description}} {{{description}}} {{~/if}}
+    {{/each}}
+{{/if}}
+
+{{>category~}}
+{{>summary~}}
+{{>augments~}}
+{{>implements~}}
+{{>mixes~}}
+{{>default~}}
+{{>chainable~}}
+{{>overrides~}}
+{{>this~}}
+
+{{#if see~}}
+###### Related
+
+{{#each see}}- {{{inlineLinks this}}}
+{{/each~}}
+{{~/if~}}
+
+{{#if todoList~}}
+###### ToDo
+
+{{#each todoList~}}
+{{#if done}}- [x] {{{task}}}
+{{else}}- [ ] {{{task}}}
+{{/if~}}
+{{/each~}}
+
+{{/if}}
+
+{{~#each children}}
+{{~#if @first}}###### Members
+
+{{/if~}}
+- [{{name}}](#{{id}})
+{{/each~}}
+
+{{#unless (option "no-goup")}}
+
+## [<small><small><small>⬆ Top</small></small></small>]{{noop~}}
+(#{{#if memberof}}{{memberof}}{{else}}table-of-contents{{/if}})
+
+{{/unless~}}
+
+{{/gEach}}

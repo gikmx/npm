@@ -1,7 +1,7 @@
 {
     "name": "@gik/npm",
-    "version": "0.0.31",
-    "description": "GIK's take on NPM scripts.",
+    "version": "0.1.0",
+    "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
     "contributors": [
@@ -22,6 +22,10 @@
     "bugs": {
         "url": "https://github.com/gikmx/npm/issues"
     },
+    "os": [
+        "linux",
+        "darwin"
+    ],
     "engines": {
         "node": ">=6.11.3",
         "npm": ">=5.4.2"
@@ -39,47 +43,47 @@
         "command:lint": "eslint",
         "command:test": "ava",
         "command:covr": "nyc",
-        "ver:beta": "./lib/bin.js version prerelease",
-        "ver:commit": "./lib/bin.js version patch",
-        "test:covr": "./lib/bin.js test coverage",
-        "lint:docs": "./lib/bin.js docs lint",
-        "lint:test": "./lib/bin.js lint test",
-        "lint:code": "./lib/bin.js lint src",
-        "build:cli": "rm -Rvf ./lib && babel -d ./lib ./src && chmod +x ./lib/bin.js",
-        "build:gik": "./lib/bin.js build && chmod +x ./lib/bin.js",
-        "lint": "npm run lint:code -s && npm run lint:docs -s",
-        "docs": "npm run lint:docs -s && ./lib/bin.js docs",
-        "test": "npm run lint:test -s && ./lib/bin.js test",
-        "build": "npm run lint:code -s && (npm run build:gik -s || npm run build:cli -s || exit 1)",
-        "precommit": "npm run build -s && npm run ver:commit -s && npm run docs -s",
-        "pub:beta": "npm run build -s && npm run ver:beta -s && npm publish --tag beta",
-        "pub:release": "npm run build -s && npm publish --tag latest",
-        "start": "nodemon -e js,json -w ./src -x 'for x in `echo \"build\" \"${RUN[@]}\"`; do npm run \"$x\" -s || exit 1; done'"
+        "command:babel": "rm -Rf ./lib && babel -d ./lib ./src && chmod +x ./lib/bin.js",
+        "ver": "./lib/bin.js version",
+        "coverage": "./lib/bin.js test coverage",
+        "lint": "./lib/bin.js lint",
+        "docs": "./lib/bin.js docs",
+        "build": "(./lib/bin.js build || npm run command:babel -s || exit 1) && chmod +x ./lib/bin.js",
+        "test": "npm run build -s && npm run lint src",
+        ":start": "nodemon -V -e js,json -w $npm_package_directories_src -w $npm_package_directories_test",
+        "start": "npm run :start -s -- -x",
+        "precommit": "npm test -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
+        "pub:beta": "npm test -s && npm publish --tag beta",
+        "pub:release": "npm test -s && npm publish --tag latest"
     },
     "peerDependencies": {},
     "dependencies": {
+        "@gik/tools-streamer": "0.0.5",
         "ava": "^0.22.0",
-        "babel-core": "^6.26.0",
-        "babel-preset-env": "^1.6.0",
-        "babel-preset-stage-0": "^6.24.1",
-        "babel-register": "^6.26.0",
+        "babel-cli": "^7.0.0-beta.3",
+        "babel-core": "^7.0.0-beta.3",
+        "babel-plugin-syntax-dynamic-import": "^7.0.0-beta.3",
+        "babel-polyfill": "^7.0.0-beta.3",
+        "babel-preset-env": "^7.0.0-beta.3",
+        "babel-preset-stage-2": "^7.0.0-beta.3",
+        "babel-register": "^7.0.0-beta.3",
         "chalk": "^2.1.0",
         "debug": "^3.1.0",
-        "deepmerge": "^1.5.2",
-        "documentation": "^5.3.2",
+        "deepmerge": "^2.0.0",
         "eslint": "^4.8.0",
+        "handlebars": "^4.0.11",
         "husky": "^0.14.3",
-        "mustache": "^2.3.0",
+        "jsdoc-babel": "^0.3.0",
+        "jsdoc-to-markdown": "^3.0.0",
         "nodegit": "^0.20.2",
         "npm": "^5.4.2",
         "nyc": "^11.2.1",
         "read-package-json": "^2.0.12",
-        "rxjs": "^5.4.3",
-        "shelljs": "^0.7.8"
+        "shelljs": "^0.7.8",
+        "source-map-support": "^0.5.0"
     },
     "devDependencies": {
-        "@gik/eslint-config-node": "0.0.1",
-        "babel-cli": "^6.26.0",
+        "@gik/eslint-config-node": "0.0.2",
         "nodemon": "^1.12.1"
     },
     "ava": {

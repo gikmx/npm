@@ -1,0 +1,15 @@
+{
+    "sourceType": "module",
+    "recurseDepth": 10,
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "plugins": [
+        "node_modules/jsdoc-babel"
+    ]
+}

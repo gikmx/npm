@@ -1,16 +1,34 @@
 #!/usr/bin/env node
-
+import 'source-map-support/register';
 import PATH from 'path';
+import { $ } from '@gik/tools-streamer';
 import Out from './out';
-import { $ } from './tools';
 
 /**
- * The binary that controls which script is going to be run.
- * @module gik-npm
- * @param {string} script - The script you wish to run. It accepts an optional parameters,
- * just send them separated by spaces.
+ * @namespace gik-npm
+ * @description Centralizes and automates the managment of projects based on EcmaScript.
  *
- * @example <caption>`package.json`</caption>
+ * [create-react-app](https://github.com/facebookincubator/create-react-app) inspired us
+ * to build this tool, it made our life way easier and so we decided to apply the same
+ * principle to our workflow: A single place where to put all the configurationi and
+ * automation for our projects in EcmaScript (meaning Node, Cycle, Webpack, React, etc.)
+ *
+ * ###### Installation
+ * Nothing special, just like every other tool in your arsenal, install as development
+ * dependency and you're good to go.
+ *
+ * ```bash
+ * npm install --save-dev @gik/npm
+ * ```
+ * ###### Setup
+ * Just add a reference to the "binary" `gik-npm` and pass the needed arguments according
+ * to the task you wish to execute.
+ *
+ * @param {string} script - One of the [Scripts](#gik-npm.Scripts) available.
+ * @param {...string} [param] - Each script has it own set of optional arguments, check
+ * [their section](#gik-npm.Scripts) for more information.
+ *
+ * @example @lang js <caption>package.json</caption>
  * {
  *     "scripts": {
  *         "build": "gik-npm build",
@@ -41,4 +59,6 @@ $
 
 /**
  * @namespace Scripts
+ * @memberof gik-npm
+ * @description The tasks available to run against your project.
  */

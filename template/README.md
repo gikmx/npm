@@ -1,9 +1,12 @@
 # [{{{name}}}]({{{homepage}}}) *{{{version}}}*
 > {{{description}}}
 
-## Contributors
-{{#contributors}}
-* [{{{name}}}](mailto:{{{email}}}) [{{{url}}}]({{{url}}})
-{{/contributors}}
+##### Contributors
+{{#each contributors}}
+- [{{{name}}}](mailto:{{{email}}}) [{{{url}}}]({{{url}}})
+{{/each}}
 
-# Usage
+##### Supported platforms
+{{#each os}}
+- {{{this}}}
+{{/each}}
