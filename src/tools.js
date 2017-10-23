@@ -13,8 +13,8 @@ import Package from '../package.json';
  */
 
 /**
- * Makes debugging a little bit prettier.
  * @memberof gik-npm.Tools
+ * @description Makes debugging a little bit prettier.
  * @param {string} context - An identifier to pass on to debug.
  * @see https://github.com/visionmedia/debug
  * @private
@@ -44,15 +44,16 @@ const debug = Debug([
 ].join(':'));
 
 /**
- * An interface to [shelljs](https://github.com/shelljs/shelljs) to "attempt" to run
- * CLI commands in any OS.
+ * @memberof gik-npm.Tools
+ * @description Join interface to [shelljs](https://github.com/shelljs/shelljs) to
+ * attempt to run CLI commands in any OS.
  *
  * @param {string} command - a command to run on the OS,
- * @param {Object} [config]
- * @param {Boolean} [config.silent=true] - Wether the output should be silenced.
+ * @param {Object} [config] - the configuration options available.
+ * @param {boolean} [config.silent=true] - Wether the output should be silenced.
  *                                         (only valid for 'exec')
+ * @param {Object} [shell] - the library to use.
  * @returns {Observable.<Array>} - An array containing both stderr and stdout.
- * @memberof gik-npm.Tools
  * @private
  */
 export const $fromShell = function $fromShell(command, config = {}, shell = Shell) {

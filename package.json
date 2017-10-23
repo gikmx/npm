@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.0",
+    "version": "0.1.0-beta.1",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -77,13 +77,13 @@
         "jsdoc-to-markdown": "^3.0.0",
         "nodegit": "^0.20.2",
         "npm": "^5.4.2",
-        "nyc": "^11.2.1",
+        "nyc": "^11.3.0",
         "read-package-json": "^2.0.12",
         "shelljs": "^0.7.8",
         "source-map-support": "^0.5.0"
     },
     "devDependencies": {
-        "@gik/eslint-config-node": "0.0.2",
+        "@gik/eslint-config-node": "0.0.3",
         "nodemon": "^1.12.1"
     },
     "ava": {

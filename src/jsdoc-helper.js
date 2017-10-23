@@ -8,7 +8,7 @@
  * @memberof gik-npm.Scripts.docs.helper
  * @description Returns the names of all the  nodes available in current context.
  * @param {Object} context - A context object to iterate.
- * @returns {string[]}
+ * @returns {string[]} - An array containing the availale types.
  */
 function typeNames(context) {
     return context
@@ -21,7 +21,7 @@ function typeNames(context) {
  * @description Returns jsdoc nodes of given type.
  * @param {Array} types - An array contaning the types you wish to filter in.
  * @param {Object} context - The context object to iterate.
- * @returns {Object[]}
+ * @returns {Object[]} - An array of nodes.
  */
 function typeNodes(types, context) {
     return types
@@ -38,7 +38,7 @@ function typeNodes(types, context) {
  * @memberof gik-npm.Scripts.docs.helper
  * @description Generates an index according to node inheritance.
  * @param {Object} node - The node to analyze.
- * @return {string[]} - The node's inheritance index.
+ * @returns {string[]} - The node's inheritance index.
  */
 function nodeIndex(node) {
     let index;
@@ -67,7 +67,7 @@ function nodeIndex(node) {
  * @memberof gik-npm.Scripts.docs.helper
  * @description Converts an inheritance index array to a more readable object.
  * @param {Object} node - The node containing the inheritance index.
- * @returns {npm.docs.helper.ParsedIndex}
+ * @returns {npm.docs.helper.ParsedIndex} - An object containing info about the index.
  */
 function nodeParseIndex(node) {
     return {

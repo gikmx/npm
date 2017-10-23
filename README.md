@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.0*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.1*
 > Scripts for your EcmaScript workflow.
 
 ##### Contributors
@@ -389,23 +389,23 @@ the default behaviour.
         <td>Options for the babel transpiler.</td>
     </tr><tr>
         <td>`[babel.babelrc]`</td>
-        <td>[Boolean]()</td>
+        <td>[boolean]()</td>
         <td>Read .babelrc found in context? **Default `true`**</td>
     </tr><tr>
         <td>`[babel.comments]`</td>
-        <td>[Boolean]()</td>
+        <td>[boolean]()</td>
         <td>Include comments?</td>
     </tr><tr>
         <td>`[babel.compact]`</td>
-        <td>[Boolean]()</td>
+        <td>[boolean]()</td>
         <td>Remove unneeded spaces?</td>
     </tr><tr>
         <td>`[babel.minified]`</td>
-        <td>[Boolean]()</td>
+        <td>[boolean]()</td>
         <td>Minify the number of characters? **Default `true`**</td>
     </tr><tr>
         <td>`[babel.sourceMaps]`</td>
-        <td>[Boolean]()</td>
+        <td>[boolean]()</td>
         <td>Wether to include sourcemaps or not.
 `true` would output the sourcemap as external file. `false` omits it, and `"inline"`
  puts the contents of the sourcemaps on the same file as the code. **Default `inline`**</td>

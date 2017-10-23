@@ -98,9 +98,9 @@ export const Defaults = {
 export { Package };
 
 /**
- * A parsed version of package.json.
  * @memberof gik-npm.Configuration
- * @return {Observable} - Resolves to an object containing the parsed package.json.
+ * @description A parsed version of package.json.
+ * @returns {Observable} - Resolves to an object containing the parsed package.json.
  * @private
  */
 export function $fromConfig() {

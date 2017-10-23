@@ -33,7 +33,7 @@ JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
  * @property {string} [configure=root/.jsdocrc] - An example of the base configuration is
  * shown below.
  *
- * @TODO Write documentation about how to customize the template and the available helpers.
+ * @todo Write documentation about how to customize the template and the available helpers.
  */
 export default function Docs() {
 
