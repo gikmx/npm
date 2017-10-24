@@ -72,29 +72,41 @@ export default function Docs() {
             });
         });
 
-    const header$ = config$.switchMap(config => $
-        .fromFileRead(PATH.join(PATH.resolve(config.directories.template), filename)),
-    );
+    const header$ = config$
+        // verify if the user has created a template and used,or fallback to base.
+        .switchMap(config => $
+            .fromAccess(PATH.join(PATH.resolve(config.directories.template), filename))
+            .switchMap(path => path
+                ? $.of(path)
+                : $.fromAccess(PATH.join(Path.template, filename)),
+            )
+            .switchMap((path) => {
+                if (!path) throw new Error(`${filename} template could not be found.`);
+                return $.fromFileRead(path);
+            }),
+        );
 
-    // .map(content => Mustache(content, config)),
-    return $
+    const output$ = $
         .combineLatest(body$, header$, config$)
         // Compile using HandleBars static instance set by jsdoc-to-markdown
         // NOTE: every helper registered with jsdoc-to-markdown will be available
         .map(([body, header, config]) => HandleBars.compile(`${header}\n${body}`)(config))
-        .switchMap(content => $.fromFileWrite(PATH.join(Path.root, filename), content))
-        .mapTo(PATH.join('.', filename))
-        .switchMap(path => $
-            .from(Git.Repository.open(Path.cwd))
-            .switchMap(repo => $
-                .from(repo.index())
-                .switchMap(index => $
-                    .from(index.addByPath(path))
-                    .mapTo(index),
-                )
-                .switchMap(index => $.from(index.write())),
+        .switchMap(content => $.fromFileWrite(PATH.join(Path.cwd, filename), content));
+
+    const add2repo = path => $
+        .from(Git.Repository.open(Path.cwd))
+        .switchMap(repo => $
+            .from(repo.index())
+            .switchMap(index => $
+                .from(index.addByPath(path))
+                .mapTo(index),
             )
-            .mapTo(`Docs generated on ${path} and added to Git`),
+            .switchMap(index => $.from(index.write())),
         )
+        .mapTo(`Docs generated on ${path} and added to Git`);
+
+    return output$
+        .mapTo(PATH.join('.', filename))
+        .switchMap(add2repo)
         .subscribe(Out.good, Out.bad);
 }
