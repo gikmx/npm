@@ -6,36 +6,6 @@
 
 /**
  * @memberof gik-npm.Scripts.docs.helper
- * @description Returns the names of all the  nodes available in current context.
- * @param {Object} context - A context object to iterate.
- * @returns {string[]} - An array containing the availale types.
- */
-function typeNames(context) {
-    return context
-        .map(node => node.kind)
-        .filter((kind, i, arr) => arr.indexOf(kind) === i);
-}
-
-/**
- * @memberof gik-npm.Scripts.docs.helper
- * @description Returns jsdoc nodes of given type.
- * @param {Array} types - An array contaning the types you wish to filter in.
- * @param {Object} context - The context object to iterate.
- * @returns {Object[]} - An array of nodes.
- */
-function typeNodes(types, context) {
-    return types
-        .map(kind => context
-            .filter(node => node.kind === kind)
-            .reduce((acc, cur) =>
-                ({ [kind]: Array.isArray(acc[kind]) ? acc[kind].concat(cur) : [cur] }),
-            {}),
-        )
-        .reduce((acc, cur) => Object.assign(acc, cur), {});
-}
-
-/**
- * @memberof gik-npm.Scripts.docs.helper
  * @description Generates an index according to node inheritance.
  * @param {Object} node - The node to analyze.
  * @returns {string[]} - The node's inheritance index.
@@ -80,12 +50,12 @@ function nodeParseIndex(node) {
 /**
  * @memberof gik-npm.Scripts.docs.helper
  * @description Returns all the memebers in given context, ordered by inheritance.
- * @param {Object} context - The context to work against.
+ * @param {number} level - The maximum index level to return.
  * @returns {Object[]} - An ordered array containing indexed nodes.
  */
-function members(context) {
-    const nodes = [];
-    context
+function gMembers(level = null) {
+    let nodes = [];
+    this
         .map((node) => {
             node.index = nodeIndex(node);
             return Object.assign(node, nodeParseIndex(node));
@@ -119,7 +89,7 @@ function members(context) {
                     parent: null,
                     children: [],
                 });
-                return nodes.unshift(node);
+                return nodes.push(node);
             }
             node.parent = nodes[parentIndex];
             if (node.parent.access) node.access = node.parent.access;
@@ -127,40 +97,31 @@ function members(context) {
                 node.parent.children = [node];
             // make sure the children is not there already
             else if (node.parent.children.map(child => child.id).indexOf(node.id) === -1)
-                node.parent.children.unshift(node);
+                node.parent.children.push(node);
             // parent found,  append it.
-            return nodes.splice(parentIndex + 1, 0, node);
+            const offset = parentIndex + (node.parent.children.length || 1);
+            return nodes.splice(offset, 0, node);
         });
+    if (level) nodes = nodes.filter(node => node.index.length <= parseInt(level, 10));
     return nodes;
 }
 
 function gEach(...args) {
-    let index = 0;
+    if (args.length !== 1) throw new Error('gEach: invalid number of arguments.');
     const options = args.pop();
-    const privEnabled = args.shift();
-    return members(this).reduce((output, node, i, arr) => {
-        if (!privEnabled) {
-            if (node.access === 'private') return output;
-            // node can have children that are private. filter them out.
-            if (node.children)
-                node.children = node.children.filter(n => n.access !== 'private');
-        }
-        const first = index === 0;
-        const last = index === arr.length - 1;
-        let level = Array(node.index.length);
-        if (level.length > 5) level = Array(5);
-        output += options.fn(node, {
-            data: {
-                ...options.data,
-                first,
-                last,
+    const { priv } = options.hash;
+
+    let nodes = this;
+    if (!priv) nodes = nodes.filter(node => node.access !== 'private');
+    return nodes
+        .reduce((acc, node, index, arr) => (acc += options.fn(node, { // eslint-disable-line
+            data: Object.assign(options.data, {
                 index,
-                level,
-            },
-        });
-        index++;
-        return output;
-    }, '');
+                first: index === 0,
+                last: index === (arr.length - 1),
+                level: Array(node.index.length - 1),
+            }),
+        })), '');
 }
 
 function gExamples(...args) {
@@ -218,11 +179,10 @@ module.exports = {
     gExamples,
     gEach,
     gSummary,
-    typeNames,
-    typeNodes,
+    gMembers,
     or,
     and,
     not,
     nop,
-    newline
+    newline,
 };

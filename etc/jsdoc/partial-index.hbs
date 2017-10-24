@@ -1,0 +1,17 @@
+{{~#gEach priv=(option "private")}}
+
+    {{~#each @level}}  {{/each}}
+    {{~noop}}- **[{{{name}}}](#{{id}})**
+    {{~#unless (or (equal kind 'namespace') (equal kind 'module'))}}
+        {{~noop}} `{{{kind}}}`
+    {{~/unless~}}
+    {{~#if description}}
+        {{~noop}} {{{gSummary description}}}
+    {{~/if}}
+    {{~newline}}
+
+    {{~#with children}}
+        {{~>partial-index}}
+    {{~/with}}
+
+{{~/gEach}}

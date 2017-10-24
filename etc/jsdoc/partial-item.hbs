@@ -1,0 +1,161 @@
+{{~#gEach priv=(option "private")}}
+
+    {{~#if name}}
+        {{~noop}}#{{#each @level}}#{{/each}}
+        {{~noop}} <a name="{{id}}"></a> {{{name}}}
+        {{~newline}}
+    {{~/if}}
+
+
+    {{~#unless (equal kind "namespace")}}
+        {{~#if scope}}
+            {{~#if (equal kind "event")}}
+                {{~noop}}> Event emitted
+                {{#if memberof}} by `{{memberof}}`{{~/if}}
+            {{~else}}
+                {{~noop}}>
+                {{~#if access}} {{{access}}} {{/if}}
+                {{~noop}} {{scope}}
+                {{~#if virtual}} abstract {{else}} {{/if}}
+                {{~noop}} {{kindInThisContext}}
+                {{~#if memberof}} of [`{{memberof}}`](#{{memberof}}){{/if}}
+            {{~/if}}
+            {{~newline}}
+            {{~newline}}
+        {{~else}}
+            {{~#if isExported}}
+                {{~noop}}> Exported {{kind}}
+                {{~newline}}
+                {{~newline}}
+            {{~/if}}
+            {{~#if memberof}}>
+                {{~noop}}>
+                {{~#if access}} {{{access}}} {{/if}}
+                {{~noop}} {{kind}} of [`{{memberof}}`](#{{memberof}})
+                {{~newline}}
+                {{~newline}}
+            {{~/if}}
+        {{~/if}}
+    {{~/unless}}
+
+
+    {{~#if description}}
+        {{~newline}}
+        {{~{description}}}
+        {{~newline}}
+        {{~newline}}
+    {{~/if}}
+
+
+    {{~#if params}}
+        {{~noop}}###### Parameters
+        {{~newline}}
+        {{~#with params}}{{>partial-table}}{{/with}}
+        {{~newline}}
+    {{~/if}}
+
+
+    {{~#if properties}}
+        {{~noop}}###### Properties
+        {{~newline}}
+        {{~#with properties}}{{>partial-table}}{{/with}}
+        {{~newline}}
+    {{~/if}}
+
+    {{#if see~}}
+        {{~noop}}###### Related
+        {{~newline}}
+        {{~#each see}}
+            {{~noop}}- {{{inlineLinks this}}}
+        {{~/each~}}
+        {{~newline}}
+    {{~/if}}
+
+    {{~#if returns}}
+        {{~noop}}###### Returns
+        {{~newline}}
+        {{~#with returns.[0]}}
+            {{~#if (and type type.names)}}
+                {{~#each type.names}}
+                    {{~noop}} [`{{{this}}}`](#{{{this}}})
+                {{~/each}}
+            {{~/if}}
+            {{~#if description}}
+                {{~noop}} <span style="font-weight:normal"> {{{description}}}</span>
+            {{~/if~}}
+            {{~newline}}
+        {{~/with~}}
+    {{~/if~}}
+
+
+    {{~#if exceptions}}
+        {{~noop}}###### Throws
+        {{~newline}}
+        {{~#each exceptions~}}
+            {{~noop}}-
+            {{~#if type.names}}{{#each type.names}}
+                {{~noop}} `{{{this}}}`
+            {{~/each}}{{/if}}
+            {{~#if description}} {{{description}}} {{~/if}}
+            {{~newline}}
+        {{~/each}}
+        {{~newline}}
+    {{~/if}}
+
+    {{~>category}}
+    {{~>summary}}
+    {{~>augments}}
+    {{~>implements}}
+    {{~>mixes}}
+    {{~>default}}
+    {{~>chainable}}
+    {{~>overrides}}
+    {{~>this}}
+
+    {{~#if examples}}
+        {{~#gExamples}}
+            {{~noop}}###### Example {{#if caption}}`{{{caption}}}`{{/if}}
+            {{~newline}}
+            {{~#if example}}{{{example}}}{{/if}}
+            {{~newline}}
+        {{~/gExamples~}}
+    {{~/if}}
+
+
+    {{~#if todoList~}}
+        {{~noop}}###### To do
+        {{~newline}}
+        {{~#each todoList~}}
+            {{~#if done}}- [x] {{{task}}}
+            {{~else}}- [ ] {{{task}}}
+            {{~/if~}}
+            {{~newline}}
+        {{~/each~}}
+        {{~newline}}
+    {{/if}}
+
+
+    {{~#with children}}
+        {{~#gEach priv=(option "private")}}
+            {{~#if @first}}
+                {{~noop}}###### Members
+                {{~newline}}
+            {{/if~}}
+            {{~noop}}- [{{name}}](#{{id}})
+            {{~newline}}
+        {{~/gEach}}
+    {{~/with}}
+
+    {{~newline}}
+    {{~noop}}<small>**[▲ Top](#{{#if memberof}}{{memberof}}{{else}}table-of-contents{{/if}})**</small>
+    {{~newline}}
+    {{~newline}}
+    {{~noop}}---
+    {{~newline}}
+    {{~newline}}
+
+    {{~#with children}}
+        {{~>partial-item}}
+    {{~/with}}
+
+{{~/gEach}}
