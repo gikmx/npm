@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.0-beta.6",
+    "version": "0.1.0",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -45,16 +45,17 @@
         "command:covr": "nyc",
         "command:babel": "rm -Rf ./lib && babel -d ./lib ./src && chmod +x ./lib/bin.js",
         "ver": "./lib/bin.js version",
-        "coverage": "./lib/bin.js test coverage",
+        "test:coverage": "./lib/bin.js test coverage",
+        "test": "./lib/bin.js test",
         "lint": "./lib/bin.js lint",
         "docs": "./lib/bin.js docs",
         "build": "(./lib/bin.js build || npm run command:babel -s || exit 1) && chmod +x ./lib/bin.js",
-        "test": "npm run build -s && npm run lint src",
-        ":start": "nodemon -V -e js,json -w $npm_package_directories_src -w $npm_package_directories_test",
+        "verify": "npm run lint src -s && npm run build -s",
+        ":start": "nodemon -V $(printenv | grep -E '^npm_package_directories' | grep -vE '^npm_package_directories_out' | cut -d'=' -f2 | xargs -I {} printf '-w %s ' {})",
         "start": "npm run :start -s -- -x",
-        "precommit": "npm test -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
-        "pub:beta": "npm test -s && npm publish --tag beta",
-        "pub:release": "npm test -s && npm publish --tag latest"
+        "precommit": "npm run verify -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
+        "pub:beta": "npm run verify -s && npm publish --tag beta",
+        "pub:latest": "npm run verify -s && npm publish --tag latest"
     },
     "peerDependencies": {},
     "dependencies": {
