@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.0-beta.1",
+    "version": "0.1.0-beta.2",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -92,6 +92,11 @@
         ],
         "babel": {
             "extends": "./.babelrc"
+        }
+    },
+    "@gik/npm": {
+        "jsdoc": {
+            "private": false
         }
     }
 }

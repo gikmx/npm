@@ -208,6 +208,12 @@ function not(...args) {
     return !args[0];
 }
 
+const newline = () => '\n';
+
+const nop = markup => markup
+    .replace(/^\s*<p>/, '')
+    .replace(/<\/p>\s*$/, '');
+
 module.exports = {
     gExamples,
     gEach,
@@ -217,4 +223,6 @@ module.exports = {
     or,
     and,
     not,
+    nop,
+    newline
 };

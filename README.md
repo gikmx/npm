@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.1*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.0-beta.2*
 > Scripts for your EcmaScript workflow.
 
 ##### Contributors
@@ -9,7 +9,6 @@
 - darwin
 
 #### <a name="table-of-contents"></a> Table of contents
-
   - **[gik-npm](#gik-npm)** Centralizes and automates the managment of projects based on EcmaScript.
     - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
     - **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
@@ -19,10 +18,8 @@
       - **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
       - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
 
----
 
 ## <a name="gik-npm"></a> gik-npm
-
 
 Centralizes and automates the managment of projects based on EcmaScript.
 
@@ -43,25 +40,21 @@ Just add a reference to the "binary" `gik-npm` and pass the needed arguments acc
 to the task you wish to execute.
 
 ###### Parameters
-
 <table>
     <tr>
-        <td>`script`</td>
-        <td>[string]()</td>
-        <td>One of the [Scripts](#gik-npm.Scripts) available.</td>
+        <td><code style="white-space:nowrap;">script</code></td>
+        <td><a href="#string">string</a></td>
+        <td>One of the <a href="#gik-npm.Scripts">Scripts</a> available.</td>
     </tr><tr>
-        <td>`[…param]`</td>
-        <td>[string]()</td>
+        <td><code style="white-space:nowrap;">[…param]</code></td>
+        <td><a href="#string">string</a></td>
         <td>Each script has it own set of optional arguments, check
-[their section](#gik-npm.Scripts) for more information.</td>
+<a href="#gik-npm.Scripts">their section</a> for more information.</td>
     </tr>
 </table>
 
 
-
-
 ###### Example `package.json`
-
 ```js
 {
     "scripts": {
@@ -75,51 +68,48 @@ to the task you wish to execute.
 - [Configuration](#gik-npm.Configuration)
 - [Scripts](#gik-npm.Scripts)
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 ### <a name="gik-npm.Configuration"></a> Configuration
 
-
 The default settings that control the behaviour of the scripts.
 
-
 ###### Properties
-
 <table>
     <tr>
-        <td>`directories`</td>
-        <td>[Object]()</td>
+        <td><code style="white-space:nowrap;">directories</code></td>
+        <td><a href="#Object">Object</a></td>
         <td>Lets NPM know where are some directories.
 This has the added benefit of letting you use this assign environment variables
 Either on your project or in their scripts object.</td>
     </tr><tr>
-        <td>`[directories.src]`</td>
-        <td>[string]()</td>
-        <td>The path for the source files. **Default `./src`**</td>
+        <td><code style="white-space:nowrap;">[directories.src]</code></td>
+        <td><a href="#string">string</a></td>
+        <td>The path for the source files. <b>Default <code>./src</code></b></td>
     </tr><tr>
-        <td>`[directories.out]`</td>
-        <td>[string]()</td>
-        <td>The path for the transpiled files. **Default `./lib`**</td>
+        <td><code style="white-space:nowrap;">[directories.out]</code></td>
+        <td><a href="#string">string</a></td>
+        <td>The path for the transpiled files. <b>Default <code>./lib</code></b></td>
     </tr><tr>
-        <td>`[directories.test]`</td>
-        <td>[string]()</td>
-        <td>The path for the test files. **Default `./test`**</td>
+        <td><code style="white-space:nowrap;">[directories.test]</code></td>
+        <td><a href="#string">string</a></td>
+        <td>The path for the test files. <b>Default <code>./test</code></b></td>
     </tr><tr>
-        <td>`[directories.template]`</td>
-        <td>[string]()</td>
-        <td>The path for the template files. **Default `./template`**</td>
+        <td><code style="white-space:nowrap;">[directories.template]</code></td>
+        <td><a href="#string">string</a></td>
+        <td>The path for the template files. <b>Default <code>./template</code></b></td>
     </tr><tr>
-        <td>`@gik/npm`</td>
-        <td>[Object]()</td>
+        <td><code style="white-space:nowrap;">@gik/npm</code></td>
+        <td><a href="#Object">Object</a></td>
         <td>The container for the script-specific options. Check
-[their section](#gik-npm.Scripts) for more information.</td>
+<a href="#gik-npm.Scripts">their section</a> for more information.</td>
     </tr>
 </table>
 
 
-
 ###### Example `package.json`
-
 ```js
 {
     "directories": {
@@ -136,14 +126,13 @@ Either on your project or in their scripts object.</td>
 }
 ```
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 ### <a name="gik-npm.Scripts"></a> Scripts
 
-
 The tasks available to run against your project.
-
-
 
 
 ###### Members
@@ -154,10 +143,11 @@ The tasks available to run against your project.
 - [docs](#gik-npm.Scripts.docs)
 - [build](#gik-npm.Scripts.build)
 
-## [<small><small><small>⬆ Top</small></small></small>](#gik-npm)
+<small>**[▲ Top](#gik-npm)**</small>
+
+---
 
 #### <a name="gik-npm.Scripts.version"></a> version
-
 
 Automates the versioning of your project using **semver**.
 internally uses `npm version` (avoiding tagging) and after modifying `package.json`
@@ -175,20 +165,16 @@ making the change available on that commit automatically.
   - `0.0.0-beta.0 -> 0.0.0-beta.1`
 
 ###### Parameters
-
 <table>
     <tr>
-        <td>`[type]`</td>
-        <td>[string]()</td>
-        <td>One of the valid semver version names. **Default `patch`**</td>
+        <td><code style="white-space:nowrap;">[type]</code></td>
+        <td><a href="#string">string</a></td>
+        <td>One of the valid semver version names. <b>Default <code>patch</code></b></td>
     </tr>
 </table>
 
 
-
-
 ###### Example `packge.json`
-
 ```js
 {
     "scripts": {
@@ -198,10 +184,11 @@ making the change available on that commit automatically.
 }
 ```
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 #### <a name="gik-npm.Scripts.test"></a> test
-
 
 Runs all test found in the `$npm_package_directories_test` directory.
 It uses internally [AVA](https://github.com/avajs/ava) as test runner, and
@@ -217,20 +204,16 @@ transpiled, instead they're run using `babel-register`.
     - `lcov` Outputs the last report using lcov instead.
 
 ###### Parameters
-
 <table>
     <tr>
-        <td>`[…task]`</td>
-        <td>[string]()</td>
+        <td><code style="white-space:nowrap;">[…task]</code></td>
+        <td><a href="#string">string</a></td>
         <td>One on the subactions.</td>
     </tr>
 </table>
 
 
-
-
 ###### Example `package.json`
-
 ```js
 {
     "directories": {
@@ -243,10 +226,11 @@ transpiled, instead they're run using `babel-register`.
 }
 ```
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 #### <a name="gik-npm.Scripts.lint"></a> lint
-
 
 Validates the code complies with certain rules.
 It's recommended that you install one of the flavours of
@@ -254,20 +238,16 @@ It's recommended that you install one of the flavours of
 it will be as easy as to include an `.eslintrc` file extending the module.
 
 ###### Parameters
-
 <table>
     <tr>
-        <td>`[target]`</td>
-        <td>[string]() | [Array]()</td>
-        <td>The target directory to lint. **Default `src`**</td>
+        <td><code style="white-space:nowrap;">[target]</code></td>
+        <td><a href="#string">string</a> | <a href="#Array">Array</a></td>
+        <td>The target directory to lint. <b>Default <code>src</code></b></td>
     </tr>
 </table>
 
 
-
-
 ###### Example `package.json`
-
 ```js
 {
     "directories": {
@@ -282,17 +262,17 @@ it will be as easy as to include an `.eslintrc` file extending the module.
 }
 ```
 ###### Example `.eslintrc`
-
 ```js
 {
     "extends": "@gik/node" // Same as the module but without "eslint-config"
 }
 ```
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 #### <a name="gik-npm.Scripts.docs"></a> docs
-
 
 Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
 The template used for the documentation is customised, you can see how it looks here,
@@ -300,6 +280,7 @@ since this very documentation was generated by it. This is why even though this 
 uses js-to-markdown several of their configuration propertes are not available due to
 the heavy customisation it was done to its original template. Howevet the followin
 ARE avaialble.
+
 ###### Default `jsdoc.json` config
 ```javascript
 {
@@ -320,41 +301,40 @@ ARE avaialble.
 
 ````
 
-
 ###### Properties
-
 <table>
     <tr>
-        <td>`jsdoc`</td>
-        <td>[Object]()</td>
+        <td><code style="white-space:nowrap;">jsdoc</code></td>
+        <td><a href="#Object">Object</a></td>
         <td>Options for the documentation generator.</td>
     </tr><tr>
-        <td>`[jsdoc.template]`</td>
-        <td>[string]()</td>
+        <td><code style="white-space:nowrap;">[jsdoc.template]</code></td>
+        <td><a href="#string">string</a></td>
         <td>The location of documentation
-template. **Default `./template/README.md`**</td>
+template. <b>Default <code>./template/README.md</code></b></td>
     </tr><tr>
-        <td>`[private]`</td>
-        <td>[boolean]()</td>
+        <td><code style="white-space:nowrap;">[private]</code></td>
+        <td><a href="#boolean">boolean</a></td>
         <td>Wether to show private members or not.</td>
     </tr><tr>
-        <td>`[configure]`</td>
-        <td>[string]()</td>
+        <td><code style="white-space:nowrap;">[configure]</code></td>
+        <td><a href="#string">string</a></td>
         <td>An example of the base configuration is
-shown below. **Default `root/.jsdocrc`**</td>
+shown below. <b>Default <code>root/.jsdocrc</code></b></td>
     </tr>
 </table>
 
 
-
-###### ToDo
-
+###### To do
 - [ ] Write documentation about how to customize the template and the available helpers.
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+
+
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
 
 #### <a name="gik-npm.Scripts.build"></a> build
-
 
 Transpiles the current project using **babel**.
 
@@ -379,48 +359,47 @@ Transpiles the current project using **babel**.
 The following `package.json` properties are available to you in case you wish to modify
 the default behaviour.
 
-
 ###### Properties
-
 <table>
     <tr>
-        <td>`babel`</td>
-        <td>[Object]()</td>
+        <td><code style="white-space:nowrap;">babel</code></td>
+        <td><a href="#Object">Object</a></td>
         <td>Options for the babel transpiler.</td>
     </tr><tr>
-        <td>`[babel.babelrc]`</td>
-        <td>[boolean]()</td>
-        <td>Read .babelrc found in context? **Default `true`**</td>
+        <td><code style="white-space:nowrap;">[babel.babelrc]</code></td>
+        <td><a href="#boolean">boolean</a></td>
+        <td>Read .babelrc found in context? <b>Default <code>true</code></b></td>
     </tr><tr>
-        <td>`[babel.comments]`</td>
-        <td>[boolean]()</td>
+        <td><code style="white-space:nowrap;">[babel.comments]</code></td>
+        <td><a href="#boolean">boolean</a></td>
         <td>Include comments?</td>
     </tr><tr>
-        <td>`[babel.compact]`</td>
-        <td>[boolean]()</td>
+        <td><code style="white-space:nowrap;">[babel.compact]</code></td>
+        <td><a href="#boolean">boolean</a></td>
         <td>Remove unneeded spaces?</td>
     </tr><tr>
-        <td>`[babel.minified]`</td>
-        <td>[boolean]()</td>
-        <td>Minify the number of characters? **Default `true`**</td>
+        <td><code style="white-space:nowrap;">[babel.minified]</code></td>
+        <td><a href="#boolean">boolean</a></td>
+        <td>Minify the number of characters? <b>Default <code>true</code></b></td>
     </tr><tr>
-        <td>`[babel.sourceMaps]`</td>
-        <td>[boolean]()</td>
+        <td><code style="white-space:nowrap;">[babel.sourceMaps]</code></td>
+        <td><a href="#boolean">boolean</a></td>
         <td>Wether to include sourcemaps or not.
-`true` would output the sourcemap as external file. `false` omits it, and `"inline"`
- puts the contents of the sourcemaps on the same file as the code. **Default `inline`**</td>
+<code>true</code> would output the sourcemap as external file. <code>false</code> omits it, and <code>&quot;inline&quot;</code>
+ puts the contents of the sourcemaps on the same file as the code. <b>Default <code>inline</code></b></td>
     </tr><tr>
-        <td>`[babel.extends]`</td>
-        <td>[string]()</td>
+        <td><code style="white-space:nowrap;">[babel.extends]</code></td>
+        <td><a href="#string">string</a></td>
         <td>The base .babelrc to extend from. The base file is
 shown below. but your can specify your own path. Remember that if you put a file on
-your own folder, it would be taked into account. granted the `babel.babelrc` property
-is set to `true`.</td>
+your own folder, it would be taked into account. granted the <code>babel.babelrc</code> property
+is set to <code>true</code>.</td>
     </tr>
 </table>
 
 
 
+<small>**[▲ Top](#table-of-contents)**</small>
 
-## [<small><small><small>⬆ Top</small></small></small>](#table-of-contents)
+---
 

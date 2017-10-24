@@ -21,6 +21,7 @@ JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
  * uses js-to-markdown several of their configuration propertes are not available due to
  * the heavy customisation it was done to its original template. Howevet the followin
  * ARE avaialble.
+ *
  * ###### Default `jsdoc.json` config
  * ```javascript
  * <<<file:root/.jsdocrc>>>

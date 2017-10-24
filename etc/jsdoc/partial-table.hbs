@@ -1,0 +1,20 @@
+<table>
+    {{#tableRow this "name" "type" "defaultvalue" "description" ~}}<tr>
+        {{#if @col1~}}<td><code style="white-space:nowrap;">
+            {{~#if optional~}} [ {{~/if~}}
+            {{~#if variable~}} … {{~/if~}}
+            {{~{name}~}}
+            {{~#if optional~}} ] {{~/if~}}
+        </code></td>{{~/if}}
+        {{#if @col2~}}<td>
+            {{~#each type.names~}}
+                <a href="#{{this}}">{{{this}}}</a>
+                {{~#unless @last}} | {{/unless~}}
+            {{~/each~}}
+        </td>{{~/if}}
+        {{#if @col4}}<td>
+            {{~{nop (md description)}~}}
+            {{~#if defaultvalue}} <b>Default <code>{{{defaultvalue}}}</code></b>{{/if~}}
+        </td>{{/if}}
+    </tr>{{~/tableRow}}
+</table>
