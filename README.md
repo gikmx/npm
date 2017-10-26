@@ -9,7 +9,6 @@
 - darwin
 
 #### <a name="table-of-contents"></a> Table of contents
-- **[$fromScriptStart](#$fromScriptStart)** `function` A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
 - **[gik-npm](#gik-npm)** Centralizes and automates the managment of projects based on EcmaScript.
   - **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
     - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
@@ -19,64 +18,6 @@
     - **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
   - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
 
-
-# <a name="$fromScriptStart"></a> $fromScriptStart
-> global  function
-
-
-A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
-
-Below are the default properties that are being sent to the `nodemon` binary.
-
-###### Parameters
-<table>
-    <tr>
-        <td style="white-space: nowrap;">
-            <code>exec</code>
-        </td>
-        <td style="white-space: nowrap;">
-                <a href="#string">string</a>
-        </td>
-        <td>The command to run whenever changes are found.</td>
-    </tr>
-</table>
-
-###### Properties
-<table>
-    <tr>
-        <td style="white-space: nowrap;">
-            <code>[verbose]</code>
-        </td>
-        <td style="white-space: nowrap;">
-                <a href="#boolean">boolean</a>
-        </td>
-        <td>Show details of what&#39;s happening. <b>Default <code>true</code></b></td>
-    </tr><tr>
-        <td style="white-space: nowrap;">
-            <code>[ext]</code>
-        </td>
-        <td style="white-space: nowrap;">
-                <a href="#string">string</a>
-        </td>
-        <td>The extensions that triggers changes. <b>Default <code>js json</code></b></td>
-    </tr><tr>
-        <td style="white-space: nowrap;">
-            <code>[watch]</code>
-        </td>
-        <td style="white-space: nowrap;">
-                <a href="#Array">Array</a>
-        </td>
-        <td>The directories to monitor. <b>Default <code>[...$npm_package_directories]</code></b></td>
-    </tr>
-</table>
-
-
-###### Related
-- https://github.com/remy/nodemon#config-files
-
-<small>**[▲ Top](#table-of-contents)**</small>
-
----
 
 # <a name="gik-npm"></a> gik-npm
 

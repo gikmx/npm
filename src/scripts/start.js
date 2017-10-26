@@ -3,6 +3,8 @@ import { $ } from '@gik/tools-streamer';
 import { Package, $fromConfig } from '../config';
 
 /**
+ * @module start
+ * @memberof gik-npm.Scripts
  * A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
  *
  * Below are the default properties that are being sent to the `nodemon` binary.
