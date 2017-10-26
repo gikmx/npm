@@ -48,6 +48,10 @@ export const Defaults = {
         template: './template',
     },
     [Package.name]: {
+        nodemon: {
+            ext: 'js json',
+            verbose: true,
+        },
         jest: {
             projects: [Path.cwd],
             rootDir: Path.cwd,

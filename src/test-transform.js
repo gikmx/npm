@@ -6,6 +6,7 @@ const config = ConfigSync()[Package.name].babel;
 /**
  * @alias transformer
  * @memberof gik-npm.Scripts.test
+ * @private
  * @description Normally Jest uses its own transformer `jest-babel`, but for some reason
  * it's not working with the current configuration. So a simple transpiling is being done
  * with the same mechanisms used for the [build](#gik-npm.Scripts.build) script.

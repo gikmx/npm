@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -35,26 +35,21 @@
     },
     "directories": {
         "src": "./src",
-        "out": "./lib",
-        "test": "./test"
+        "out": "./lib"
     },
     "scripts": {
-        "command:docs": "documentation",
         "command:lint": "eslint",
-        "command:test": "ava",
-        "command:covr": "nyc",
         "command:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
         "ver": "./lib/bin.js version",
         "test": "./lib/bin.js test && chmod +x ./lib/bin.js",
         "lint": "./lib/bin.js lint",
         "docs": "./lib/bin.js docs",
+        "start": "npm run command:babel -s && ./lib/bin.js start",
         "build": "npm run command:babel -s && ./lib/bin.js build && chmod +x ./lib/bin.js",
         "verify": "npm run build -s && npm run lint src -s && npm run test -s",
-        ":start": "nodemon -V $(printenv | grep -E '^npm_package_directories' | grep -vE '^npm_package_directories_out' | cut -d'=' -f2 | xargs -I {} printf '-w %s ' {})",
-        "start": "npm run :start -s -- -x",
         "precommit": "npm run verify -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
         "pub:beta": "npm run verify -s && npm run docs -s && npm publish --tag beta",
-        "pub:latest": "npm run verify -s && npm rund docs -s && npm publish --tag latest"
+        "pub:latest": "npm run verify -s && npm run docs -s && npm publish --tag latest"
     },
     "peerDependencies": {},
     "dependencies": {
@@ -80,14 +75,14 @@
         "npm": "^5.4.2",
         "read-package-json": "^2.0.12",
         "shelljs": "^0.7.8",
-        "source-map-support": "^0.5.0"
-    },
-    "devDependencies": {
-        "@gik/eslint-config-node": "0.0.3",
+        "source-map-support": "^0.5.0",
         "nodemon": "^1.12.1"
     },
+    "devDependencies": {
+        "@gik/eslint-config-node": "0.0.3"
+    },
     "jest": {
-        "verbose": true
+        "verbose": false
     },
     "@gik/npm": {
         "jsdoc": {
