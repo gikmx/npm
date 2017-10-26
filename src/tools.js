@@ -1,10 +1,8 @@
-import PATH from 'path';
 import { inspect as INSPECT } from 'util';
 import { $ } from '@gik/tools-streamer';
 import Shell from 'shelljs';
 import Chalk from 'chalk';
 import Logger from 'debug';
-import Package from '../package.json';
 
 /**
  * @module Tools
@@ -38,11 +36,6 @@ export function Debug(context) {
     };
 }
 
-const debug = Debug([
-    Package.name,
-    PATH.basename(__filename, PATH.extname(__filename)),
-].join(':'));
-
 /**
  * @memberof gik-npm.Tools
  * @description Join interface to [shelljs](https://github.com/shelljs/shelljs) to
@@ -57,7 +50,6 @@ const debug = Debug([
  * @private
  */
 export const $fromShell = function $fromShell(command, config = {}, shell = Shell) {
-    debug('$fromShell:ini', command);
     const args = command.split(/\s/g);
     const cmd = args.shift().toLowerCase();
     let cmd$;
@@ -73,7 +65,7 @@ export const $fromShell = function $fromShell(command, config = {}, shell = Shel
 
     // sync commands (almost all shelljs is sync)
     else cmd$ = $.of(shell[cmd](...args)).mapTo(true);
-    return cmd$.do(stdout => debug('$fromShell:end', command, stdout));
+    return cmd$;
 };
 
 export default { Debug, $fromShell };

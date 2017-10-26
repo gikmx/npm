@@ -2,7 +2,6 @@ import PATH from 'path';
 import Npm from 'npm';
 import Git from 'nodegit';
 import { $ } from '@gik/tools-streamer';
-import Out from '../out';
 
 const CWD = process.cwd();
 
@@ -26,6 +25,9 @@ const CWD = process.cwd();
  *
  * @param {string} [type=patch] - One of the valid semver version names.
  *
+ * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * in order to execute it.
+ *
  * @example @lang js <caption>packge.json</caption>
  * {
  *     "scripts": {
@@ -34,7 +36,7 @@ const CWD = process.cwd();
  *     }
  * }
  */
-export default function Version(type = 'patch') {
+export default function $fromScriptVersion(type = 'patch') {
 
     const $fromIndexAdd = (index, file) => $
         .fromAccess(PATH.join(CWD, file))
@@ -87,5 +89,8 @@ export default function Version(type = 'patch') {
     return gitCheck$
         .isEmpty()
         .switchMap(empty => empty ? version$ : version$.switchMapTo(gitStage$))
-        .subscribe(Out.good, Out.error);
+        .map(message => ({
+            status: 0,
+            message,
+        }));
 }

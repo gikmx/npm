@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -43,24 +43,22 @@
         "command:lint": "eslint",
         "command:test": "ava",
         "command:covr": "nyc",
-        "command:babel": "rm -Rf ./lib && babel -d ./lib ./src && chmod +x ./lib/bin.js",
+        "command:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
         "ver": "./lib/bin.js version",
-        "test:coverage": "./lib/bin.js test coverage",
-        "test": "./lib/bin.js test",
+        "test": "./lib/bin.js test && chmod +x ./lib/bin.js",
         "lint": "./lib/bin.js lint",
         "docs": "./lib/bin.js docs",
-        "build": "(./lib/bin.js build || npm run command:babel -s || exit 1) && chmod +x ./lib/bin.js",
-        "verify": "npm run lint src -s && npm run build -s",
+        "build": "npm run command:babel -s && ./lib/bin.js build && chmod +x ./lib/bin.js",
+        "verify": "npm run build -s && npm run lint src -s && npm run test -s",
         ":start": "nodemon -V $(printenv | grep -E '^npm_package_directories' | grep -vE '^npm_package_directories_out' | cut -d'=' -f2 | xargs -I {} printf '-w %s ' {})",
         "start": "npm run :start -s -- -x",
         "precommit": "npm run verify -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
-        "pub:beta": "npm run verify -s && npm publish --tag beta",
-        "pub:latest": "npm run verify -s && npm publish --tag latest"
+        "pub:beta": "npm run verify -s && npm run docs -s && npm publish --tag beta",
+        "pub:latest": "npm run verify -s && npm rund docs -s && npm publish --tag latest"
     },
     "peerDependencies": {},
     "dependencies": {
-        "@gik/tools-streamer": "0.0.6",
-        "ava": "^0.22.0",
+        "@gik/tools-streamer": "0.0.7",
         "babel-cli": "^7.0.0-beta.3",
         "babel-core": "^7.0.0-beta.3",
         "babel-plugin-syntax-dynamic-import": "^7.0.0-beta.3",
@@ -74,11 +72,12 @@
         "eslint": "^4.8.0",
         "handlebars": "^4.0.11",
         "husky": "^0.14.3",
+        "jest": "^21.3.0-beta.4",
+        "jest-cli": "^21.2.1",
         "jsdoc-babel": "^0.3.0",
         "jsdoc-to-markdown": "^3.0.0",
         "nodegit": "^0.20.2",
         "npm": "^5.4.2",
-        "nyc": "^11.3.0",
         "read-package-json": "^2.0.12",
         "shelljs": "^0.7.8",
         "source-map-support": "^0.5.0"
@@ -87,13 +86,8 @@
         "@gik/eslint-config-node": "0.0.3",
         "nodemon": "^1.12.1"
     },
-    "ava": {
-        "require": [
-            "babel-register"
-        ],
-        "babel": {
-            "extends": "./.babelrc"
-        }
+    "jest": {
+        "verbose": true
     },
     "@gik/npm": {
         "jsdoc": {

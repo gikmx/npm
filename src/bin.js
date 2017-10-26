@@ -43,22 +43,31 @@ $
         pwd: PATH.resolve(PATH.join(__dirname, 'scripts')),
     })
     // Determine if the given script exists and requires it. Throws error if it doesn't.
-    .mergeMap(function determineAccess({ args, pwd }) {
+    .mergeMap(({ args, pwd }) => {
         const script = args.shift();
         const path = PATH.join(pwd, script + PATH.extname(__filename));
         return $
             .fromStat(path)
             .catch(() => $.of(false))
-            .map(function scriptStat(stat) {
+            .switchMap(function scriptStat(stat) {
                 if (!stat || !stat.isFile()) throw new Error(`Invalid script "${script}"`);
-                return require(path).default(...args);
-            })
-            .mapTo(`Running "${script}(${args.join(',')})"`);
+                const observable = require(path).default(...args);
+                Out.warn(`Running "${script}(${args.join(',')})"`);
+                return observable;
+            });
     })
-    .subscribe(Out.warn, Out.error);
+    .map(({ status, message }) => {
+        if (status === 1) throw new Error(message);
+        return message;
+    })
+    // actually run the program.
+    .subscribe(Out.warn, Out.error, () => Out.good('Done.'));
 
 /**
  * @namespace Scripts
  * @memberof gik-npm
  * @description The tasks available to run against your project.
+ *
+ * @todo all: Add typedef for error codes and Observables.
+ * @todo Add documentation about how to customize the template and the available helpers.
  */

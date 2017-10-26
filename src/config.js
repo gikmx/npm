@@ -23,7 +23,6 @@ const debug = Debug([
  * Either on your project or in their scripts object.
  * @property {string} [directories.src=./src] - The path for the source files.
  * @property {string} [directories.out=./lib] - The path for the transpiled files.
- * @property {string} [directories.test=./test] - The path for the test files.
  * @property {string} [directories.template=./template] - The path for the template files.
  * @property {Object} @gik/npm - The container for the script-specific options. Check
  * [their section](#gik-npm.Scripts) for more information.
@@ -32,8 +31,7 @@ const debug = Debug([
  * {
  *     "directories": {
  *          "src": "./src",
- *          "out": "./lib",
- *          "test": "./test",
+ *          "out": "./lib"
  *      },
  *     "scripts": {
  *          "example": "your-script $npm_package_directories_src"
@@ -47,10 +45,14 @@ export const Defaults = {
     directories: {
         src: './src',
         out: './lib',
-        test: './test',
         template: './template',
     },
     [Package.name]: {
+        jest: {
+            projects: [Path.cwd],
+            rootDir: Path.cwd,
+            config: PATH.join(Path.root, '.jest.js'),
+        },
         babel: {
             ast: true,
             babelrc: true,
@@ -112,8 +114,20 @@ export function $fromConfig() {
         .map(config => DeepMerge(Defaults, config));
 }
 
+/**
+ * @memberof gik-npm.Configuration
+ * description An unparsed (but sync) version of package.json merged with defaults.
+ * @returns {Object} - The deep merge result of child project's package.json and defaults.
+ * @private
+ */
+export function ConfigSync() {
+    const config = require(PATH.join(Path.cwd, 'package.json'));
+    return DeepMerge(Defaults, config);
+}
+
 export default {
     Defaults,
     Package,
     $fromConfig,
+    ConfigSync,
 };

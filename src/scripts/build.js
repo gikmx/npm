@@ -2,7 +2,6 @@ import PATH from 'path';
 import { transformFile as Transpile } from 'babel-core';
 import { $, Subject } from '@gik/tools-streamer';
 import { $fromShell } from '../tools';
-import Out from '../out';
 import { $fromConfig, Package } from '../config';
 
 process.env.NODE_ENV = 'production';
@@ -10,7 +9,6 @@ process.env.NODE_ENV = 'production';
 /**
  * @module build
  * @memberof gik-npm.Scripts
- * @type {script}
  * @description Transpiles the current project using **babel**.
  *
  * ###### Base (.babelrc)`
@@ -32,8 +30,11 @@ process.env.NODE_ENV = 'production';
  * shown below. but your can specify your own path. Remember that if you put a file on
  * your own folder, it would be taked into account. granted the `babel.babelrc` property
  * is set to `true`.
+ *
+ * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * in order to execute it.
  */
-export default function Build() {
+export default function $fromScriptBuild() {
 
     // Converts the config$ into a hot observable, so it only runs once.
     const subject = new Subject();
@@ -81,9 +82,8 @@ export default function Build() {
             .mapTo(path.replace(process.cwd(), '.')),
         )
         .filter(p => !p.match(/\.map$/))
-        .subscribe(
-            Out.info,
-            Out.error,
-            () => Out.good('Built.'),
-        );
+        .map(path => ({
+            status: 0,
+            message: path,
+        }));
 }

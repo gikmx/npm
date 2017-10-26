@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.0*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.1*
 > Scripts for your EcmaScript workflow.
 
 ##### Contributors
@@ -14,9 +14,12 @@
     - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
     - **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
     - **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
-    - **[test](#gik-npm.Scripts.test)** Runs all test found in the `$npm_package_directories_test` directory.
+    - **[test](#gik-npm.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
+      - **[transformer](#gik-npm.Scripts.test.transformer)** `function` Normally Jest uses its own transformer `jest-babel`, but for some reason
     - **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
   - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
+
+
 # <a name="gik-npm"></a> gik-npm
 
 Centralizes and automates the managment of projects based on EcmaScript.
@@ -83,6 +86,11 @@ to the task you wish to execute.
 The tasks available to run against your project.
 
 
+###### To do
+- [ ] all: Add typedef for error codes and Observables.
+- [ ] Add documentation about how to customize the template and the available helpers.
+
+
 ###### Members
 
 - [build](#gik-npm.Scripts.build)
@@ -104,10 +112,12 @@ Transpiles the current project using **babel**.
 {
     "presets": [
         ["env", {
-            "target": {
-                "node": ">=6.11.0"
+            "targets": {
+                "node": "current"
             },
-            "useBuiltIns": "usage"
+            "modules": "commonjs",
+            "useBuiltIns": "usage",
+            "loose": false
         }],
         "stage-2"
     ],
@@ -187,6 +197,9 @@ is set to <code>true</code>.</td>
 </table>
 
 
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
@@ -261,10 +274,9 @@ shown below. <b>Default <code>root/.jsdocrc</code></b></td>
 </table>
 
 
-###### To do
-- [ ] Write documentation about how to customize the template and the available helpers.
-
-
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
@@ -292,6 +304,9 @@ it will be as easy as to include an `.eslintrc` file extending the module.
 </table>
 
 
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
 ###### Example `package.json`
 ```js
 {
@@ -319,47 +334,114 @@ it will be as easy as to include an `.eslintrc` file extending the module.
 
 ### <a name="gik-npm.Scripts.test"></a> test
 
-Runs all test found in the `$npm_package_directories_test` directory.
-It uses internally [AVA](https://github.com/avajs/ava) as test runner, and
-[nyc](https://github.com/istanbuljs/nyc) for coverage reports. Everything is configured
-with the same [configuration](#gik-npm.Scripts.build.configuration) as the
-[`build`](#gik-npm.Scripts.build) script with the difference that files aren't
-transpiled, instead they're run using `babel-register`.
+Runs unit tests using [Jest](http://github.com/facebook/jest).
+This script makes no assumptions for the jest configurations, it just transpiles the
+test files using the same configuration as the [build](#gik-npm.Scripts.build) script
+and uses Jest's defaults. Below is the configuration file used by the script.
 
-###### Availabe subcommands
-- `cover` Generates coverage report after tests.
-  - `check` Verifies if coverage passes threshold. (uses `.nycrc` on `test` dir)
-  - `report` Outputs the last report.
-    - `lcov` Outputs the last report using lcov instead.
+###### Default configuration `.jest.js`
+```javascript
+const PATH = require('path');
 
-###### Parameters
+process.env.DEBUG = '';
+
+module.exports = {
+    verbose: false,
+    testMatch: ['**/__tests__/**/*.js?(x)'], // only files inside the __tests__ folder
+    transform: {
+        '^.+\\.jsx?$': PATH.join(__dirname, 'lib', 'test-transform'),
+    },
+};
+
+
+```
+
+you can customize the arguments sent to the `jest` cli interface by changing the
+following properties on `package.json`.
+
+###### Properties
 <table>
     <tr>
         <td style="white-space: nowrap;">
-            <code>[…task]</code>
+            <code>[projects]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#Array">Array</a>
+        </td>
+        <td>The projects to test. <b>Default <code>path/to/your/project</code></b></td>
+    </tr><tr>
+        <td style="white-space: nowrap;">
+            <code>[rootDir]</code>
         </td>
         <td style="white-space: nowrap;">
                 <a href="#string">string</a>
         </td>
-        <td>One on the subactions.</td>
+        <td>Just will run on this context. <b>Default <code>path/to/your/project</code></b></td>
+    </tr><tr>
+        <td style="white-space: nowrap;">
+            <code>[config]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#string">string</a>
+        </td>
+        <td>Use this file to customize further. <b>Default <code>path/to/default/config</code></b></td>
     </tr>
 </table>
 
 
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
 ###### Example `package.json`
 ```js
 {
-    "directories": {
-        "test": "./test"
-    },
+    "@gik/npm": {
+         "jest": {
+              "config": "path/to/your/config",
+         }
+     }
     "scripts": {
         "test": "gik-npm test", // runs test on all files on "./test"
         "test:cover": "gik-npm test cover", // runs test and generates coverage report
     }
 }
 ```
+###### Members
+
+- [transformer](#gik-npm.Scripts.test.transformer)
 
 <small>**[▲ Top](#table-of-contents)**</small>
+
+---
+
+#### <a name="gik-npm.Scripts.test.transformer"></a> transformer
+> static  method of [`gik-npm.Scripts.test`](#gik-npm.Scripts.test)
+
+
+Normally Jest uses its own transformer `jest-babel`, but for some reason
+it's not working with the current configuration. So a simple transpiling is being done
+with the same mechanisms used for the [build](#gik-npm.Scripts.build) script.
+
+###### Parameters
+<table>
+    <tr>
+        <td style="white-space: nowrap;">
+            <code>code</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#string">string</a>
+        </td>
+        <td><a href="https://github.com/facebook/jest">Jest</a> sends each
+file contents in this string.</td>
+    </tr>
+</table>
+
+
+###### Returns
+ [`string`](#string) <span style="font-weight:normal"> - the transpiled code using [build](#gik-npm.Scripts.build)'s babel
+configuration.</span>
+
+<small>**[▲ Top](#gik-npm.Scripts.test)**</small>
 
 ---
 
@@ -394,6 +476,9 @@ making the change available on that commit automatically.
 </table>
 
 
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
 ###### Example `packge.json`
 ```js
 {
@@ -442,14 +527,6 @@ Either on your project or in their scripts object.</td>
         <td>The path for the transpiled files. <b>Default <code>./lib</code></b></td>
     </tr><tr>
         <td style="white-space: nowrap;">
-            <code>[directories.test]</code>
-        </td>
-        <td style="white-space: nowrap;">
-                <a href="#string">string</a>
-        </td>
-        <td>The path for the test files. <b>Default <code>./test</code></b></td>
-    </tr><tr>
-        <td style="white-space: nowrap;">
             <code>[directories.template]</code>
         </td>
         <td style="white-space: nowrap;">
@@ -474,8 +551,7 @@ Either on your project or in their scripts object.</td>
 {
     "directories": {
          "src": "./src",
-         "out": "./lib",
-         "test": "./test",
+         "out": "./lib"
      },
     "scripts": {
          "example": "your-script $npm_package_directories_src"

@@ -1,10 +1,12 @@
 {
     "presets": [
         ["env", {
-            "target": {
-                "node": ">=6.11.0"
+            "targets": {
+                "node": "current"
             },
-            "useBuiltIns": "usage"
+            "modules": "commonjs",
+            "useBuiltIns": "usage",
+            "loose": false
         }],
         "stage-2"
     ],

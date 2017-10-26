@@ -4,7 +4,6 @@ import HandleBars from 'handlebars';
 import Git from 'nodegit';
 import JSDoc2Md from 'jsdoc-to-markdown';
 import { $, Subject } from '@gik/tools-streamer';
-import Out from '../out';
 import Path from '../path';
 import { $fromConfig, Package } from '../config';
 
@@ -34,9 +33,11 @@ JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
  * @property {string} [configure=root/.jsdocrc] - An example of the base configuration is
  * shown below.
  *
- * @todo Write documentation about how to customize the template and the available helpers.
+ * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * in order to execute it.
+ *
  */
-export default function Docs() {
+export default function $fromScriptDocs() {
 
     const filename = 'README.md';
 
@@ -101,12 +102,15 @@ export default function Docs() {
                 .from(index.addByPath(path))
                 .mapTo(index),
             )
-            .switchMap(index => $.from(index.write())),
-        )
-        .mapTo(`Docs generated on ${path} and added to Git`);
+            .switchMap(index => $.from(index.write()))
+            .mapTo(path),
+        );
 
     return output$
         .mapTo(PATH.join('.', filename))
         .switchMap(add2repo)
-        .subscribe(Out.good, Out.bad);
+        .map(path => ({
+            status: 0,
+            message: `Docs generated on ${path} and added to Git`,
+        }));
 }
