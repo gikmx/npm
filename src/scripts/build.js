@@ -1,7 +1,11 @@
+// Native
 import PATH from 'path';
+// NPM
 import { transformFile as Transpile } from 'babel-core';
 import { $, Subject } from '@gik/tools-streamer';
-import { $fromShell } from '../tools';
+import RimRaf from 'rimraf';
+import MkDirP from 'mkdirp';
+// Local
 import { $fromConfig, Package } from '../config';
 
 process.env.NODE_ENV = 'production';
@@ -41,18 +45,6 @@ export default function $fromScriptBuild() {
     $fromConfig().subscribe(subject);
     const config$ = new $(observer => subject.subscribe(observer));
 
-    const src$ = config$
-        .switchMap(config => $
-            .fromDirRequire(config.directories.src)
-            .mergeMap(dir => $.fromDirReadRecursive(dir))
-            .map(node => node.path)
-            .filter(path => PATH.extname(path) === PATH.extname(__filename))
-            .mergeMap(path => $
-                .bindNodeCallback(Transpile)(path, config[Package.name].babel)
-                .map(({ code, map }) => ({ path, code, map: map ? map.mappings : null })),
-            ),
-        );
-
     const cleanup$ = config$
         .map(config => config.directories.out)
         .defaultIfEmpty([])
@@ -60,24 +52,42 @@ export default function $fromScriptBuild() {
         .switchMap(path => $.fromDirRequire(path))
         // List directory contents and delete'em.
         .mergeMap(path => $.fromDirRead(path))
-        .mergeMap(node => $fromShell(`rm -Rf ${node.path}`))
+        .mergeMap(node => $.bindNodeCallback(RimRaf)(node.path))
         // Makes sure the deletion finishes
         .toArray();
 
     return $
-        .combineLatest(cleanup$, src$, config$)
-        .concatMap(([, { code, map, path }, config]) => {
+        .combineLatest(cleanup$, config$)
+        .map(([, config]) => config)
+        .switchMap(config => $
+            .fromDirRequire(config.directories.src)
+            .mergeMap(dir => $.fromDirReadRecursive(dir))
+            .map(node => node.path)
+            .filter(path => PATH.extname(path) === PATH.extname(__filename))
+            .mergeMap(path => $
+                .bindNodeCallback(Transpile)(path, config[Package.name].babel)
+                .map(({ code, map }) => ({
+                    config,
+                    path,
+                    code,
+                    map: map ? map.mappings : null,
+                })),
+            ),
+        )
+        .concatMap(({ config, path, code, map }) => { // eslint-disable-line
             const dest = path.replace(
                 PATH.resolve(config.directories.src),
                 PATH.resolve(config.directories.out),
             );
-            return $fromShell(`mkdir -p ${PATH.dirname(dest)}`).concatMapTo([
-                { path: dest, content: code || '' },
-                !map ? null : { path: `${dest}.map`, content: map },
-            ]);
+            return $
+                .bindNodeCallback(MkDirP)(PATH.dirname(dest))
+                .concatMapTo([
+                    { path: dest, content: code || '' },
+                    !map ? null : { path: `${dest}.map`, content: map },
+                ]);
         })
         .filter(Boolean)
-        .mergeMap(({ path, content }) => $
+        .concatMap(({ path, content }) => $
             .fromFileWrite(path, content)
             .mapTo(path.replace(process.cwd(), '.')),
         )

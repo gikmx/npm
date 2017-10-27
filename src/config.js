@@ -5,12 +5,6 @@ import ReadPackage from 'read-package-json';
 import { $ } from '@gik/tools-streamer';
 import Package from '../package.json';
 import Path from './path';
-import { Debug } from './tools';
-
-const debug = Debug([
-    Package.name,
-    PATH.basename(__filename, PATH.extname(__filename)),
-].join(':'));
 
 /**
  * @module Configuration
@@ -111,10 +105,8 @@ export { Package };
  */
 export function $fromConfig() {
     const path = PATH.join(Path.cwd, 'package.json');
-    debug('$fromConfig:ini', path);
-    const log = debug.bind(debug, '$fromConfig:end');
     return $
-        .bindNodeCallback(ReadPackage)(path, log, false)
+        .bindNodeCallback(ReadPackage)(path, process.stderr.write, false)
         .map(config => DeepMerge(Defaults, config));
 }
 
