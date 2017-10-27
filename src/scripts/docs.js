@@ -1,9 +1,13 @@
+// Native
 import PATH from 'path';
 import FS from 'fs';
+// NPM
 import HandleBars from 'handlebars';
 import Git from 'nodegit';
+import Tmp from 'tmp';
 import JSDoc2Md from 'jsdoc-to-markdown';
 import { $, Subject } from '@gik/tools-streamer';
+// Local
 import Path from '../path';
 import { $fromConfig, Package } from '../config';
 
@@ -55,11 +59,29 @@ export default function $fromScriptDocs() {
             .fromFileRead(config.template)
             .map(template => ({ ...config, template })),
         )
-        .map((config) => {
+        // Apply fixes (cof cof hacks)
+        .switchMap((config) => {
             // for some reason if the private config comes as false, babel breaks.
             // so it's either true  or undefined.
             config.private = !!config.private || undefined;
-            return config;
+            // jsdocrc specifies a "node_modules" path that only works relative to its
+            // location. This is a problem because when using this on other projects
+            // the location for the plugins will change. Normally this would be easily
+            // fixed by using .jsdoc.js file and determining the path dynamically, but
+            // js-to-markdown breaks when given a non-json file. So, to fix this we alter
+            // the contents dinamically, store them on a tmpfile and use that instead.
+            const tmpname$ = $.bindNodeCallback(Tmp.tmpName)();
+            const jsdocrc$ = $
+                .fromFileRead(config.configure)
+                .map(contents => contents
+                    .replace(/node_modules/g, PATH.join(Path.cwd, 'node_modules')),
+                );
+            return $
+                .combineLatest(tmpname$, jsdocrc$)
+                .switchMap(([path, content]) => $
+                    .fromFileWrite(path, content)
+                    .mapTo({ ...config, configure: path }),
+                );
         })
         .switchMap(config => $.fromPromise(JSDoc2Md.render(config)))
         // convert raw handlebars blocks back no normal, so the seconf pass can process'em
