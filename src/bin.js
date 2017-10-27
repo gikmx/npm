@@ -68,6 +68,5 @@ $
  * @memberof gik-npm
  * @description The tasks available to run against your project.
  *
- * @todo all: Add typedef for error codes and Observables.
- * @todo Add documentation about how to customize the template and the available helpers.
+ * @todo Add typedef for error codes and Observables.
  */

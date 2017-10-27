@@ -1,6 +1,8 @@
+import PATH from 'path';
 import { $ } from '@gik/tools-streamer';
 import { runCLI as Jest } from 'jest-cli';
 import { Package, $fromConfig } from '../config';
+import Path from '../path';
 
 /**
  * @module test
@@ -44,11 +46,11 @@ export default function $fromScriptTest() {
         .switchMap((config) => {
             if (!Array.isArray(config.projects))
                 throw new Error('Expecting a projects array');
-            // process.env.NODE_PATH = [
-            //     process.env.NODE_PATH,
-            //     Path.node_modules,
-            //     PATH.join(Path.cwd, 'node_modules'),
-            // ].join(':');
+            process.env.NODE_PATH = [
+                process.env.NODE_PATH,
+                Path.node_modules,
+                PATH.join(Path.cwd, 'node_modules'),
+            ].join(':');
             return $.fromPromise(Jest(config, config.projects));
         })
         .map(jest => ({

@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.4*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.5*
 > Scripts for your EcmaScript workflow.
 
 ##### Contributors
@@ -14,6 +14,7 @@
     - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
     - **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
     - **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
+    - **[start](#gik-npm.Scripts.start)** A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
     - **[test](#gik-npm.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
     - **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
   - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
@@ -86,8 +87,7 @@ The tasks available to run against your project.
 
 
 ###### To do
-- [ ] all: Add typedef for error codes and Observables.
-- [ ] Add documentation about how to customize the template and the available helpers.
+- [ ] Add typedef for error codes and Observables.
 
 
 ###### Members
@@ -95,6 +95,7 @@ The tasks available to run against your project.
 - [build](#gik-npm.Scripts.build)
 - [docs](#gik-npm.Scripts.docs)
 - [lint](#gik-npm.Scripts.lint)
+- [start](#gik-npm.Scripts.start)
 - [test](#gik-npm.Scripts.test)
 - [version](#gik-npm.Scripts.version)
 
@@ -112,7 +113,7 @@ Transpiles the current project using **babel**.
     "presets": [
         ["env", {
             "targets": {
-                "node": "current"
+                "node": "6.11"
             },
             "modules": "commonjs",
             "useBuiltIns": "usage",
@@ -276,6 +277,10 @@ shown below. <b>Default <code>root/.jsdocrc</code></b></td>
 ###### Returns
  [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
 in order to execute it.</span>
+###### To do
+- [ ] Add documentation about how to customize the template and the available helpers.
+
+
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
@@ -331,6 +336,65 @@ in order to execute it.</span>
 
 ---
 
+### <a name="gik-npm.Scripts.start"></a> start
+
+A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
+
+Below are the default properties that are being sent to the `nodemon` binary.
+
+###### Parameters
+<table>
+    <tr>
+        <td style="white-space: nowrap;">
+            <code>exec</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#string">string</a>
+        </td>
+        <td>The command to run whenever changes are found.</td>
+    </tr>
+</table>
+
+###### Properties
+<table>
+    <tr>
+        <td style="white-space: nowrap;">
+            <code>[verbose]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#boolean">boolean</a>
+        </td>
+        <td>Show details of what&#39;s happening. <b>Default <code>true</code></b></td>
+    </tr><tr>
+        <td style="white-space: nowrap;">
+            <code>[ext]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#string">string</a>
+        </td>
+        <td>The extensions that triggers changes. <b>Default <code>js json</code></b></td>
+    </tr><tr>
+        <td style="white-space: nowrap;">
+            <code>[watch]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#Array">Array</a>
+        </td>
+        <td>The directories to monitor. <b>Default <code>[...$npm_package_directories]</code></b></td>
+    </tr>
+</table>
+
+
+###### Related
+- https://github.com/remy/nodemon#config-files
+###### Returns
+ [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+in order to execute it.</span>
+
+<small>**[▲ Top](#table-of-contents)**</small>
+
+---
+
 ### <a name="gik-npm.Scripts.test"></a> test
 
 Runs unit tests using [Jest](http://github.com/facebook/jest).
@@ -341,8 +405,6 @@ and uses Jest's defaults. Below is the configuration file used by the script.
 ###### Default configuration `.jest.js`
 ```javascript
 const PATH = require('path');
-
-process.env.DEBUG = '';
 
 module.exports = {
     verbose: false,

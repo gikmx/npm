@@ -29,7 +29,6 @@ JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
  * ```javascript
  * <<<file:root/.jsdocrc>>>
  * ````
- *
  * @property {Object} jsdoc - Options for the documentation generator.
  * @property {string} [jsdoc.template=./template/README.md] - The location of documentation
  * template.
@@ -40,6 +39,7 @@ JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
  * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
  * in order to execute it.
  *
+ * @todo Add documentation about how to customize the template and the available helpers.
  */
 export default function $fromScriptDocs() {
 
