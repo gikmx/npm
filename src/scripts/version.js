@@ -2,8 +2,7 @@ import PATH from 'path';
 import Npm from 'npm';
 import Git from 'nodegit';
 import { $ } from '@gik/tools-streamer';
-
-const CWD = process.cwd();
+import Path from '../path';
 
 /**
  * @module version
@@ -38,6 +37,8 @@ const CWD = process.cwd();
  */
 export default function $fromScriptVersion(type = 'patch') {
 
+    const CWD = Path.cwd;
+
     const $fromIndexAdd = (index, file) => $
         .fromAccess(PATH.join(CWD, file))
         .switchMap(access => access ?
@@ -47,7 +48,7 @@ export default function $fromScriptVersion(type = 'patch') {
 
     // Checks if there are files on stage when running. (to assume a precommit)
     const gitCheck$ = $
-        .from(Git.Repository.open(CWD))
+        .from(Git.Repository.openExt(CWD, 0, '/'))
         .switchMap(repo => $
             // gets array of file status
             .from(repo.getStatus())
