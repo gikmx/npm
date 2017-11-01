@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.7",
+    "version": "0.1.8",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -56,7 +56,7 @@
         "@gik/tools-streamer": "0.0.9",
         "babel-cli": "^7.0.0-beta.3",
         "babel-core": "^7.0.0-beta.3",
-        "babel-plugin-syntax-dynamic-import": "^7.0.0-beta.3",
+        "babel-plugin-dynamic-import-node": "^1.1.0",
         "babel-polyfill": "^7.0.0-beta.3",
         "babel-preset-env": "^7.0.0-beta.3",
         "babel-preset-stage-2": "^7.0.0-beta.3",

@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.7*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.8*
 > Scripts for your EcmaScript workflow.
 
 ##### Contributors
@@ -122,7 +122,7 @@ Transpiles the current project using **babel**.
         "stage-2"
     ],
     "plugins": [
-        "syntax-dynamic-import"
+        "dynamic-import-node"
     ]
 }
 
