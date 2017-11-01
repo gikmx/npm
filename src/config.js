@@ -105,9 +105,13 @@ export { Package };
  */
 export function $fromConfig() {
     const path = PATH.join(Path.cwd, 'package.json');
-    return $
-        .bindNodeCallback(ReadPackage)(path, process.stderr.write, false)
-        .map(config => DeepMerge(Defaults, config));
+    return $.create((observer) => {
+        ReadPackage(path, null, false, (err, config) => {
+            if (err) return observer.error(err);
+            observer.next(DeepMerge(Defaults, config));
+            return observer.complete();
+        });
+    });
 }
 
 /**
