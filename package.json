@@ -34,22 +34,19 @@
         "gik-npm": "./lib/bin.js"
     },
     "directories": {
+        "test": "__tests__",
         "src": "./src",
         "out": "./lib"
     },
     "scripts": {
         "command:lint": "eslint",
         "command:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
-        "ver": "./lib/bin.js version",
-        "test": "./lib/bin.js test && chmod +x ./lib/bin.js",
-        "lint": "./lib/bin.js lint",
-        "docs": "./lib/bin.js docs",
-        "start": "npm run command:babel -s && ./lib/bin.js start",
-        "build": "npm run command:babel -s && ./lib/bin.js build && chmod +x ./lib/bin.js",
-        "verify": "npm run build -s && npm run lint src -s && npm run test -s",
-        "precommit": "npm run verify -s && npm run ver -s $([ -z $VER ] && echo patch || echo $VER) && npm run docs -s",
-        "pub:beta": "npm run verify -s && npm run docs -s && npm publish --tag beta",
-        "pub:latest": "npm run verify -s && npm run docs -s && npm publish --tag latest"
+        "build": "npm run command:babel -s && gik-npm lint src && gik-npm build && chmod +x ./lib/bin.js",
+        "test": "gik-npm lint test && gik-npm test && chmod +x ./lib/bin.js",
+        "verify": "npm run build -s && npm run test -s",
+        "start": "gik-npm start 'npm run verify -s'",
+        "pub": "npm run verify -s && gik-npm docs && npm publish --access public --tag",
+        "precommit": "npm run verify -s && gik-npm version $([ -z $VER ] && echo patch || echo $VER) && gik-npm docs"
     },
     "peerDependencies": {},
     "dependencies": {
@@ -65,7 +62,7 @@
         "eslint": "^4.8.0",
         "handlebars": "^4.0.11",
         "husky": "^0.14.3",
-        "jest": "^21.3.0-beta.4",
+        "jest": "^21.3.0-beta.6",
         "jest-cli": "^21.2.1",
         "jsdoc-babel": "^0.3.0",
         "jsdoc-to-markdown": "^3.0.0",
@@ -80,13 +77,5 @@
     },
     "devDependencies": {
         "@gik/eslint-config-node": "0.0.3"
-    },
-    "jest": {
-        "verbose": false
-    },
-    "@gik/npm": {
-        "jsdoc": {
-            "private": false
-        }
     }
 }
