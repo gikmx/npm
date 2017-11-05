@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.9",
+    "version": "0.1.10",
     "description": "Scripts for your EcmaScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
