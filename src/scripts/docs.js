@@ -53,7 +53,9 @@ export default function $fromScriptDocs() {
     const body$ = config$
         .map(config => ({
             ...config[Package.name].jsdoc,
-            files: PATH.join(PATH.resolve(config.directories.src), '**', '*.js'),
+            files: config[Package.name].jsdoc.files
+                ? config[Package.name].jsdoc.files
+                : PATH.join(PATH.resolve(config.directories.src), '**', '*.js'),
         }))
         .switchMap(config => $
             .fromFileRead(config.template)
@@ -73,9 +75,11 @@ export default function $fromScriptDocs() {
             const tmpname$ = $.bindNodeCallback(Tmp.tmpName)();
             const jsdocrc$ = $
                 .fromFileRead(config.configure)
-                .map(contents => contents
-                    .replace(/node_modules/g, PATH.join(Path.cwd, 'node_modules')),
-                );
+                .map((contents) => {
+                    let path = require.resolve('jsdoc-babel');
+                    path = path.slice(0, path.lastIndexOf('node_modules') + 12);
+                    return contents.replace(/node_modules/g, path);
+                });
             return $
                 .combineLatest(tmpname$, jsdocrc$)
                 .switchMap(([path, content]) => $
