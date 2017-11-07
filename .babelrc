@@ -5,7 +5,7 @@
                 "node": "6.11"
             },
             "modules": "commonjs",
-            "useBuiltIns": "usage",
+            "useBuiltIns": false,
             "loose": false
         }],
         "stage-2"
