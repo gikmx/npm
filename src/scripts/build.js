@@ -27,7 +27,7 @@ process.env.NODE_ENV = 'production';
  * @property {boolean} [babel.comments=false] - Include comments?
  * @property {boolean} [babel.compact=false] - Remove unneeded spaces?
  * @property {boolean} [babel.minified=true] - Minify the number of characters?
- * @property {boolean} [babel.sourceMaps=inline] - Wether to include sourcemaps or not.
+ * @property {boolean} [babel.sourceMaps=inline] - Whether to include sourcemaps or not.
  * `true` would output the sourcemap as external file. `false` omits it, and `"inline"`
  *  puts the contents of the sourcemaps on the same file as the code.
  * @property {string} [babel.extends] - The base .babelrc to extend from. The base file is

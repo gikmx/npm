@@ -6,12 +6,12 @@ import Out from './out';
 
 /**
  * @namespace gik-npm
- * @description Centralizes and automates the managment of projects based on EcmaScript.
+ * @description Centralizes and automates the management of projects based on ECMAScript.
  *
  * [create-react-app](https://github.com/facebookincubator/create-react-app) inspired us
  * to build this tool, it made our life way easier and so we decided to apply the same
- * principle to our workflow: A single place where to put all the configurationi and
- * automation for our projects in EcmaScript (meaning Node, Cycle, Webpack, React, etc.)
+ * principle to our workflow: A single place where to put all the configuration and
+ * automation for our projects in ECMAScript (meaning Node, Cycle, Webpack, React, etc.)
  *
  * ###### Installation
  * Nothing special, just like every other tool in your arsenal, install as development
