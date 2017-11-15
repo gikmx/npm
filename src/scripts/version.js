@@ -23,6 +23,7 @@ import Path from '../path';
  *   - `0.0.0-beta.0 -> 0.0.0-beta.1`
  *
  * @param {string} [type=patch] - One of the valid semver version names.
+ * @param {string} [extra=null] - Extra options. currently only "--no-add" available.
  *
  * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
  * in order to execute it.
@@ -35,7 +36,7 @@ import Path from '../path';
  *     }
  * }
  */
-export default function $fromScriptVersion(type = 'patch') {
+export default function $fromScriptVersion(type = 'patch', extra = null) {
 
     const CWD = Path.cwd;
 
@@ -87,11 +88,10 @@ export default function $fromScriptVersion(type = 'patch') {
         .mapTo('Versioned and added change to Git stage.');
 
     // If no files are in stage, just version, add to stage too otherwise.
-    return gitCheck$
+    const versionAndAdd$ = gitCheck$
         .isEmpty()
-        .switchMap(empty => empty ? version$ : version$.switchMapTo(gitStage$))
-        .map(message => ({
-            status: 0,
-            message,
-        }));
+        .switchMap(empty => empty ? version$ : version$.switchMapTo(gitStage$));
+
+    const operation$ = extra === '--no-add' ? version$ : versionAndAdd$;
+    return operation$.map(message => ({ status: 0, message }));
 }

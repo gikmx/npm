@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.12*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.13*
 > Scripts for your ECMAScript workflow.
 
 ##### Contributors
@@ -501,6 +501,14 @@ making the change available on that commit automatically.
                 <a href="#string">string</a>
         </td>
         <td>One of the valid semver version names. <b>Default <code>patch</code></b></td>
+    </tr><tr>
+        <td style="white-space: nowrap;">
+            <code>[extra]</code>
+        </td>
+        <td style="white-space: nowrap;">
+                <a href="#string">string</a>
+        </td>
+        <td>Extra options. currently only &quot;--no-add&quot; available.</td>
     </tr>
 </table>
 
