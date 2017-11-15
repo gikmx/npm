@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.11*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.12*
 > Scripts for your ECMAScript workflow.
 
 ##### Contributors

@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.11",
+    "version": "0.1.12",
     "description": "Scripts for your ECMAScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -50,22 +50,23 @@
     },
     "peerDependencies": {},
     "dependencies": {
-        "@gik/tools-streamer": "0.0.9",
+        "@babel/core": "^7.0.0-beta.32",
+        "@gik/tools-streamer": "0.0.11",
         "babel-cli": "^7.0.0-beta.3",
-        "babel-core": "^7.0.0-beta.3",
-        "babel-plugin-dynamic-import-node": "^1.1.0",
+        "babel-core": "^7.0.0-bridge.0",
+        "babel-plugin-dynamic-import-node": "^1.2.0",
         "babel-polyfill": "^7.0.0-beta.3",
         "babel-preset-env": "^7.0.0-beta.3",
         "babel-preset-stage-2": "^7.0.0-beta.3",
         "babel-register": "^7.0.0-beta.3",
         "deepmerge": "^2.0.0",
-        "eslint": "^4.8.0",
+        "eslint": "^4.11.0",
         "handlebars": "^4.0.11",
         "husky": "^0.14.3",
-        "jest": "^21.3.0-beta.6",
+        "jest": "^21.3.0-beta.8",
         "jest-cli": "^21.2.1",
         "jsdoc-babel": "^0.3.0",
-        "jsdoc-to-markdown": "^3.0.0",
+        "jsdoc-to-markdown": "3.0.0",
         "mkdirp": "^0.5.1",
         "nodegit": "^0.20.2",
         "nodemon": "^1.12.1",
@@ -76,6 +77,6 @@
         "tmp": "0.0.33"
     },
     "devDependencies": {
-        "@gik/eslint-config-node": "0.0.3"
+        "@gik/eslint-config-node": "0.0.5"
     }
 }
