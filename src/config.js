@@ -46,6 +46,10 @@ export const Defaults = {
             ext: 'js json',
             verbose: true,
         },
+        webpack: {
+            name: 'webpack',
+            config: null,
+        },
         jest: {
             projects: [Path.cwd],
             rootDir: Path.cwd,
