@@ -20,8 +20,12 @@ const $fromScriptWebpack = pathKey => $fromConfig()
         }
         const path = PATH.resolve(directories[pathKey]);
         let context = {};
-        if (Is.object(config) && !Is.objectEmpty(config))
-            context = Configurator({ ...config, path: PATH.resolve(config.path) });
+        if (Is.object(config) && !Is.objectEmpty(config)) {
+            context = Configurator({
+                ...config,
+                path: PATH.resolve(config.path),
+            });
+        }
         return [name, `${name}-${Env}`].reduce((acc, cur) => {
             const mod = require(PATH.join(path, cur));
             if (!Is.function(mod)) throw new Error(`Invalid function ${cur}`);

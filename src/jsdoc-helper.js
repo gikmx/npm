@@ -12,14 +12,14 @@
  */
 function nodeIndex(node) {
     let index;
-    if (
-        typeof node.memberof === 'string' &&
-        node.memberof.length &&
-        node.memberof.indexOf('module:') === -1
-    ) index = []
-        .concat(node.memberof, node.name);
-    else if (!node.longname.indexOf('module:') === -1) return null;
-    else index = node.longname.split('module:');
+    const { memberof, longname, name } = node;
+    if (typeof memberof === 'string' && memberof.length && memberof.indexOf('module:') === -1) {
+        index = [].concat(memberof, name);
+    } else if (!longname.indexOf('module:') === -1) {
+        return null;
+    } else {
+        index = longname.split('module:');
+    }
     return index
         .reduce((acc, cur) => acc.concat(cur.split(/[.~]/)), [])
         .filter(Boolean);
@@ -93,11 +93,12 @@ function gMembers(level = null) {
             }
             node.parent = nodes[parentIndex];
             if (node.parent.access) node.access = node.parent.access;
-            if (!Array.isArray(node.parent.children))
+            if (!Array.isArray(node.parent.children)) {
                 node.parent.children = [node];
-            // make sure the children is not there already
-            else if (node.parent.children.map(child => child.id).indexOf(node.id) === -1)
+            } else if (node.parent.children.map(child => child.id).indexOf(node.id) === -1) {
+                // make sure the children is not there already
                 node.parent.children.push(node);
+            }
             // parent found,  append it.
             const offset = parentIndex + (node.parent.children.length || 1);
             return nodes.splice(offset, 0, node);
