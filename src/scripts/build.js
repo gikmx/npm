@@ -1,12 +1,11 @@
-// Native
 import PATH from 'path';
-// NPM
-import { transformFile as Transpile } from '@babel/core';
-import { $, Subject } from '@gik/tools-streamer';
+
 import RimRaf from 'rimraf';
 import MkDirP from 'mkdirp';
-// Local
-import { $fromConfig } from '../config';
+import { transformFile as Transpile } from '@babel/core';
+import { $, Subject } from '@gik/tools-streamer';
+
+import { Package, $fromConfig } from '../config';
 
 process.env.NODE_ENV = 'production';
 
@@ -74,13 +73,16 @@ export default function $fromScriptBuild() {
                 })),
             ),
         )
-        .concatMap(({ config, path, code, map }) => { // eslint-disable-line
+        .concatMap((item) => {
+            const {
+                config, path, code, map,
+            } = item;
             const dest = path.replace(
                 PATH.resolve(config.directories.src),
                 PATH.resolve(config.directories.out),
             );
             return $
-                .bindNodeCallback(MkDirP)(PATH.dirname(dest))
+                .fromPromise(MkDirP(PATH.dirname(dest)))
                 .concatMapTo([
                     { path: dest, content: code || '' },
                     !map ? null : { path: `${dest}.map`, content: map },
