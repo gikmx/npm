@@ -4,7 +4,7 @@ import { Package, $fromConfig } from '../config';
 
 /**
  * @module start
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @description A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
  *
  * Below are the default properties that are being sent to the `nodemon` binary.
@@ -15,7 +15,7 @@ import { Package, $fromConfig } from '../config';
  *
  * @param {string} exec - The command to run whenever changes are found.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  *
  * @see https://github.com/remy/nodemon#config-files

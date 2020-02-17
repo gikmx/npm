@@ -5,7 +5,7 @@ import { $ } from '@gik/tools-streamer';
 import Out from './out';
 
 /**
- * @namespace gik-npm
+ * @namespace gik
  * @description Centralizes and automates the management of projects based on ECMAScript.
  *
  * [create-react-app](https://github.com/facebookincubator/create-react-app) inspired us
@@ -21,18 +21,18 @@ import Out from './out';
  * npm install --save-dev @gik/npm
  * ```
  * ###### Setup
- * Just add a reference to the "binary" `gik-npm` and pass the needed arguments according
+ * Just add a reference to the "binary" `gik` and pass the needed arguments according
  * to the task you wish to execute.
  *
- * @param {string} script - One of the [Scripts](#gik-npm.Scripts) available.
+ * @param {string} script - One of the [Scripts](#gik.Scripts) available.
  * @param {...string} [param] - Each script has it own set of optional arguments, check
- * [their section](#gik-npm.Scripts) for more information.
+ * [their section](#gik.Scripts) for more information.
  *
  * @example @lang js <caption>package.json</caption>
  * {
  *     "scripts": {
- *         "build": "gik-npm build",
- *         "ver": "gik-npm version patch",
+ *         "build": "gik build",
+ *         "ver": "gik version patch",
  *     }
  * }
  */
@@ -65,7 +65,7 @@ $
 
 /**
  * @namespace Scripts
- * @memberof gik-npm
+ * @memberof gik
  * @description The tasks available to run against your project.
  *
  * @todo Add typedef for error codes and Observables.

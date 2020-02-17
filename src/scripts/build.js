@@ -11,7 +11,7 @@ process.env.NODE_ENV = 'production';
 
 /**
  * @module build
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @description Transpiles the current project using **babel**.
  *
  * ###### Base (.babelrc)`
@@ -34,7 +34,7 @@ process.env.NODE_ENV = 'production';
  * your own folder, it would be taked into account. granted the `babel.babelrc` property
  * is set to `true`.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  */
 export default function $fromScriptBuild() {

@@ -8,7 +8,7 @@ import Path from './path';
 
 /**
  * @module Configuration
- * @memberof gik-npm
+ * @memberof gik
  * @description
  * The default settings that control the behaviour of the scripts.
  *
@@ -19,7 +19,7 @@ import Path from './path';
  * @property {string} [directories.out=./lib] - The path for the transpiled files.
  * @property {string} [directories.template=./template] - The path for the template files.
  * @property {Object} @gik/npm - The container for the script-specific options. Check
- * [their section](#gik-npm.Scripts) for more information.
+ * [their section](#gik.Scripts) for more information.
  *
  * @example @lang js <caption>package.json</caption>
  * {
@@ -95,14 +95,14 @@ export const Defaults = {
 
 /**
  * @typedef {Object} Package
- * @memberof gik-npm.Configuration
- * @description The contents of `gik-npm`'s  `package.json`.
+ * @memberof gik.Configuration
+ * @description The contents of `gik`'s  `package.json`.
  * @private
  */
 export { Package };
 
 /**
- * @memberof gik-npm.Configuration
+ * @memberof gik.Configuration
  * @description A parsed version of package.json.
  * @returns {Observable} - Resolves to an object containing the parsed package.json.
  * @private
@@ -119,7 +119,7 @@ export function $fromConfig() {
 }
 
 /**
- * @memberof gik-npm.Configuration
+ * @memberof gik.Configuration
  * description An unparsed (but sync) version of package.json merged with defaults.
  * @returns {Object} - The deep merge result of child project's package.json and defaults.
  * @private

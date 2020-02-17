@@ -13,7 +13,7 @@ import { $fromConfig, Package } from '../config';
 
 /**
  * @module docs
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @type {script}
  * @description Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
  * The template used for the documentation is customised, you can see how it looks here,
@@ -33,7 +33,7 @@ import { $fromConfig, Package } from '../config';
  * @property {string} [configure=root/.jsdocrc] - An example of the base configuration is
  * shown below.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  *
  * @todo Add documentation about how to customize the template and the available helpers.
