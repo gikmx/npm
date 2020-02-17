@@ -1,4 +1,4 @@
-import { transform as Babel } from 'babel-core';
+import { transform as Babel } from '@babel/core';
 import { Package, ConfigSync } from './config';
 
 const config = ConfigSync()[Package.name].babel;

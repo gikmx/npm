@@ -1,7 +1,9 @@
 import PATH from 'path';
+
 import Npm from 'npm';
 import Git from 'nodegit';
 import { $ } from '@gik/tools-streamer';
+
 import Path from '../path';
 
 /**
@@ -42,9 +44,9 @@ export default function $fromScriptVersion(type = 'patch', extra = null) {
 
     const $fromIndexAdd = (index, file) => $
         .fromAccess(PATH.join(CWD, file))
-        .switchMap(access => access ?
-            $.from(index.addByPath(file)).mapTo(index) :
-            $.of(index),
+        .switchMap(access => access
+            ? $.from(index.addByPath(file)).mapTo(index)
+            : $.of(index),
         );
 
     // Checks if there are files on stage when running. (to assume a precommit)
