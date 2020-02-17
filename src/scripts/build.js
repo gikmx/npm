@@ -1,12 +1,12 @@
 // Native
 import PATH from 'path';
 // NPM
-import { transformFile as Transpile } from 'babel-core';
+import { transformFile as Transpile } from '@babel/core';
 import { $, Subject } from '@gik/tools-streamer';
 import RimRaf from 'rimraf';
 import MkDirP from 'mkdirp';
 // Local
-import { $fromConfig, Package } from '../config';
+import { $fromConfig } from '../config';
 
 process.env.NODE_ENV = 'production';
 
