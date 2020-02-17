@@ -8,7 +8,7 @@ import Path from '../path';
 
 /**
  * @module version
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @description Automates the versioning of your project using **semver**.
  * internally uses `npm version` (avoiding tagging) and after modifying `package.json`
  * adds it to git. This is specially useful if you add it to a `precommit` script
@@ -27,14 +27,14 @@ import Path from '../path';
  * @param {string} [type=patch] - One of the valid semver version names.
  * @param {string} [extra=null] - Extra options. currently only "--no-add" available.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  *
  * @example @lang js <caption>packge.json</caption>
  * {
  *     "scripts": {
  *         // builds, bumps package.json and generartes docs using the new version
- *         "precommit": "gik-npm build && gik-npm version patch && git-npm docs"
+ *         "precommit": "gik build && gik version patch && git-npm docs"
  *     }
  * }
  */

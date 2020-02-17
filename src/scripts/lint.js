@@ -4,7 +4,7 @@ import { $fromConfig } from '../config';
 
 /**
  * @module lint
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @description Validates the code complies with certain rules.
  * It's recommended that you install one of the flavours of
  * [eslint-config](http://github.come/gikmx/eslint-config) to accompany this script.
@@ -12,7 +12,7 @@ import { $fromConfig } from '../config';
  *
  * @param {string|Array} [target=src] - The target directory to lint.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  *
  * @example @lang js <caption>package.json</caption>
@@ -21,7 +21,7 @@ import { $fromConfig } from '../config';
  *         "example": './example'
  *     },
  *     "scripts": {
- *         "lint": "gik-npm lint example"
+ *         "lint": "gik lint example"
  *     },
  *     "devDependencies": {
  *          "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project

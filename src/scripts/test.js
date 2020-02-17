@@ -8,10 +8,10 @@ import Path from '../path';
 
 /**
  * @module test
- * @memberof gik-npm.Scripts
+ * @memberof gik.Scripts
  * @description Runs unit tests using [Jest](http://github.com/facebook/jest).
  * This script makes no assumptions for the jest configurations, it just transpiles the
- * test files using the same configuration as the [build](#gik-npm.Scripts.build) script
+ * test files using the same configuration as the [build](#gik.Scripts.build) script
  * and uses Jest's defaults. Below is the configuration file used by the script.
  *
  * ###### Default configuration `.jest.js`
@@ -26,7 +26,7 @@ import Path from '../path';
  * @property {string} [rootDir=path/to/your/project] - Just will run on this context.
  * @property {string} [config=path/to/default/config] - Use this file to customize further.
  *
- * @returns {gik-npm.Types.Observable} - An observable which `gik-npm` will subscribe to
+ * @returns {gik.Types.Observable} - An observable which `gik` will subscribe to
  * in order to execute it.
  *
  * @example @lang js <caption>package.json</caption>
@@ -37,8 +37,8 @@ import Path from '../path';
  *          }
  *      }
  *     "scripts": {
- *         "test": "gik-npm test", // runs test on all files on "./test"
- *         "test:cover": "gik-npm test cover", // runs test and generates coverage report
+ *         "test": "gik test", // runs test on all files on "./test"
+ *         "test:cover": "gik test cover", // runs test and generates coverage report
  *     }
  * }
  */
