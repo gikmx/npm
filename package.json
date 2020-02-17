@@ -1,6 +1,6 @@
 {
     "name": "@gik/npm",
-    "version": "0.1.14",
+    "version": "0.1.16",
     "description": "Scripts for your ECMAScript workflow.",
     "license": "MIT",
     "homepage": "https://github.com/gikmx/npm",
@@ -38,15 +38,20 @@
         "src": "./src",
         "out": "./lib"
     },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run bump -s"
+        }
+    },
     "scripts": {
         "cmd:lint": "eslint",
         "cmd:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x $npm_package_bin_gik",
-        "build": "npm run cmd:babel -s && $npm_package_bin_gik lint src && $npm_package_bin_gik build && chmod +x ./lib/bin.js",
+        "build": "npm run cmd:babel -s && $npm_package_bin_gik lint src && $npm_package_bin_gik build && chmod +x $npm_package_bin_gik",
         "test": "$npm_package_bin_gik lint test && $npm_package_bin_gik test && chmod +x ./lib/bin.js",
         "verify": "npm run build -s && npm run test -s",
         "start": "$npm_package_bin_gik start 'npm run verify -s'",
         "pub": "npm run verify -s && $npm_package_bin_gik docs && npm publish --access public --tag",
-        "precommit": "npm run verify -s && $npm_package_bin_gik version $([ -z $VER ] && echo patch || echo $VER) && $npm_package_bin_gik docs"
+        "bump": "npm run verify -s && $npm_package_bin_gik version $([ -z $VER ] && echo patch || echo $VER) && $npm_package_bin_gik docs"
     },
     "peerDependencies": {},
     "dependencies": {

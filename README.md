@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.14*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.16*
 > Scripts for your ECMAScript workflow.
 
 ##### Contributors
@@ -10,14 +10,14 @@
 
 #### <a name="table-of-contents"></a> Table of contents
 - **[gik-npm](#gik-npm)** Centralizes and automates the management of projects based on ECMAScript.
-  - **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
-    - **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
-    - **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
-    - **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
-    - **[start](#gik-npm.Scripts.start)** A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
-    - **[test](#gik-npm.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
-    - **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
-  - **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
+- **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
+- **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
+- **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
+- **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
+- **[start](#gik-npm.Scripts.start)** A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
+- **[test](#gik-npm.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
+- **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
+- **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
 
 
 # <a name="gik-npm"></a> gik-npm
@@ -81,7 +81,7 @@ to the task you wish to execute.
 
 ---
 
-## <a name="gik-npm.Scripts"></a> Scripts
+# <a name="gik-npm.Scripts"></a> Scripts
 
 The tasks available to run against your project.
 
@@ -103,7 +103,7 @@ The tasks available to run against your project.
 
 ---
 
-### <a name="gik-npm.Scripts.build"></a> build
+# <a name="gik-npm.Scripts.build"></a> build
 
 Transpiles the current project using **babel**.
 
@@ -111,18 +111,34 @@ Transpiles the current project using **babel**.
 ```javascript
 {
     "presets": [
-        ["env", {
-            "targets": {
-                "node": "6.11"
-            },
-            "modules": "commonjs",
-            "useBuiltIns": false,
-            "loose": false
-        }],
-        "stage-2"
+        [
+            "@babel/env",
+            {
+                "targets": {
+                    "node": "current"
+                },
+                "modules": "commonjs",
+                "useBuiltIns": false,
+                "loose": false
+            }
+        ]
     ],
     "plugins": [
-        "dynamic-import-node"
+        // STAGE-2
+        "@babel/plugin-proposal-class-properties",
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
+        "@babel/plugin-proposal-export-namespace-from",
+        "@babel/plugin-proposal-function-sent",
+        "@babel/plugin-proposal-json-strings",
+        "@babel/plugin-proposal-numeric-separator",
+        "@babel/plugin-proposal-throw-expressions",
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-import-meta"
     ]
 }
 
@@ -205,7 +221,7 @@ in order to execute it.</span>
 
 ---
 
-### <a name="gik-npm.Scripts.docs"></a> docs
+# <a name="gik-npm.Scripts.docs"></a> docs
 
 Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
 The template used for the documentation is customised, you can see how it looks here,
@@ -286,7 +302,7 @@ in order to execute it.</span>
 
 ---
 
-### <a name="gik-npm.Scripts.lint"></a> lint
+# <a name="gik-npm.Scripts.lint"></a> lint
 
 Validates the code complies with certain rules.
 It's recommended that you install one of the flavours of
@@ -336,7 +352,7 @@ in order to execute it.</span>
 
 ---
 
-### <a name="gik-npm.Scripts.start"></a> start
+# <a name="gik-npm.Scripts.start"></a> start
 
 A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
 
@@ -395,7 +411,7 @@ in order to execute it.</span>
 
 ---
 
-### <a name="gik-npm.Scripts.test"></a> test
+# <a name="gik-npm.Scripts.test"></a> test
 
 Runs unit tests using [Jest](http://github.com/facebook/jest).
 This script makes no assumptions for the jest configurations, it just transpiles the
@@ -474,7 +490,7 @@ in order to execute it.</span>
 
 ---
 
-### <a name="gik-npm.Scripts.version"></a> version
+# <a name="gik-npm.Scripts.version"></a> version
 
 Automates the versioning of your project using **semver**.
 internally uses `npm version` (avoiding tagging) and after modifying `package.json`
@@ -530,7 +546,7 @@ in order to execute it.</span>
 
 ---
 
-## <a name="gik-npm.Configuration"></a> Configuration
+# <a name="gik-npm.Configuration"></a> Configuration
 
 The default settings that control the behaviour of the scripts.
 
