@@ -1,4 +1,4 @@
-# [@gik/npm](https://github.com/gikmx/npm) *0.1.16*
+# [@gik/npm](https://github.com/gikmx/npm) *0.1.17*
 > Scripts for your ECMAScript workflow.
 
 ##### Contributors
@@ -9,18 +9,18 @@
 - darwin
 
 #### <a name="table-of-contents"></a> Table of contents
-- **[gik-npm](#gik-npm)** Centralizes and automates the management of projects based on ECMAScript.
-- **[Scripts](#gik-npm.Scripts)** The tasks available to run against your project.
-- **[build](#gik-npm.Scripts.build)** Transpiles the current project using **babel**.
-- **[docs](#gik-npm.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
-- **[lint](#gik-npm.Scripts.lint)** Validates the code complies with certain rules.
-- **[start](#gik-npm.Scripts.start)** A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
-- **[test](#gik-npm.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
-- **[version](#gik-npm.Scripts.version)** Automates the versioning of your project using **semver**.
-- **[Configuration](#gik-npm.Configuration)** The default settings that control the behaviour of the scripts.
+- **[gik](#gik)** Centralizes and automates the management of projects based on ECMAScript.
+- **[Scripts](#gik.Scripts)** The tasks available to run against your project.
+- **[build](#gik.Scripts.build)** Transpiles the current project using **babel**.
+- **[docs](#gik.Scripts.docs)** Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
+- **[lint](#gik.Scripts.lint)** Validates the code complies with certain rules.
+- **[start](#gik.Scripts.start)** A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
+- **[test](#gik.Scripts.test)** Runs unit tests using [Jest](http://github.com/facebook/jest).
+- **[version](#gik.Scripts.version)** Automates the versioning of your project using **semver**.
+- **[Configuration](#gik.Configuration)** The default settings that control the behaviour of the scripts.
 
 
-# <a name="gik-npm"></a> gik-npm
+# <a name="gik"></a> gik
 
 Centralizes and automates the management of projects based on ECMAScript.
 
@@ -37,7 +37,7 @@ dependency and you're good to go.
 npm install --save-dev @gik/npm
 ```
 ###### Setup
-Just add a reference to the "binary" `gik-npm` and pass the needed arguments according
+Just add a reference to the "binary" `gik` and pass the needed arguments according
 to the task you wish to execute.
 
 ###### Parameters
@@ -49,7 +49,7 @@ to the task you wish to execute.
         <td style="white-space: nowrap;">
                 <a href="#string">string</a>
         </td>
-        <td>One of the <a href="#gik-npm.Scripts">Scripts</a> available.</td>
+        <td>One of the <a href="#gik.Scripts">Scripts</a> available.</td>
     </tr><tr>
         <td style="white-space: nowrap;">
             <code>[…param]</code>
@@ -58,7 +58,7 @@ to the task you wish to execute.
                 <a href="#string">string</a>
         </td>
         <td>Each script has it own set of optional arguments, check
-<a href="#gik-npm.Scripts">their section</a> for more information.</td>
+<a href="#gik.Scripts">their section</a> for more information.</td>
     </tr>
 </table>
 
@@ -67,21 +67,21 @@ to the task you wish to execute.
 ```js
 {
     "scripts": {
-        "build": "gik-npm build",
-        "ver": "gik-npm version patch",
+        "build": "gik build",
+        "ver": "gik version patch",
     }
 }
 ```
 ###### Members
 
-- [Scripts](#gik-npm.Scripts)
-- [Configuration](#gik-npm.Configuration)
+- [Scripts](#gik.Scripts)
+- [Configuration](#gik.Configuration)
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
 ---
 
-# <a name="gik-npm.Scripts"></a> Scripts
+# <a name="gik.Scripts"></a> Scripts
 
 The tasks available to run against your project.
 
@@ -92,18 +92,18 @@ The tasks available to run against your project.
 
 ###### Members
 
-- [build](#gik-npm.Scripts.build)
-- [docs](#gik-npm.Scripts.docs)
-- [lint](#gik-npm.Scripts.lint)
-- [start](#gik-npm.Scripts.start)
-- [test](#gik-npm.Scripts.test)
-- [version](#gik-npm.Scripts.version)
+- [build](#gik.Scripts.build)
+- [docs](#gik.Scripts.docs)
+- [lint](#gik.Scripts.lint)
+- [start](#gik.Scripts.start)
+- [test](#gik.Scripts.test)
+- [version](#gik.Scripts.version)
 
-<small>**[▲ Top](#gik-npm)**</small>
+<small>**[▲ Top](#gik)**</small>
 
 ---
 
-# <a name="gik-npm.Scripts.build"></a> build
+# <a name="gik.Scripts.build"></a> build
 
 Transpiles the current project using **babel**.
 
@@ -214,14 +214,14 @@ is set to <code>true</code>.</td>
 
 
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
 ---
 
-# <a name="gik-npm.Scripts.docs"></a> docs
+# <a name="gik.Scripts.docs"></a> docs
 
 Generates documentation using [js-to-markdown](http://github.com/jsdoc-to-markdown/jsdoc-to-markdown).
 The template used for the documentation is customised, you can see how it looks here,
@@ -291,7 +291,7 @@ shown below. <b>Default <code>root/.jsdocrc</code></b></td>
 
 
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 ###### To do
 - [ ] Add documentation about how to customize the template and the available helpers.
@@ -302,7 +302,7 @@ in order to execute it.</span>
 
 ---
 
-# <a name="gik-npm.Scripts.lint"></a> lint
+# <a name="gik.Scripts.lint"></a> lint
 
 Validates the code complies with certain rules.
 It's recommended that you install one of the flavours of
@@ -325,7 +325,7 @@ it will be as easy as to include an `.eslintrc` file extending the module.
 
 
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 ###### Example `package.json`
 ```js
@@ -334,7 +334,7 @@ in order to execute it.</span>
         "example": './example'
     },
     "scripts": {
-        "lint": "gik-npm lint example"
+        "lint": "gik lint example"
     },
     "devDependencies": {
          "@gik/eslint-config-node": "x.x.x" // Pick a flavour according to your project
@@ -352,7 +352,7 @@ in order to execute it.</span>
 
 ---
 
-# <a name="gik-npm.Scripts.start"></a> start
+# <a name="gik.Scripts.start"></a> start
 
 A watcher for your scripts using [nodemon](http://github.com/remy/nodemon).
 
@@ -404,18 +404,18 @@ Below are the default properties that are being sent to the `nodemon` binary.
 ###### Related
 - https://github.com/remy/nodemon#config-files
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 
 <small>**[▲ Top](#table-of-contents)**</small>
 
 ---
 
-# <a name="gik-npm.Scripts.test"></a> test
+# <a name="gik.Scripts.test"></a> test
 
 Runs unit tests using [Jest](http://github.com/facebook/jest).
 This script makes no assumptions for the jest configurations, it just transpiles the
-test files using the same configuration as the [build](#gik-npm.Scripts.build) script
+test files using the same configuration as the [build](#gik.Scripts.build) script
 and uses Jest's defaults. Below is the configuration file used by the script.
 
 ###### Default configuration `.jest.js`
@@ -469,7 +469,7 @@ following properties on `package.json`.
 
 
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 ###### Example `package.json`
 ```js
@@ -480,8 +480,8 @@ in order to execute it.</span>
          }
      }
     "scripts": {
-        "test": "gik-npm test", // runs test on all files on "./test"
-        "test:cover": "gik-npm test cover", // runs test and generates coverage report
+        "test": "gik test", // runs test on all files on "./test"
+        "test:cover": "gik test cover", // runs test and generates coverage report
     }
 }
 ```
@@ -490,7 +490,7 @@ in order to execute it.</span>
 
 ---
 
-# <a name="gik-npm.Scripts.version"></a> version
+# <a name="gik.Scripts.version"></a> version
 
 Automates the versioning of your project using **semver**.
 internally uses `npm version` (avoiding tagging) and after modifying `package.json`
@@ -530,14 +530,14 @@ making the change available on that commit automatically.
 
 
 ###### Returns
- [`gik-npm.Types.Observable`](#gik-npm.Types.Observable) <span style="font-weight:normal"> - An observable which `gik-npm` will subscribe to
+ [`gik.Types.Observable`](#gik.Types.Observable) <span style="font-weight:normal"> - An observable which `gik` will subscribe to
 in order to execute it.</span>
 ###### Example `packge.json`
 ```js
 {
     "scripts": {
         // builds, bumps package.json and generartes docs using the new version
-        "precommit": "gik-npm build && gik-npm version patch && git-npm docs"
+        "precommit": "gik build && gik version patch && git-npm docs"
     }
 }
 ```
@@ -546,7 +546,7 @@ in order to execute it.</span>
 
 ---
 
-# <a name="gik-npm.Configuration"></a> Configuration
+# <a name="gik.Configuration"></a> Configuration
 
 The default settings that control the behaviour of the scripts.
 
@@ -594,7 +594,7 @@ Either on your project or in their scripts object.</td>
                 <a href="#Object">Object</a>
         </td>
         <td>The container for the script-specific options. Check
-<a href="#gik-npm.Scripts">their section</a> for more information.</td>
+<a href="#gik.Scripts">their section</a> for more information.</td>
     </tr>
 </table>
 

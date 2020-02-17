@@ -1,11 +1,11 @@
 /**
  * @module helper
- * @memberof gik-npm.Scripts.docs
+ * @memberof gik.Scripts.docs
  * @private
  */
 
 /**
- * @memberof gik-npm.Scripts.docs.helper
+ * @memberof gik.Scripts.docs.helper
  * @description Generates an index according to node inheritance.
  * @param {Object} node - The node to analyze.
  * @returns {string[]} - The node's inheritance index.
@@ -27,14 +27,14 @@ function nodeIndex(node) {
 
 /**
  * @typedef {Object} ParsedIndex
- * @memberof gik-npm.Scripts.docs.helper
+ * @memberof gik.Scripts.docs.helper
  * @description A readable version of a node's inheritance index.
  * @property {sTring} name - The name of the current index.
  * @property {string} parent - The name of current's node parent.
  */
 
 /**
- * @memberof gik-npm.Scripts.docs.helper
+ * @memberof gik.Scripts.docs.helper
  * @description Converts an inheritance index array to a more readable object.
  * @param {Object} node - The node containing the inheritance index.
  * @returns {npm.docs.helper.ParsedIndex} - An object containing info about the index.
@@ -48,7 +48,7 @@ function nodeParseIndex(node) {
 }
 
 /**
- * @memberof gik-npm.Scripts.docs.helper
+ * @memberof gik.Scripts.docs.helper
  * @description Returns all the memebers in given context, ordered by inheritance.
  * @param {number} level - The maximum index level to return.
  * @returns {Object[]} - An ordered array containing indexed nodes.
