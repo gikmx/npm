@@ -27,8 +27,8 @@
         "darwin"
     ],
     "engines": {
-        "node": ">=6.11.3",
-        "npm": ">=5.4.2"
+        "node": ">=12.13.0",
+        "npm": ">=6.13.7"
     },
     "bin": {
         "gik-npm": "./lib/bin.js"
@@ -39,9 +39,9 @@
         "out": "./lib"
     },
     "scripts": {
-        "command:lint": "eslint",
-        "command:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
-        "build": "npm run command:babel -s && gik-npm lint src && gik-npm build && chmod +x ./lib/bin.js",
+        "cmd:lint": "eslint",
+        "cmd:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
+        "build": "npm run cmd:babel -s && gik-npm lint src && gik-npm build && chmod +x ./lib/bin.js",
         "test": "gik-npm lint test && gik-npm test && chmod +x ./lib/bin.js",
         "verify": "npm run build -s && npm run test -s",
         "start": "gik-npm start 'npm run verify -s'",
@@ -50,38 +50,36 @@
     },
     "peerDependencies": {},
     "dependencies": {
-        "@babel/core": "^7.0.0-beta.32",
-        "@babel/node": "^7.0.0-beta.32",
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.8.4",
+        "@babel/node": "^7.8.4",
+        "@babel/polyfill": "^7.8.3",
+        "@babel/preset-env": "^7.8.4",
+        "@babel/preset-stage-2": "^7.8.3",
+        "@babel/register": "^7.8.3",
         "@gik/tools-configurator": "0.0.6",
         "@gik/tools-streamer": "0.0.11",
-        "babel-cli": "^7.0.0-beta.3",
-        "babel-core": "7.0.0-bridge.0",
-        "babel-plugin-dynamic-import-node": "^1.2.0",
-        "babel-polyfill": "^7.0.0-beta.3",
-        "babel-preset-env": "^7.0.0-beta.3",
-        "babel-preset-stage-2": "^7.0.0-beta.3",
-        "babel-register": "^7.0.0-beta.3",
-        "deepmerge": "^2.0.0",
-        "eslint": "^4.11.0",
-        "handlebars": "^4.0.11",
-        "husky": "^0.14.3",
-        "jest": "^21.3.0-beta.8",
-        "jest-cli": "^21.2.1",
-        "jsdoc-babel": "^0.3.0",
-        "jsdoc-to-markdown": "3.0.0",
-        "mkdirp": "^0.5.1",
-        "nodegit": "^0.20.2",
-        "nodemon": "^1.12.1",
-        "npm": "^5.4.2",
-        "read-package-json": "^2.0.12",
-        "rimraf": "^2.6.2",
-        "source-map-support": "^0.5.0",
-        "tmp": "0.0.33",
-        "webpack": "^3.8.1",
-        "webpack-dev-server": "^2.9.4",
-        "webpack-merge": "^4.1.1"
+        "babel-plugin-dynamic-import-node": "^2.3.0",
+        "deepmerge": "^4.2.2",
+        "eslint": "^6.8.0",
+        "handlebars": "^4.7.3",
+        "husky": "^4.2.3",
+        "jest": "^25.1.0",
+        "jest-cli": "^25.1.0",
+        "jsdoc-babel": "^0.5.0",
+        "jsdoc-to-markdown": "^5.0.3",
+        "mkdirp": "^1.0.3",
+        "nodegit": "^0.26.4",
+        "nodemon": "^2.0.2",
+        "npm": "^6.13.7",
+        "read-package-json": "^2.1.1",
+        "rimraf": "^3.0.2",
+        "tmp": "^0.1.0",
+        "webpack": "^4.41.6",
+        "webpack-dev-server": "^3.10.3",
+        "webpack-merge": "^4.2.2"
     },
     "devDependencies": {
-        "@gik/eslint-config-node": "0.0.5"
+        "@gik/eslint-config-node": "0.0.10"
     }
 }
