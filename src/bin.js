@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
 import PATH from 'path';
 import { $ } from '@gik/tools-streamer';
+
 import Out from './out';
 
 /**
