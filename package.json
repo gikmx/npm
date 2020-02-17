@@ -31,7 +31,7 @@
         "npm": ">=6.13.7"
     },
     "bin": {
-        "gik-npm": "./lib/bin.js"
+        "gik": "./lib/bin.js"
     },
     "directories": {
         "test": "__tests__",
@@ -40,13 +40,13 @@
     },
     "scripts": {
         "cmd:lint": "eslint",
-        "cmd:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x ./lib/bin.js",
-        "build": "npm run cmd:babel -s && gik-npm lint src && gik-npm build && chmod +x ./lib/bin.js",
-        "test": "gik-npm lint test && gik-npm test && chmod +x ./lib/bin.js",
+        "cmd:babel": "rm -Rf ./lib && babel --config-file ./.babelrc -d ./lib ./src && chmod +x $npm_package_bin_gik",
+        "build": "npm run cmd:babel -s && $npm_package_bin_gik lint src && $npm_package_bin_gik build && chmod +x ./lib/bin.js",
+        "test": "$npm_package_bin_gik lint test && $npm_package_bin_gik test && chmod +x ./lib/bin.js",
         "verify": "npm run build -s && npm run test -s",
-        "start": "gik-npm start 'npm run verify -s'",
-        "pub": "npm run verify -s && gik-npm docs && npm publish --access public --tag",
-        "precommit": "npm run verify -s && gik-npm version $([ -z $VER ] && echo patch || echo $VER) && gik-npm docs"
+        "start": "$npm_package_bin_gik start 'npm run verify -s'",
+        "pub": "npm run verify -s && $npm_package_bin_gik docs && npm publish --access public --tag",
+        "precommit": "npm run verify -s && $npm_package_bin_gik version $([ -z $VER ] && echo patch || echo $VER) && $npm_package_bin_gik docs"
     },
     "peerDependencies": {},
     "dependencies": {
