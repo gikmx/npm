@@ -11,9 +11,6 @@ import { $, Subject } from '@gik/tools-streamer';
 import Path from '../path';
 import { $fromConfig, Package } from '../config';
 
-// No, I don't want to be tracked, thank you.
-JSDoc2Md._usage.disable(); // eslint-disable-line no-underscore-dangle
-
 /**
  * @module docs
  * @memberof gik-npm.Scripts
